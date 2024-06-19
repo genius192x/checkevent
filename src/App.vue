@@ -83,7 +83,7 @@ function onExpand() {
 	isCollapsed.value = false
 }
 
-const defaultLayout = [20, 80]
+const defaultLayout = [8, 92]
 </script>
 
 <template>
