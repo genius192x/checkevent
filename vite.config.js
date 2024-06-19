@@ -6,7 +6,7 @@ import tailwind from "tailwindcss"
 import autoprefixer from "autoprefixer"
 
 export default defineConfig({
-    base: '/erp/',
+    base: '/checkevent/',
     css: {
         postcss: {
         plugins: [tailwind(), autoprefixer()],

@@ -3,7 +3,7 @@ import { Separator } from '@/components/ui/separator'
 </script>
 
 <template>
-  <div class=" space-y-6 p-10 pb-16 md:block">
+  <div class=" space-y-6 p-3 px-4 md:block md:pb-16 md:p-10">
     <div class="space-y-0.5">
       <h2 class="text-2xl font-bold tracking-tight">
         Settings

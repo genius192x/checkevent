@@ -2,6 +2,7 @@
 import { cn } from '@/lib/utils'
 import {onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import {Menu} from 'lucide-vue-next'
 import Search from '@/components/Search.vue'
 import UserNav from '@/components/UserNav.vue'
 import Nav from '@/components/Nav.vue'
@@ -12,11 +13,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 import { useGlobalStore } from '@/store/GlobalStore'
-import router from './router'
 import {useRoute} from "vue-router";
 const globalStore = useGlobalStore()
-const { isSettingsOpen } = storeToRefs(globalStore)
-
 
 const route = useRoute()
 
@@ -50,13 +48,6 @@ const links = [
 		link: '/',
     label: '128',
     icon: 'lucide:home',
-    variant: 'ghost',
-    },
-    {
-		title: 'Задачи',
-		link: '/tasks',
-    label: '9',
-    icon: 'lucide:clipboard-edit',
     variant: 'ghost',
     },
 ]
@@ -122,7 +113,7 @@ const defaultLayout = [20, 80]
               <Nav
                 :is-collapsed="isCollapsed"
                 :links="settingsLinks"
-                class="relative z-20 transition-all duration-500 ease-in-out -translate-y-12  bg-white"
+                class="relative z-20 transition-all duration-500 ease-in-out -translate-y-2  bg-white"
                 :class=
                   "{ 'relative translate-x-0': globalStore.isSettingsOpen,
                     'translate-x-full' : !globalStore.isSettingsOpen
@@ -134,33 +125,34 @@ const defaultLayout = [20, 80]
                 <div class=" flex-col md:flex">
                     <div class="border-b">
                         <div class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-                            <Sheet :open=globalStore.isSheetOpen>
-                                <SheetTrigger as-child @click="globalStore.isSheetOpen=true">
+                            <Sheet :open="globalStore.isSheetOpen">
+                                <SheetTrigger as-child @click="globalStore.isSheetOpen = true">
                                     <Button
                                         variant="outline"
                                         size="icon"
                                         class="shrink-0 md:hidden"
                                     >
-                                        <span class="sr-only">Toggle navigation menu</span>
+                                      <Menu class="h-5 w-5" />
+                                      <span class="sr-only">Toggle navigation menu</span>
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="left" class="flex flex-col overflow-hidden">
-                                  <Nav
-                                      :is-collapsed="isCollapsed"
-                                      :links="links"
-                                      class="relative z-10 transition-all duration-1000 ease-in-out translate-x-0"
-                                  />
-                                  <Nav
-                                      :is-collapsed="isCollapsed"
-                                      :links="settingsLinks"
-                                      class="relative z-20 transition-all duration-500 ease-in-out -translate-y-16  bg-white"
-                                      :class=
-                                          "{ 'relative translate-x-0': globalStore.isSettingsOpen,
-                                            'translate-x-[120%]' : !globalStore.isSettingsOpen
-                                          }"
-                                  />
+                                <SheetContent side="left" class="flex flex-col">
+                                    <Nav
+                                        :is-collapsed="isCollapsed"
+                                        :links="links"
+                                        class="relative z-10 transition-all duration-1000 ease-in-out translate-x-0"
+                                    />
+                                    <Nav
+                                        :is-collapsed="isCollapsed"
+                                        :links="settingsLinks"
+                                        class="relative z-20 transition-all duration-500 ease-in-out -translate-y-8  bg-white"
+                                        :class=
+                                            "{ 'relative translate-x-0': globalStore.isSettingsOpen,
+                                              'translate-x-[200%] hidden' : !globalStore.isSettingsOpen
+                                            }"
+                                    />
                                 </SheetContent>
-                                </Sheet>
+                            </Sheet>
                             <div class="ml-auto flex items-center space-x-4 relative z-20">
                                 <Search />
                                 <UserNav />

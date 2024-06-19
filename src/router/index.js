@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { storeToRefs } from 'pinia'
-import DashBoardView from '@/pages/DashBoard.vue'
 import TasksView from '@/pages/Tasks.vue'
 import SettingAccount from "@/pages/settings/SettingAccount.vue"
 import SettingAppearance from "@/pages/settings/SettingAppearance.vue"
@@ -11,10 +10,6 @@ import SettingNotifications from "@/pages/settings/SettingNotifications.vue"
 const routes = [
 	{
 		path: "/",
-		component: DashBoardView,
-	},
-	{
-		path: '/tasks',
 		component: TasksView,
 	},
 	{

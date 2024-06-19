@@ -1,7 +1,7 @@
 {
-  "name": "erp",
+  "name": "checkevent",
   "private": true,
-  "homepage": "https://genius192x.github.io/erp/",
+  "homepage": "https://genius192x.github.io/checkevent/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
