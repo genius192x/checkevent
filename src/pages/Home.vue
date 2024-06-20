@@ -5,6 +5,7 @@ import { PlusIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
 import { Toaster } from '@/components/ui/sonner'
 import { Button } from '@/components/ui/button'
+import {useListStore} from '@/store/ListsStore'
 import {
     Tabs,
     TabsContent,
@@ -20,38 +21,8 @@ import {
   SheetTitle,
   SheetDescription
 } from '@/components/ui/sheet'
-const events = [
-  {
-    title: 'Матч ЦСКА-СГАУ-Саратов',
-    description: 'Список задач по организации/проведению матча',
-    type: 'Гандбол Мужской',
-    lastApdate: '19.06.2023',
-    id: '1',
-  },
-  {
-    title: 'Корпоратив женской команды',
-    description: 'Список задач по организации/проведению корпоратива',
-    type: 'Гандбол Женский',
-    lastApdate: '15.05.2023',
-    id: '2',
-  },
-  {
-    title: 'Матч Зенит-ЦСКА',
-    description: 'Список задач по организации/проведению матча',
-    type: 'Гандбол Мужской',
-    lastApdate: '10.06.2023',
-    id: '3',
-  },
-]
-const eventsExpired = [
-  {
-    title: 'Матч ЦСКА-Томь',
-    description: 'Список задач по организации/проведению матча',
-    type: 'Гандбол Мужской',
-    lastApdate: '19.01.2023',
-    id: '4',
-  },
-]
+
+const listStore = useListStore()
 let side= 'bottom';
 if (window.innerWidth > 768){
   side = 'right'
@@ -96,7 +67,7 @@ if (window.innerWidth > 768){
 
       </div>
 			<TabsContent value="active" class="space-y-4">
-        <div v-for="item in events" :key="item.id">
+        <div v-for="item in listStore.list" :key="item.id">
           <ListCard
               :item="item"
           />

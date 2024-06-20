@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
 import * as z from 'zod'
-// import { toDate } from 'radix-vue/dist/date'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internationalized/date'
@@ -28,6 +27,7 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { toast } from '@/components/ui/toast'
+import {useListStore} from '@/store/ListsStore'
 
 const open = ref(false)
 const dateValue = ref()
@@ -67,6 +67,7 @@ const accountFormSchema = toTypedSchema(z.object({
 // https://github.com/logaretm/vee-validate/issues/3521
 // https://github.com/logaretm/vee-validate/discussions/3571
 async function onSubmit(values: any) {
+  useListStore().addItem(values)
   toast({
     title: 'You submitted the following values:',
     description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
