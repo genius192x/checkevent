@@ -29,8 +29,8 @@ defineProps<{
 </script>
 
 <template>
-  <Card @click="this.$router.push('/list')" class="cursor-pointer">
-    <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0">
+  <Card @click="$router.push('/list')" class="cursor-pointer">
+    <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">
       <div class="space-y-1">
         <CardTitle>{{item.title}}
         </CardTitle>
@@ -38,9 +38,9 @@ defineProps<{
           {{item.description}}
         </CardDescription>
       </div>
-      <div class=" rounded-md bg-white text-secondary-foreground" @click.stop>
+      <div class=" rounded-md text-secondary-foreground" @click.stop>
         <DropdownMenu>
-          <DropdownMenuTrigger class="bg-transparent" as-child>
+          <DropdownMenuTrigger as-child>
             <Button variant="secondary" class="px-2 shadow-none">
               <ChevronDownIcon class="h-5 w-5 text-secondary-foreground" />
             </Button>
@@ -62,13 +62,13 @@ defineProps<{
         </DropdownMenu>
       </div>
     </CardHeader>
-    <CardContent>
-      <div class="flex space-x-4 text-sm text-muted-foreground">
+    <CardContent class="p-4 pt-0 md:p-6">
+      <div class="flex space-x-4 text-sm text-muted-foreground flex-col md:flex-row">
         <div class="flex items-center">
           <CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
           {{item.type}}
         </div>
-        <div>Последнее обновление {{item.lastApdate}}</div>
+        <div class="mt-3 md:mt-0">Последнее обновление {{item.lastApdate}}</div>
       </div>
     </CardContent>
   </Card>

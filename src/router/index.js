@@ -5,7 +5,6 @@ import TasksView from '@/pages/Tasks.vue'
 import HomeView from '@/pages/Home.vue'
 import SettingAccount from "@/pages/settings/SettingAccount.vue"
 import SettingAppearance from "@/pages/settings/SettingAppearance.vue"
-import SettingDisplay from "@/pages/settings/SettingDisplay.vue"
 import SettingNotifications from "@/pages/settings/SettingNotifications.vue"
 
 const routes = [
@@ -23,9 +22,6 @@ const routes = [
 	},{
 		path: '/settings/appearance',
 		component: SettingAppearance,
-	},{
-		path: '/settings/display',
-		component: SettingDisplay,
 	},{
 		path: '/settings/notifications',
 		component: SettingNotifications,

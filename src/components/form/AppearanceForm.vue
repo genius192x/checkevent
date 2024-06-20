@@ -1,32 +1,18 @@
 <script setup lang="ts">
 import { h } from 'vue'
 import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
 
-import { ChevronDownIcon } from '@radix-icons/vue'
-import { cn } from '@/lib/utils'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Button, buttonVariants } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
+import { useColorMode } from '@vueuse/core'
+const mode = useColorMode()
 
-const appearanceFormSchema = toTypedSchema(z.object({
-  theme: z.enum(['light', 'dark'], {
-    required_error: 'Please select a theme.',
-  }),
-  font: z.enum(['inter', 'manrope', 'system'], {
-    invalid_type_error: 'Select a font',
-    required_error: 'Please select a font.',
-  }),
-}))
-
+const themeValue = localStorage.getItem('vueuse-color-scheme')
 const { handleSubmit } = useForm({
-  validationSchema: appearanceFormSchema,
   initialValues: {
-    theme: 'light',
-    font: 'inter',
+    theme: themeValue,
   },
 })
 
@@ -41,51 +27,20 @@ const onSubmit = handleSubmit((values) => {
 <template>
   <div>
     <h3 class="text-lg font-medium">
-      Appearance
+      Внешний вид приложения
     </h3>
     <p class="text-sm text-muted-foreground">
-      Customize the appearance of the app. Automatically switch between day and night themes.
+      Настройте внешний вид приложения. Автоматическое переключение между дневной и ночной темами.
     </p>
   </div>
   <Separator />
   <form class="space-y-8" @submit="onSubmit">
-    <FormField v-slot="{ field }" name="font">
-      <FormItem>
-        <FormLabel>Font</FormLabel>
-        <div class="relative w-[200px]">
-          <FormControl>
-            <select
-              :class="cn(
-                buttonVariants({ variant: 'outline' }),
-                'w-[200px] appearance-none bg-transparent font-normal',
-              )"
-              v-bind="field"
-            >
-              <option value="inter">
-                Inter
-              </option>
-              <option value="manrope">
-                Manrope
-              </option>
-              <option value="system">
-                System
-              </option>
-            </select>
-          </FormControl>
-          <ChevronDownIcon class="pointer-events-none absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-        </div>
-        <FormDescription>
-          Set the font you want to use in the dashboard.
-        </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
 
     <FormField v-slot="{ componentField }" type="radio" name="theme">
       <FormItem class="space-y-1">
-        <FormLabel>Theme</FormLabel>
+        <FormLabel>Тема</FormLabel>
         <FormDescription>
-          Select the theme for the dashboard.
+          Выберите цветовую тему для приложения
         </FormDescription>
         <FormMessage />
 
@@ -93,7 +48,7 @@ const onSubmit = handleSubmit((values) => {
           class="grid max-w-md grid-cols-2 gap-8 pt-2"
           v-bind="componentField"
         >
-          <FormItem>
+          <FormItem @click="mode = 'light'">
             <FormLabel class="[&:has([data-state=checked])>div]:border-primary">
               <FormControl>
                 <RadioGroupItem value="light" class="sr-only" />
@@ -119,7 +74,7 @@ const onSubmit = handleSubmit((values) => {
               </span>
             </FormLabel>
           </FormItem>
-          <FormItem>
+          <FormItem @click="mode = 'dark'">
             <FormLabel class="[&:has([data-state=checked])>div]:border-primary">
               <FormControl>
                 <RadioGroupItem value="dark" class="sr-only" />
@@ -149,10 +104,10 @@ const onSubmit = handleSubmit((values) => {
       </FormItem>
     </FormField>
 
-    <div class="flex justify-start">
-      <Button type="submit">
-        Update preferences
-      </Button>
-    </div>
+<!--    <div class="flex justify-start">-->
+<!--      <Button type="submit">-->
+<!--        Update preferences-->
+<!--      </Button>-->
+<!--    </div>-->
   </form>
 </template>

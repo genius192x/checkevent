@@ -58,10 +58,10 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
       <slot />
 
       <DialogClose
-        class="absolute -right-6 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:white"
+        class="absolute right-2 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:white"
         @click="globalStore.isSheetOpen = false"
       >
-        <X class="w-4 h-4 text-white" />
+        <X class="w-4 h-4" />
       </DialogClose>
     </DialogContent>
   </DialogPortal>

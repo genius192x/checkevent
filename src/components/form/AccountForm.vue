@@ -77,22 +77,22 @@ async function onSubmit(values: any) {
 <template>
   <div>
     <h3 class="text-lg font-medium">
-      Account
+      Аккаунт
     </h3>
     <p class="text-sm text-muted-foreground">
-      Update your account settings. Set your preferred language and timezone.
+      Обновите настройки своей учетной записи. Установите предпочитаемый язык.
     </p>
   </div>
   <Separator />
   <Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-8" @submit="onSubmit">
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
-        <FormLabel>Name</FormLabel>
+        <FormLabel>Имя</FormLabel>
         <FormControl>
-          <Input type="text" placeholder="Your name" v-bind="componentField" />
+          <Input type="text" placeholder="Ваше имя" v-bind="componentField" />
         </FormControl>
         <FormDescription>
-          This is the name that will be displayed on your profile and in emails.
+          Оно будет отображаться в приложении и в email письмах (уведомлениях)
         </FormDescription>
         <FormMessage />
       </FormItem>
@@ -100,7 +100,7 @@ async function onSubmit(values: any) {
 
     <FormField v-slot="{ value }" name="language">
       <FormItem class="flex flex-col">
-        <FormLabel>Language</FormLabel>
+        <FormLabel>Язык</FormLabel>
 
         <Popover v-model:open="open">
           <PopoverTrigger as-child>
@@ -113,7 +113,7 @@ async function onSubmit(values: any) {
               >
                 {{ value ? languages.find(
                   (language) => language.value === value,
-                )?.label : 'Select language...' }}
+                )?.label : 'Выберите язык...' }}
 
                 <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -121,8 +121,8 @@ async function onSubmit(values: any) {
           </PopoverTrigger>
           <PopoverContent class="w-[200px] p-0">
             <Command>
-              <CommandInput placeholder="Search language..." />
-              <CommandEmpty>No language found.</CommandEmpty>
+              <CommandInput placeholder="Поиск..." />
+              <CommandEmpty>ничего не найдено</CommandEmpty>
               <CommandList>
                 <CommandGroup>
                   <CommandItem
@@ -147,7 +147,7 @@ async function onSubmit(values: any) {
         </Popover>
 
         <FormDescription>
-          This is the language that will be used in the dashboard.
+          Этот язык будет использоваться для всех надписей в приложении
         </FormDescription>
         <FormMessage />
       </FormItem>

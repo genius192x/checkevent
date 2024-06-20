@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import DateRangePicker from '@/components/DateRangePicker.vue'
-import RecentSales from '@/components/RecentSales.vue'
+import CreateList from "@/components/form/CreateList.vue"
+import { PlusIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
 import { Toaster } from '@/components/ui/sonner'
-import { toast } from 'vue-sonner'
 import { Button } from '@/components/ui/button'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
 } from '@/components/ui/tabs'
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription
+} from '@/components/ui/sheet'
 const events = [
   {
     title: 'Матч ЦСКА-СГАУ-Саратов',
@@ -50,6 +52,10 @@ const eventsExpired = [
     id: '4',
   },
 ]
+let side= 'bottom';
+if (window.innerWidth > 768){
+  side = 'right'
+}
 </script>
 
 <template>
@@ -58,29 +64,37 @@ const eventsExpired = [
 			<h2 class="text-3xl font-bold tracking-tight">
 				Список мероприятий
 			</h2>
-			<div class="flex items-center gap-2 flex-wrap md:space-x-2">
+			<div class="flex items-center flex-wrap">
         <DateRangePicker/>
-<!--				<Button class="m-0" @click="() => {-->
-<!--          toast('Скачали статистику за указанный период', {-->
-<!--            description: '20 янв. 2023 г. - 9 февр. 2023 г.',-->
-<!--            action: {-->
-<!--              label: 'Ок',-->
-<!--              onClick: () => console.log('Ок'),-->
-<!--            },-->
-<!--          })-->
-<!--        }">Скачать</Button>-->
         <Toaster />
 			</div>
 		</div>
-		<Tabs default-value="active" class="space-y-1 md:space-y-4 overflow-hidden">
-			<TabsList class="overflow-auto">
-				<TabsTrigger value="active">
-					Активные
-				</TabsTrigger>
-				<TabsTrigger value="archive" >
-					Архив
-				</TabsTrigger>
-			</TabsList>
+
+		<Tabs default-value="active" class="space-y-3 md:space-y-4">
+      <div class="flex justify-between">
+        <TabsList class="overflow-auto">
+          <TabsTrigger value="active">
+            Активные
+          </TabsTrigger>
+          <TabsTrigger value="archive" >
+            Архив
+          </TabsTrigger>
+        </TabsList>
+        <Sheet>
+          <SheetTrigger>
+            <Button>
+              <PlusIcon class="w-4 h-4 mr-2" /> Новый лист
+            </Button>
+          </SheetTrigger>
+          <SheetContent :side=side class="w-[100%] overflow-auto max-h-[80%] rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl p-3 outline-0 md:m-3 h-auto">
+            <SheetHeader>
+              <SheetTitle>Создание нового листа</SheetTitle>
+            </SheetHeader>
+            <CreateList/>
+          </SheetContent>
+        </Sheet>
+
+      </div>
 			<TabsContent value="active" class="space-y-4">
         <div v-for="item in events" :key="item.id">
           <ListCard
