@@ -33,7 +33,7 @@ export const useListStore = defineStore('listStore', () => {
         },
     ])
     function addItem(item){
-        list.value.push(item)
+        list.value.unshift(item)
     }
     return { addItem, list}
 })

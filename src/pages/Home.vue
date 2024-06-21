@@ -21,7 +21,8 @@ import {
   SheetTitle,
   SheetDescription
 } from '@/components/ui/sheet'
-
+import { useGlobalStore } from '@/store/GlobalStore'
+const globalStore = useGlobalStore()
 const listStore = useListStore()
 let side= 'bottom';
 if (window.innerWidth > 768){
@@ -51,13 +52,13 @@ if (window.innerWidth > 768){
             Архив
           </TabsTrigger>
         </TabsList>
-        <Sheet>
+        <Sheet :open="globalStore.isSheetOpen">
           <SheetTrigger>
-            <Button>
+            <Button @click="globalStore.isSheetOpen = true">
               <PlusIcon class="w-4 h-4 mr-2" /> Новый лист
             </Button>
           </SheetTrigger>
-          <SheetContent :side=side class="w-[100%] overflow-auto max-h-[80%] rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl p-3 outline-0 md:m-3 h-auto">
+          <SheetContent :side=side class="w-[100%] max-h-[70%] rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl p-3 outline-0 md:m-3 h-auto">
             <SheetHeader>
               <SheetTitle>Создание нового листа</SheetTitle>
             </SheetHeader>
