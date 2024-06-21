@@ -19,7 +19,7 @@ https://genius192x.github.io/checkevent/
 
 ## Локальный запуск проекта
 
-Клонировать репозиторий жедательая версия Node > 20
+Клонировать репозиторий желательая версия Node > 20
 
 ```bash
   git clone https://github.com/genius192x/checkevent.git
