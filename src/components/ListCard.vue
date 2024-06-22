@@ -29,7 +29,7 @@ defineProps<{
 </script>
 
 <template>
-  <Card @click="$router.push('/list')" class="cursor-pointer">
+  <Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer">
     <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">
       <div class="space-y-1">
         <CardTitle>{{item.title}}

@@ -17,13 +17,14 @@ interface DataTableToolbarProps {
 const props = defineProps<DataTableToolbarProps>()
 
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0)
+console.log(props.table)
 </script>
 
 <template>
 	<div class="flex flex-col gap-4 md:justify-between md:items-center md:flex-row">
 		<div class="flex gap-2 flex-1 flex-wrap md:space-x-2 md:items-center">
 			<Input
-				placeholder="Filter tasks..."
+				placeholder="Поиск по названию..."
 				:model-value="(table.getColumn('title')?.getFilterValue() as string) ?? ''"
 				class="h-8 lg:w-[250px] w-full md:w-[150px]"
 				@input="table.getColumn('title')?.setFilterValue($event.target.value)"
@@ -31,13 +32,13 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
 			<DataTableFacetedFilter
 				v-if="table.getColumn('status')"
 				:column="table.getColumn('status')"
-				title="Status"
+				title="Статус"
 				:options="statuses"
 			/>
 			<DataTableFacetedFilter
 				v-if="table.getColumn('priority')"
 				:column="table.getColumn('priority')"
-				title="Priority"
+				title="Приоритет"
 				:options="priorities"
 			/>
 
@@ -47,7 +48,7 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
 				class="h-8 px-2 lg:px-3"
 				@click="table.resetColumnFilters()"
 			>
-				Reset
+				Сбросить
 				<Cross2Icon class="ml-2 h-4 w-4" />
 			</Button>
 		</div>

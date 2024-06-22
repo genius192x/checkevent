@@ -100,7 +100,7 @@ const { handleSubmit } = useForm({
                 <RadioGroupItem value="auto" class="sr-only" />
               </FormControl>
               <div class="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
-                  <svg width="200" height="148" viewBox="0 0 208 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="h-full" width="100%" height="100%" viewBox="0 0 208 148" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 4C0 1.79086 1.79086 0 4 0H104V148H4C1.79086 148 0 146.209 0 144V4Z" fill="#ECEDEF"/>
                     <path d="M104 0H204C206.209 0 208 1.79086 208 4V144C208 146.209 206.209 148 204 148H104V0Z" fill="#020817"/>
                     <path d="M13 68C13 64.6863 15.6863 62 19 62H104V94H19C15.6863 94 13 91.3137 13 88V68Z" fill="white"/>

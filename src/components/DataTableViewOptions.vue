@@ -25,6 +25,7 @@ const columns = computed(() => props.table.getAllColumns()
 		column =>
 		typeof column.accessorFn !== 'undefined' && column.getCanHide(),
 	))
+console.log(columns.value)
 	</script>
 
 	<template>
@@ -36,11 +37,11 @@ const columns = computed(() => props.table.getAllColumns()
 				class="flex h-8 md:ml-auto "
 			>
 				<MixerHorizontalIcon class="mr-2 h-4 w-4" />
-				View
+				Отображение
 			</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end" class="w-[150px]">
-		<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+		<DropdownMenuLabel>Видимые колонки</DropdownMenuLabel>
 		<DropdownMenuSeparator />
 
 		<DropdownMenuCheckboxItem

@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import tasks from '@/lib/tasks.json'
 import DataTable from '@/components/DataTable.vue'
-import UserNav from '@/components/UserNav.vue'
 import { columns } from '@/components/columns'
+import { useListStore } from '@/store/ListsStore'
 
-const myTasks = tasks
+
+const listStore = useListStore()
+
+
+const props = defineProps({
+  id: String
+})
+
+const currList = listStore.getItemById(props.id)
+const taskList = currList.tasks
 </script>
 
 <template>
@@ -12,13 +20,13 @@ const myTasks = tasks
 		<div class="flex items-center justify-between space-y-2">
 			<div>
 				<h2 class="text-2xl font-bold tracking-tight">
-					Welcome back!
+					{{currList.title}}
 				</h2>
 				<p class="text-muted-foreground line-clamp-1">
-					Here&apos;s a list of your <br> tasks for this month!
+					Ниже представлен список всех необходимых задач
 				</p>
 			</div>
 		</div>
-		<DataTable :data="myTasks" :columns="columns" />
+		<DataTable :data="taskList" :columns="columns" />
 	</div>
 </template>

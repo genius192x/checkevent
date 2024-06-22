@@ -24,6 +24,7 @@ import {
 import { useGlobalStore } from '@/store/GlobalStore'
 const globalStore = useGlobalStore()
 const listStore = useListStore()
+console.log(listStore.list)
 let side= 'bottom';
 if (window.innerWidth > 768){
   side = 'right'

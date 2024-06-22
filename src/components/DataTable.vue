@@ -62,6 +62,7 @@ const table = useVueTable({
 	getFacetedRowModel: getFacetedRowModel(),
 	getFacetedUniqueValues: getFacetedUniqueValues(),
 })
+console.log(table.get)
 </script>
 
 <template>

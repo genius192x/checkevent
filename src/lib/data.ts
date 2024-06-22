@@ -1,70 +1,70 @@
 import { h } from 'vue'
-// import ArrowDownIcon from '~icons/radix-icons/arrow-down'
-// import ArrowRightIcon from '~icons/radix-icons/arrow-right'
-// import ArrowUpIcon from '~icons/radix-icons/arrow-up'
-// import CheckCircledIcon from '~icons/radix-icons/check-circled'
-// import CircleIcon from '~icons/radix-icons/circle'
-// import CrossCircledIcon from '~icons/radix-icons/cross-circled'
-// import QuestionMarkCircledIcon from '~icons/radix-icons/question-mark-circled'
-// import StopwatchIcon from '~icons/radix-icons/stopwatch'
+import {ArrowDownIcon} from '@radix-icons/vue'
+import {ArrowRightIcon} from '@radix-icons/vue'
+import {ArrowUpIcon} from '@radix-icons/vue'
+import {CheckCircledIcon} from '@radix-icons/vue'
+import {CircleIcon} from '@radix-icons/vue'
+import {CrossCircledIcon} from '@radix-icons/vue'
+import {QuestionMarkCircledIcon} from '@radix-icons/vue'
+import {StopwatchIcon} from '@radix-icons/vue'
 
 export const labels = [
 	{
-		value: 'bug',
-		label: 'Bug',
+		value: 'sound',
+		label: 'Звук',
 	},
 	{
-		value: 'feature',
-		label: 'Feature',
+		value: 'light',
+		label: 'Свет',
 	},
 	{
-		value: 'documentation',
-		label: 'Documentation',
+		value: 'documents',
+		label: 'Документы',
 	},
 ]
 
 export const statuses = [
 	{
-		value: 'backlog',
-		label: 'Backlog',
-		// icon: h(QuestionMarkCircledIcon),
-	},
-	{
 		value: 'todo',
-		label: 'Todo',
-		// icon: h(CircleIcon),
+		label: 'Поставлена',
+		icon: h(CircleIcon),
 	},
 	{
 		value: 'in progress',
-		label: 'In Progress',
-		// icon: h(StopwatchIcon),
+		label: 'Выполняется',
+		icon: h(StopwatchIcon),
+	},
+	{
+		value: 'check',
+		label: 'Ждет проверки',
+		icon: h(StopwatchIcon),
 	},
 	{
 		value: 'done',
-		label: 'Done',
-		// icon: h(CheckCircledIcon),
+		label: 'Выполнено',
+		icon: h(CheckCircledIcon),
 	},
-	{
-		value: 'canceled',
-		label: 'Canceled',
-		// icon: h(CrossCircledIcon),
-	},
+	// {
+	// 	value: 'canceled',
+	// 	label: 'Canceled',
+	// 	icon: h(CrossCircledIcon),
+	// },
 ]
 
 export const priorities = [
 	{
-		label: 'Low',
+		label: 'Низкий',
 		value: 'low',
-		// icon: h(ArrowDownIcon),
+		icon: h(ArrowDownIcon),
 	},
 	{
-		label: 'Medium',
+		label: 'Средний',
 		value: 'medium',
-		// icon: h(ArrowRightIcon),
+		icon: h(ArrowRightIcon),
 	},
 	{
-		label: 'High',
+		label: 'Высокий',
 		value: 'high',
-		// icon: h(ArrowUpIcon),
+		icon: h(ArrowUpIcon),
 	},
 ]

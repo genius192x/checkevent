@@ -19,12 +19,20 @@ const routes = [
 	{
 		path: '/settings',
 		component: SettingAccount,
-	},{
+	},
+	{
 		path: '/settings/appearance',
 		component: SettingAppearance,
-	},{
+	},
+	{
 		path: '/settings/notifications',
 		component: SettingNotifications,
+	},
+	{
+		path: '/list/:id',
+		name: 'listId',
+		component: TasksView,
+		props: true
 	},
 
 ];
