@@ -25,7 +25,6 @@ const columns = computed(() => props.table.getAllColumns()
 		column =>
 		typeof column.accessorFn !== 'undefined' && column.getCanHide(),
 	))
-console.log(columns.value)
 	</script>
 
 	<template>

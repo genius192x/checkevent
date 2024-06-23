@@ -62,7 +62,6 @@ const table = useVueTable({
 	getFacetedRowModel: getFacetedRowModel(),
 	getFacetedUniqueValues: getFacetedUniqueValues(),
 })
-console.log(table.get)
 </script>
 
 <template>
@@ -95,7 +94,7 @@ console.log(table.get)
 				:colspan="columns.length"
 				class="h-24 text-center"
 				>
-				No results.
+				Нет задач
 				</TableCell>
 			</TableRow>
 			</TableBody>

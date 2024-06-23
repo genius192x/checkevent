@@ -1,15 +1,41 @@
 import { defineStore } from 'pinia'
-import {ref} from "vue";
+import { ref } from "vue";
+import { useToast } from '@/components/ui/toast/use-toast'
+const { toast } = useToast()
 import tasks from '@/lib/tasks.json'
+
 const myTasks = tasks
 
 export const useListStore = defineStore('listStore', () => {
-    const list = myTasks
-    function addItem(item){
-        list.value.unshift(item)
-    }
-    function getItemById(id){
-        return list.find(item=>item.id === id)
-    }
-    return { addItem, list, getItemById}
+	let list = ref([]);
+	list.value = myTasks
+	updateList()
+	if (localStorage.getItem('lists') !== null) {
+		console.log('список есть');
+	} else {
+		console.log('списка нет, берем из файла')
+		list.value = myTasks
+		localStorage.setItem('lists',JSON.stringify(list.value));
+	};
+	function addList(item) {
+		console.log(list.value);
+		list.value.unshift(item)
+		localStorage.setItem('lists',JSON.stringify(list.value));
+	}
+	function deleteList(id) {
+		console.log(list.value);
+		list.value = list.value.filter(el => el.id !== id);
+		toast({
+			description: 'Лист успешно удален',
+		});
+		localStorage.setItem('lists', JSON.stringify(list.value));
+		updateList()
+	}
+	function updateList() {
+		list.value = JSON.parse(localStorage.getItem("lists"))
+	}
+	function getItemById(id){
+		return list.value.find(item=>item.id === id)
+	}
+	return { addList, list, getItemById, deleteList}
 })
