@@ -6,6 +6,8 @@ import HomeView from '@/pages/Home.vue'
 import SettingAccount from "@/pages/settings/SettingAccount.vue"
 import SettingAppearance from "@/pages/settings/SettingAppearance.vue"
 import SettingNotifications from "@/pages/settings/SettingNotifications.vue"
+import AuthorizationVue from '@/pages/Authorization.vue'
+import RegistrationVue from '@/pages/Registration.vue'
 
 const routes = [
 	{
@@ -27,6 +29,14 @@ const routes = [
 	{
 		path: '/settings/notifications',
 		component: SettingNotifications,
+	},
+	{
+		path: '/authorization',
+		component: AuthorizationVue,
+	},
+	{
+		path: '/registration',
+		component: RegistrationVue,
 	},
 	{
 		path: '/list/:id',

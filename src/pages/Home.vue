@@ -33,8 +33,8 @@ if (window.innerWidth > 768){
 </script>
 
 <template>
-    <div class="flex-1 space-y-4 p-2 pt-6 md:p-8">
-		<div class="flex justify-between space-y-3 flex-col md:flex-row md:items-center md:space-y-2">
+    <div class="flex-1 space-y-6 p-2 pt-6 md:p-8">
+		<div class="flex justify-between space-y-6 flex-col md:flex-row md:items-center md:space-y-2">
 			<h2 class="text-3xl font-bold tracking-tight">
 				Список мероприятий
 			</h2>
