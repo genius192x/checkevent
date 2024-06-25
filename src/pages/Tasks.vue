@@ -66,12 +66,8 @@ onBeforeMount(() => {
 		</div>
 		<div class="flex" v-if="isDraggable">
 			<div class="w-[25%] border-primary border p-5">
-				<h3 class="bg-slate-300 p-3">Draggable 1</h3>
-				<draggable class="list-group" :list="list1" v-bind="dragOptions" @start="drag = true"
-					@end="drag = false" :component-data="{
-						type: 'transition-group',
-						name: !drag ? 'flip-list' : null
-					}" group="people" @change="log" itemKey="name">
+				<h3 class="bg-slate-300 p-3">Лист 1</h3>
+				<draggable class="list-group" v-model="list1" group="people" @change="log" itemKey="name" :animation="200">
 					<template #item="{ element, index }">
 						<div class="list-group-item bg-sky-300 p-3">{{ element.name }} {{ index }}</div>
 					</template>
@@ -79,12 +75,8 @@ onBeforeMount(() => {
 			</div>
 
 			<div class="w-[25%] border-primary border p-5">
-				<h3 class="bg-slate-300 p-3">Draggable 2</h3>
-				<draggable class="list-group" :list="list2" v-bind="dragOptions" @start="drag = true"
-					@end="drag = false" :component-data="{
-					type: 'transition-group',
-					name: !drag ? 'flip-list' : null
-				}" group="people" @change="log" itemKey="name2">
+				<h3 class="bg-slate-300 p-3">Лист 2</h3>
+				<draggable class="list-group" v-model="list2" group="people" @change="log" itemKey="name2" :animation="200">
 					<template #item="{ element, index }">
 						<div class="list-group-item bg-sky-300 p-3">{{ element.name }} {{ index }}</div>
 					</template>
