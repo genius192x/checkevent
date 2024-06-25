@@ -9,15 +9,19 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
+	FormMessage,
 	FormLabel,
 } from '@/components/ui/form'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useUserStore } from '@/store/UserStore'
+import { useGlobalStore } from '@/store/GlobalStore'
+import router from '@/router'
 
 const { toast } = useToast()
 const userStore = useUserStore()
+const globalStore = useGlobalStore()
 const userData = {
 	firstName: '',
 	lastName: '',
@@ -25,25 +29,26 @@ const userData = {
 	password: '',
 }
 const accountFormSchema = toTypedSchema(z.object({
-	'first-name': z
-		.string({
-			required_error: 'Обязательное поле.',
-		}),
-	description: z
-		.string({
-			required_error: 'Обязательное поле.',
-		}),
-	date: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
-	type: z
+	name: z
+		.string(),
+	sename: z
+		.string(),
+	email: z
+		.string()
+		.min(1, { message: "Обязательное поле." })
+		.email("Неверный формат."),
+	password: z
 		.string({
 			required_error: 'Обязательное поле.',
 		})
-		.min(1, 'Необходимо выбрать тип.'),
+		.trim()
+		.min(5, { message: 'Необходимо минимум 5 символов' })
 }))
 function onSubmit(data) {
-	console.log('test');
 
+	globalStore.isAuth = true
 	userStore.createUser(data)
+	router.push('/')
 	toast({
 		description: 'Аккаунт успешно создан',
 	});
@@ -52,7 +57,7 @@ function onSubmit(data) {
 
 <template>
 	<div class="flex p-4 items-center justify-center">
-		<Form :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col"
+		<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col"
 			@submit="onSubmit">
 			<Card class="mx-auto max-w-sm">
 				<CardHeader>
@@ -63,44 +68,45 @@ function onSubmit(data) {
 				<CardContent>
 					<div class="grid gap-4">
 						<div class="grid grid-cols-2 gap-4">
-							<FormField name="name">
+							<FormField v-slot="{ componentField }" name="name">
 								<FormItem>
 									<FormLabel>Имя</FormLabel>
 									<FormControl>
 										<Input type="text" placeholder="Иван"
-											v-model="userData.firstName" />
+											v-model="userData.firstName" v-bind="componentField"/>
 									</FormControl>
 								</FormItem>
 							</FormField>
-							<FormField name="name">
+							<FormField v-slot="{ componentField }" name="sename">
 								<FormItem>
 									<FormLabel>Фамилия</FormLabel>
 									<FormControl>
 										<Input type="text" placeholder="Иванов"
-											v-model="userData.lastName" />
+											v-model="userData.lastName" v-bind="componentField"/>
 									</FormControl>
 								</FormItem>
 							</FormField>
 						</div>
-						<FormField name="name">
+						<FormField v-slot="{ componentField }" name="email">
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input type="text"
-										v-model="userData.email" />
+									<Input type="email"
+										v-model="userData.email" v-bind="componentField"/>
 								</FormControl>
 							</FormItem>
 						</FormField>
-						<FormField name="name">
+						<FormField v-slot="{ componentField }" name="password">
 							<FormItem>
 								<FormLabel>Пароль</FormLabel>
 								<FormControl>
-									<Input type="text"
-										v-model="userData.password" />
+									<Input type="password"
+										v-model="userData.password" v-bind="componentField"/>
 								</FormControl>
 							</FormItem>
+							<FormMessage/>
 						</FormField>
-						<Button class="w-full" @click.prev="onSubmit(userData)">
+						<Button class="w-full" type="submit">
 							Создать аккаунт
 						</Button>
 					</div>

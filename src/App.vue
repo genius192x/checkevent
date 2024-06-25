@@ -2,15 +2,24 @@
 import Search from '@/components/Search.vue'
 import UserNav from '@/components/UserNav.vue'
 import { useColorMode } from '@vueuse/core'
-const mode = useColorMode()
 import Toaster from '@/components/ui/toast/Toaster.vue'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { useGlobalStore } from './store/GlobalStore';
+import { onMounted } from 'vue'
+import router from './router'
+import { useUserStore } from './store/UserStore'
+
+const mode = useColorMode()
 const { toast } = useToast()
+const userStore = useUserStore()
 const globalStore = useGlobalStore()
 
-
+onMounted(() => {
+	if (!globalStore.isAuth) {
+		router.push('/authorization')
+	}
+});
 
 </script>
 
