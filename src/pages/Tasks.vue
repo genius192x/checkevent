@@ -3,24 +3,52 @@ import DataTable from '@/components/DataTable.vue'
 import { columns } from '@/components/columns'
 import { useListStore } from '@/store/ListsStore'
 import { onBeforeMount } from 'vue'
-import {ref} from "vue";
+import { ref } from "vue";
+import draggable from 'vuedraggable'
+import RawDisplayer from '@/components/RawDisplayer.vue'
 
 const listStore = useListStore()
 
 
 const props = defineProps({
-  id: String
+	id: String
 })
 
+const isDraggable = ref(true)
 const currList = ref({})
 const taskList = ref([])
+const drag = ref(false)
+const list1= ref([
+	{ name: "John", id: 1 },
+	{ name: "Joao", id: 2 },
+	{ name: "Jean", id: 3 },
+	{ name: "Gerard", id: 4 }
+])
+const list2=  ref([
+	{ name: "Juan", id: 5 },
+	{ name: "Edgard", id: 6 },
+	{ name: "Johnson", id: 7 }
+])
+function sort() {
+	this.list = this.list.sort((a, b) => a.order - b.order);
+}
+function dragOptions() {
+	return {
+		animation: 200,
+		group: "description",
+		disabled: false,
+		ghostClass: "ghost"
+	};
+}
+function log(evt) {
+	window.console.log(evt);
+}
 
 onBeforeMount(() => {
 	currList.value = listStore.getItemById(props.id)
 	if(currList.value){
 		taskList.value = currList.value.tasks
 	}
-
 })
 </script>
 
@@ -36,6 +64,68 @@ onBeforeMount(() => {
 				</p>
 			</div>
 		</div>
-		<DataTable :data="taskList" :columns="columns" />
+		<div class="flex" v-if="isDraggable">
+			<div class="w-[25%] border-primary border p-5">
+				<h3 class="bg-slate-300 p-3">Draggable 1</h3>
+				<draggable class="list-group" :list="list1" v-bind="dragOptions" @start="drag = true"
+					@end="drag = false" :component-data="{
+						type: 'transition-group',
+						name: !drag ? 'flip-list' : null
+					}" group="people" @change="log" itemKey="name">
+					<template #item="{ element, index }">
+						<div class="list-group-item bg-sky-300 p-3">{{ element.name }} {{ index }}</div>
+					</template>
+				</draggable>
+			</div>
+
+			<div class="w-[25%] border-primary border p-5">
+				<h3 class="bg-slate-300 p-3">Draggable 2</h3>
+				<draggable class="list-group" :list="list2" v-bind="dragOptions" @start="drag = true"
+					@end="drag = false" :component-data="{
+					type: 'transition-group',
+					name: !drag ? 'flip-list' : null
+				}" group="people" @change="log" itemKey="name2">
+					<template #item="{ element, index }">
+						<div class="list-group-item bg-sky-300 p-3">{{ element.name }} {{ index }}</div>
+					</template>
+				</draggable>
+			</div>
+
+			<rawDisplayer class="col-3" :value="list1" title="List 1" />
+
+			<rawDisplayer class="col-3" :value="list2" title="List 2" />
+		</div>
+		<DataTable :data="taskList" :columns="columns" v-else />
 	</div>
 </template>
+
+<style>
+.button {
+	margin-top: 35px;
+}
+
+.flip-list-move {
+	transition: transform 0.5s;
+}
+
+.no-move {
+	transition: transform 0s;
+}
+
+.ghost {
+	opacity: 0.5;
+	background: #c8ebfb;
+}
+
+.list-group {
+	min-height: 20px;
+}
+
+.list-group-item {
+	cursor: move;
+}
+
+.list-group-item i {
+	cursor: pointer;
+}
+</style>

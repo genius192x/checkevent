@@ -213,9 +213,9 @@ function onSubmit(values: any) {
 			<Button type="submit" class="outline-0 flex-auto md:flex-none">
 				Создать лист
 			</Button>
-			<Button class="bg-transparent text-primary border hover:bg-primary-foreground outline-0">
+			<!-- <Button class="bg-transparent text-primary border hover:bg-primary-foreground outline-0">
 				Сбросить значение полей
-			</Button>
+			</Button> -->
 		</div>
 	</Form>
 </template>
