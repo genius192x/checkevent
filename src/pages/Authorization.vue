@@ -74,7 +74,7 @@ function onSubmit(data) {
 								</FormLabel>
 
 								<FormControl>
-									<Input type="text" placeholder=""
+									<Input type="password" placeholder=""
 										v-bind="componentField"/>
 								</FormControl>
 							</FormItem>

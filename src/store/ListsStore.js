@@ -10,6 +10,8 @@ export const useListStore = defineStore('listStore', () => {
 	let list = ref([]);
 	list.value = myTasks
 	updateList()
+
+
 	if (localStorage.getItem('lists') !== null) {
 		console.log('список есть');
 	} else {
@@ -17,11 +19,15 @@ export const useListStore = defineStore('listStore', () => {
 		list.value = myTasks
 		setListToStore()
 	};
+
+
 	function addList(item) {
 		console.log(list.value);
 		list.value.unshift(item)
 		setListToStore()
 	}
+
+
 	function deleteList(id) {
 		console.log(list.value);
 		list.value = list.value.filter(el => el.id !== id);
@@ -31,14 +37,22 @@ export const useListStore = defineStore('listStore', () => {
 		setListToStore()
 		updateList()
 	}
+
+
 	function updateList() {
 		list.value = JSON.parse(localStorage.getItem("lists"))
 	}
+
+
 	function setListToStore() {
 		localStorage.setItem('lists', JSON.stringify(list.value));
 	}
+
+
 	function getItemById(id){
 		return list.value.find(item=>item.id === id)
 	}
+
+
 	return { addList, list, getItemById, deleteList}
 })

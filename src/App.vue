@@ -33,7 +33,7 @@ onMounted(() => {
 						<UserNav />
 					</div>
 				</div>
-				<router-view class="relative z-20"></router-view>
+				<router-view class="relative z-20 h-full"></router-view>
 			</div>
 		</div>
 	</TooltipProvider>

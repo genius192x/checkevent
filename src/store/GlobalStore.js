@@ -45,11 +45,15 @@ export const useGlobalStore = defineStore('globalStore', () => {
 			avatar: 'src/assets/avatars/04.png',
 		},
 	])
-	updateUsersList()
+	if (localStorage.getItem('users') !== null) {
+		console.log('пользователи есть');
+	} else {
+		updateUsersList()
+	};
 
 	function updateUsersList() {
 		localStorage.setItem('users', JSON.stringify(defaultUsers.value));
 	}
 
-	return { isSettingsOpen, isSheetOpen, isAuth, usersList, defaultUsers}
+	return { isSettingsOpen, isSheetOpen, isAuth, usersList, defaultUsers, updateUsersList}
 })

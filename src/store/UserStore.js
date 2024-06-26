@@ -5,6 +5,7 @@ import router from '@/router';
 import { useToast } from '@/components/ui/toast/use-toast'
 const { toast } = useToast()
 
+
 export const useUserStore = defineStore('userStore', () => {
 	const userData = ref({})
 
@@ -21,7 +22,10 @@ export const useUserStore = defineStore('userStore', () => {
 		localStorage.setItem('curUser',JSON.stringify(userData.value));
 	}
 	function createUser(data) {
+		const globalStore = useGlobalStore()
 		userData.value = data
+		globalStore.defaultUsers.push(data)
+		globalStore.updateUsersList()
 		setUserInfo()
 	}
 
