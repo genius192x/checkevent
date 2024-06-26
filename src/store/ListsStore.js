@@ -15,12 +15,12 @@ export const useListStore = defineStore('listStore', () => {
 	} else {
 		console.log('списка нет, берем из файла')
 		list.value = myTasks
-		localStorage.setItem('lists',JSON.stringify(list.value));
+		setListToStore()
 	};
 	function addList(item) {
 		console.log(list.value);
 		list.value.unshift(item)
-		localStorage.setItem('lists',JSON.stringify(list.value));
+		setListToStore()
 	}
 	function deleteList(id) {
 		console.log(list.value);
@@ -28,11 +28,14 @@ export const useListStore = defineStore('listStore', () => {
 		toast({
 			description: 'Лист успешно удален',
 		});
-		localStorage.setItem('lists', JSON.stringify(list.value));
+		setListToStore()
 		updateList()
 	}
 	function updateList() {
 		list.value = JSON.parse(localStorage.getItem("lists"))
+	}
+	function setListToStore() {
+		localStorage.setItem('lists', JSON.stringify(list.value));
 	}
 	function getItemById(id){
 		return list.value.find(item=>item.id === id)

@@ -12,39 +12,32 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
 } from '@/components/ui/command'
 import { Button } from '@/components/ui/button'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { useToast } from '@/components/ui/toast/use-toast'
 
-import {useListStore} from '@/store/ListsStore'
+import { useListStore } from '@/store/ListsStore'
+import { useUserStore } from '@/store/UserStore'
+const userStore = useUserStore()
 const { toast } = useToast()
 const open = ref(false)
-const dateValue = ref()
-const placeholder = ref()
+const name = ref('')
+console.log(userStore.userData.name);
 
-const languages = [
-	{ label: 'English', value: 'en' },
-	{ label: 'French', value: 'fr' },
-	{ label: 'German', value: 'de' },
-	{ label: 'Spanish', value: 'es' },
-	{ label: 'Portuguese', value: 'pt' },
-	{ label: 'Russian', value: 'ru' },
-	{ label: 'Japanese', value: 'ja' },
-	{ label: 'Korean', value: 'ko' },
-	{ label: 'Chinese', value: 'zh' },
-] as const
+name.value = userStore.userData.name
+const placeholder = ref()
 
 const df = new DateFormatter('en-US', {
 	dateStyle: 'long',
@@ -53,22 +46,16 @@ const df = new DateFormatter('en-US', {
 const accountFormSchema = toTypedSchema(z.object({
 	name: z
 		.string({
-		required_error: 'Required.',
+			required_error: 'обязательное поле',
 		})
 		.min(2, {
-		message: 'Name must be at least 2 characters.',
-		})
-		.max(30, {
-		message: 'Name must not be longer than 30 characters.',
+			message: 'имя должно содержать минимум 2 символа',
 		}),
-	dob: z.string().datetime().optional().refine(date => date !== undefined, 'Please select a valid date.'),
-	language: z.string().min(1, 'Please select a language.'),
 }))
 
 // https://github.com/logaretm/vee-validate/issues/3521
 // https://github.com/logaretm/vee-validate/discussions/3571
 async function onSubmit(values: any) {
-	console.log('awdw');
 	toast({
 		title: 'You submitted the following values:',
 		description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
@@ -87,21 +74,21 @@ async function onSubmit(values: any) {
 	</div>
 	<Separator />
 	<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-8" @submit="onSubmit">
-		<FormField v-slot="{ componentField }" name="name">
-		<FormItem>
-			<FormLabel>Имя</FormLabel>
-			<FormControl>
-			<Input type="text" placeholder="Ваше имя" v-bind="componentField" />
-			</FormControl>
-			<FormDescription>
-			Оно будет отображаться в приложении и в email письмах (уведомлениях)
-			</FormDescription>
-			<FormMessage />
-		</FormItem>
+		<FormField  name="name">
+			<FormItem>
+				<FormLabel>Имя</FormLabel>
+					<FormControl>
+						<Input type="text" placeholder="Ваше имя"  v-model="name" disabled/>
+					</FormControl>
+					<FormDescription>
+					Оно будет отображаться в приложении и в email письмах (уведомлениях)
+					</FormDescription>
+				<FormMessage />
+			</FormItem>
 		</FormField>
 
 		<div class="flex justify-start">
-		<Button type="submit">
+		<Button type="submit" disabled>
 			Update account
 		</Button>
 		</div>

@@ -14,7 +14,7 @@ const props = defineProps({
 	id: String
 })
 
-const isDraggable = ref(true)
+const isDraggable = ref(false)
 const currList = ref({})
 const taskList = ref([])
 const drag = ref(false)

@@ -1,27 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
 } from '@/components/ui/avatar'
-const activeUsers = [
-	{
-		image: 'src/assets/avatars/04.png'
-	},
-	{
-		image: 'src/assets/avatars/02.png'
-	},
-	{
-		image: 'src/assets/avatars/03.png'
-	},
-]
+
+const props = defineProps({
+	avatars: { type: Array, required: true },
+})
 </script>
 
 <template>
-	<div class="flex gap-1">
-		<div class="block" v-for="avatar in activeUsers">
-			<Avatar class="h-8 w-8">
-				<AvatarImage :src="avatar.image" alt="АЗ" />
+	<div class="flex -space-x-1">
+		<div class="block" v-for="(avatar, index) in $props.avatars">
+			<Avatar class="h-8 w-8 border-2 border-background" v-if="index < 3">
+				<AvatarImage :src="avatar.avatar" alt="АЗ" />
 				<AvatarFallback>АЗ</AvatarFallback>
 			</Avatar>
 		</div>

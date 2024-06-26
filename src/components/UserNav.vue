@@ -15,47 +15,48 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useUserStore } from '@/store/UserStore'
+
+const userStore = useUserStore()
+
 </script>
 
 <template>
 	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
-		<Button variant="ghost" class="relative h-8 w-8 rounded-full">
-			<Avatar class="h-8 w-8">
-				<AvatarImage src="src/assets/avatars/04.png" alt="АЗ" />
-				<AvatarFallback>АЗ</AvatarFallback>
-			</Avatar>
-		</Button>
+			<Button variant="ghost" class="relative h-8 w-8 rounded-full">
+				<Avatar class="h-8 w-8">
+					<AvatarImage src="src/assets/avatars/04.png" alt="АЗ" />
+					<AvatarFallback>АЗ</AvatarFallback>
+				</Avatar>
+			</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent class="w-56" align="end">
-		<DropdownMenuLabel class="font-normal flex">
-			<div class="flex flex-col space-y-1">
-			<p class="text-sm font-medium leading-none">
-				Антон Зимин
-			</p>
-			<p class="text-xs leading-none text-muted-foreground">
-				zimin@gmail.com
-			</p>
-			</div>
-		</DropdownMenuLabel>
-		<DropdownMenuSeparator />
-		<DropdownMenuGroup>
-			<DropdownMenuItem>
-				Профиль
-			</DropdownMenuItem>
-			<DropdownMenuItem>
-				Счета
-			</DropdownMenuItem>
-			<DropdownMenuItem>
-			<router-link to="/settings">
-				Настройки
-			</router-link>
-			</DropdownMenuItem>
-		</DropdownMenuGroup>
-		<DropdownMenuSeparator />
-		<DropdownMenuItem>
-			Выйти
-		</DropdownMenuItem>
+			<DropdownMenuLabel class="font-normal flex">
+				<div class="flex flex-col space-y-1">
+				<p class="text-sm font-medium leading-none">
+					{{ userStore.userData.name }} {{ userStore.userData.surname }}
+				</p>
+				<p class="text-xs leading-none text-muted-foreground">
+					{{ userStore.userData.email }}
+				</p>
+				</div>
+			</DropdownMenuLabel>
+			<DropdownMenuSeparator />
+			<DropdownMenuGroup>
+				<DropdownMenuItem disabled>
+					Профиль
+				</DropdownMenuItem>
+				<DropdownMenuItem>
+					<router-link to="/settings">
+						Настройки
+					</router-link>
+				</DropdownMenuItem>
+			</DropdownMenuGroup>
+			<DropdownMenuSeparator />
+				<DropdownMenuItem @click="userStore.logout()">
+					Выйти
+				</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
 </template>

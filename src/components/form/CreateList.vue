@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
 import * as z from 'zod'
-// import { toDate } from 'radix-vue/dist/date'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import { Check, ChevronsUpDown, Plus } from 'lucide-vue-next'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today, type DateValue } from '@internationalized/date'
 import { cn } from '@/lib/utils'
 
@@ -38,16 +37,33 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Calendar } from '@/components/ui/calendar'
+
+
 import {useListStore} from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
+import { useUserStore } from '@/store/UserStore'
+
 const globalStore = useGlobalStore()
+const userStore = useUserStore()
 const listStore = useListStore()
+
 const open = ref(false)
 const openDate = ref(false)
 const dateValue = ref()
 const placeholder = ref()
 
+type User = (typeof users.value)[number]
+const openUserSelect = ref(false)
+const selectedUsers = ref<User[]>([])
 const list = ref(listStore.list)
 
 const types = [
@@ -64,6 +80,7 @@ const formResult = {
 	description: '',
 	lastApdate: dateValue,
 	type: null,
+	participants: [],
 	tasks: []
 }
 const accountFormSchema = toTypedSchema(z.object({
@@ -208,6 +225,70 @@ function onSubmit(values: any) {
 					</FormDescription>
 				</FormItem>
 			</FormField>
+			<FormField v-slot="{ value }" name="participants">
+				<FormItem class="flex flex-col">
+					<FormLabel>Участники</FormLabel>
+
+					<TooltipProvider>
+						<Tooltip >
+							<TooltipTrigger as-child>
+								<div
+								variant="outline"
+								class="rounded-full p-2.5 flex items-center justify-center cursor-pointer"
+								@click="openUserSelect = true"
+								>
+									<Plus class="w-4 h-4" />
+								</div>
+								<Command
+									class="overflow-hidden rounded-t-none border-t"
+								>
+									<CommandList>
+									<CommandEmpty>Нет участников.</CommandEmpty>
+									<CommandGroup class="p-2 max-h-[180px] overflow-y-scroll">
+										<CommandItem
+										v-for="user in selectedUsers"
+										:key="user.email"
+										:value="user"
+										class="flex items-center px-2"
+										@select="() => {
+											const index = selectedUsers.findIndex(u => u === user)
+											if (index !== -1) {
+												formResult.participants.splice(index, 1)
+												selectedUsers.splice(index, 1)
+											}
+											else {
+												formResult.participants.push(user)
+												selectedUsers.push(user)
+											}
+										}"
+										>
+										<Avatar>
+											<AvatarImage :src="user.avatar" alt="Image" />
+											<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+										</Avatar>
+										<div class="ml-2">
+											<p class="text-sm font-medium leading-none">
+											{{ user.name }}
+											</p>
+											<p class="text-sm text-muted-foreground">
+											{{ user.email }}
+											</p>
+										</div>
+										<Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
+										</CommandItem>
+									</CommandGroup>
+									</CommandList>
+								</Command>
+							</TooltipTrigger>
+						</Tooltip>
+					</TooltipProvider>
+
+
+					<FormDescription>
+						Тут будет список участников листа
+					</FormDescription>
+				</FormItem>
+			</FormField>
 		</div>
 		<div class="flex justify-start gap-2 mt-auto">
 			<Button type="submit" class="outline-0 flex-auto md:flex-none">
@@ -217,5 +298,80 @@ function onSubmit(values: any) {
 				Сбросить значение полей
 			</Button> -->
 		</div>
+		<Dialog v-model:open="openUserSelect">
+			<DialogContent class="gap-0 p-0 outline-none">
+				<DialogHeader class="px-4 pb-4 pt-5">
+					<DialogTitle>Список пользователей</DialogTitle>
+					<DialogDescription>
+						Вы можете добавить людей, которые будут заниматься задачами по новому листу
+					</DialogDescription>
+				</DialogHeader>
+				<Command
+					class="overflow-hidden rounded-t-none border-t"
+					:filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))"
+				>
+					<CommandInput placeholder="Найти пользователя..." />
+					<CommandList>
+					<CommandEmpty>Нет пользователей.</CommandEmpty>
+					<CommandGroup class="p-2">
+						<CommandItem
+						v-for="user in globalStore.defaultUsers"
+						:key="user.email"
+						:value="user"
+						class="flex items-center px-2"
+						@select="() => {
+							const index = selectedUsers.findIndex(u => u === user)
+							if (index !== -1) {
+								formResult.participants.splice(index, 1)
+								selectedUsers.splice(index, 1)
+							}
+							else {
+								formResult.participants.push(user)
+								selectedUsers.push(user)
+							}
+						}"
+						>
+						<Avatar>
+							<AvatarImage :src="user?.avatar" alt="Image" />
+							<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+						</Avatar>
+						<div class="ml-2">
+							<p class="text-sm font-medium leading-none">
+							{{ user.name }}
+							</p>
+							<p class="text-sm text-muted-foreground">
+							{{ user.email }}
+							</p>
+						</div>
+						<Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
+						</CommandItem>
+					</CommandGroup>
+					</CommandList>
+				</Command>
+				<DialogFooter class="flex items-center border-t p-4 sm:justify-between">
+					<div v-if="selectedUsers.length > 0" class="flex -space-x-2 overflow-hidden">
+						<Avatar
+							v-for="user in selectedUsers"
+							:key="user.email"
+							class="inline-block border-2 border-background"
+						>
+							<AvatarImage :src="user.avatar" />
+							<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+						</Avatar>
+					</div>
+
+					<p v-else class="text-sm text-muted-foreground">
+						Нужно выбрать минимум 1 человека
+					</p>
+
+					<Button
+						:disabled="selectedUsers.length < 1"
+						@click="openUserSelect = false"
+					>
+					Continue
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	</Form>
 </template>

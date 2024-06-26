@@ -22,16 +22,10 @@ import router from '@/router'
 const { toast } = useToast()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
-const userData = {
-	firstName: '',
-	lastName: '',
-	email: '',
-	password: '',
-}
 const accountFormSchema = toTypedSchema(z.object({
 	name: z
 		.string(),
-	sename: z
+	surname: z
 		.string(),
 	email: z
 		.string()
@@ -73,16 +67,16 @@ function onSubmit(data) {
 									<FormLabel>Имя</FormLabel>
 									<FormControl>
 										<Input type="text" placeholder="Иван"
-											v-model="userData.firstName" v-bind="componentField"/>
+											v-bind="componentField"/>
 									</FormControl>
 								</FormItem>
 							</FormField>
-							<FormField v-slot="{ componentField }" name="sename">
+							<FormField v-slot="{ componentField }" name="surname">
 								<FormItem>
 									<FormLabel>Фамилия</FormLabel>
 									<FormControl>
 										<Input type="text" placeholder="Иванов"
-											v-model="userData.lastName" v-bind="componentField"/>
+											v-bind="componentField"/>
 									</FormControl>
 								</FormItem>
 							</FormField>
@@ -92,7 +86,7 @@ function onSubmit(data) {
 								<FormLabel>Email</FormLabel>
 								<FormControl>
 									<Input type="email"
-										v-model="userData.email" v-bind="componentField"/>
+										v-bind="componentField"/>
 								</FormControl>
 							</FormItem>
 						</FormField>
@@ -101,7 +95,7 @@ function onSubmit(data) {
 								<FormLabel>Пароль</FormLabel>
 								<FormControl>
 									<Input type="password"
-										v-model="userData.password" v-bind="componentField"/>
+										v-bind="componentField"/>
 								</FormControl>
 							</FormItem>
 							<FormMessage/>

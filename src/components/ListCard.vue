@@ -41,7 +41,7 @@ const container = ref(null)
 </script>
 
 <template>
-	<Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer">
+	<Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer h-full flex flex-col justify-between">
 		<CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">
 			<div class="space-y-1">
 				<CardTitle>{{item.title}}
@@ -93,7 +93,7 @@ const container = ref(null)
 		<CardContent class="p-4 pt-0 md:p-6">
 			<div class="flex items-end gap-4 justify-between md:flex-row md:items-center">
 				<div
-					class="flex space-y-2 text-sm text-muted-foreground flex-col md:flex-row md:space-x-4 md:space-y-0">
+					class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:flex-wrap md:space-y-0 2xl:flex-row">
 					<div class="flex items-center">
 						<CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
 						{{item.type}}
@@ -101,7 +101,7 @@ const container = ref(null)
 					<div class=" md:mt-0">Крайний срок {{item.lastApdate}}</div>
 				</div>
 				<div class="block">
-					<AvatarsGroup />
+					<AvatarsGroup :avatars="item.participants" />
 				</div>
 			</div>
 		</CardContent>
