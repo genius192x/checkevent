@@ -13,7 +13,7 @@ export const useGlobalStore = defineStore('globalStore', () => {
 			surname: 'Зимин',
 			email: 'zimin@mail.ru',
 			password: 'zim123',
-			avatar: 'src/assets/avatars/02.png',
+			avatar: '02.png',
 			admin: true
 		},
 		{
@@ -21,28 +21,28 @@ export const useGlobalStore = defineStore('globalStore', () => {
 			surname: 'Курбатова',
 			email: 'kurbatova@mail.ru',
 			password: 'kur123',
-			avatar: 'src/assets/avatars/01.png',
+			avatar: '01.png',
 		},
 		{
 			name: 'Сергей',
 			surname: 'Моисеев',
 			email: 'moiseev@mail.ru',
 			password: 'moi123',
-			avatar: 'src/assets/avatars/03.png',
+			avatar: '03.png',
 		},
 		{
 			name: 'Олег',
 			surname: '',
 			email: 'oleg@mail.ru',
 			password: 'ole123',
-			avatar: 'src/assets/avatars/04.png',
+			avatar: '04.png',
 		},
 		{
 			name: 'Михаил',
 			surname: 'Левченко',
 			email: 'levchenko@mail.ru',
 			password: 'lev123',
-			avatar: 'src/assets/avatars/04.png',
+			avatar: '04.png',
 		},
 	])
 	if (localStorage.getItem('users') !== null) {

@@ -100,6 +100,10 @@ const accountFormSchema = toTypedSchema(z.object({
 		.min(1, 'Необходимо выбрать тип.'),
 }))
 
+function getImageUrl(name) {
+	return new URL(`../../assets/avatars/${name}`, import.meta.url).href
+}
+
 function onSubmit(values: any) {
 	listStore.addList(formResult)
 	globalStore.isSheetOpen = false
@@ -110,7 +114,7 @@ function onSubmit(values: any) {
 </script>
 
 <template>
-	<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col"
+	<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col max-h-[95%]"
 		@submit="onSubmit">
 		<div class="form__fields max-h-[350px] overflow-y-auto overflow-x-visible space-y-4 md:space-y-6 md:max-h-none">
 			<FormField v-slot="{ componentField }" name="name">
@@ -230,27 +234,19 @@ function onSubmit(values: any) {
 					<FormLabel>Участники</FormLabel>
 
 					<TooltipProvider>
-						<Tooltip >
+						<Tooltip>
 							<TooltipTrigger as-child>
-								<div
-								variant="outline"
-								class="rounded-full p-2.5 flex items-center justify-center cursor-pointer"
-								@click="openUserSelect = true"
-								>
+								<div variant="outline"
+									class="rounded-full p-2.5 flex items-center justify-center cursor-pointer"
+									@click="openUserSelect = true">
 									<Plus class="w-4 h-4" />
 								</div>
-								<Command
-									class="overflow-hidden rounded-t-none border-t"
-								>
+								<Command class="overflow-hidden rounded-t-none border-t">
 									<CommandList>
-									<CommandEmpty>Нет участников.</CommandEmpty>
-									<CommandGroup class="p-2 max-h-[180px] overflow-y-scroll">
-										<CommandItem
-										v-for="user in selectedUsers"
-										:key="user.email"
-										:value="user"
-										class="flex items-center px-2"
-										@select="() => {
+										<CommandEmpty>Нет участников.</CommandEmpty>
+										<CommandGroup class="p-2 max-h-[180px] overflow-y-scroll">
+											<CommandItem v-for="user in selectedUsers" :key="user.email" :value="user"
+												class="flex items-center px-2" @select="() => {
 											const index = selectedUsers.findIndex(u => u === user)
 											if (index !== -1) {
 												formResult.participants.splice(index, 1)
@@ -260,23 +256,23 @@ function onSubmit(values: any) {
 												formResult.participants.push(user)
 												selectedUsers.push(user)
 											}
-										}"
-										>
-										<Avatar>
-											<AvatarImage :src="user.avatar" alt="Image" />
-											<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-										</Avatar>
-										<div class="ml-2">
-											<p class="text-sm font-medium leading-none">
-											{{ user.name }}
-											</p>
-											<p class="text-sm text-muted-foreground">
-											{{ user.email }}
-											</p>
-										</div>
-										<Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
-										</CommandItem>
-									</CommandGroup>
+										}">
+												<Avatar>
+													<AvatarImage :src="getImageUrl(user.avatar)" alt="Image" />
+													<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+												</Avatar>
+												<div class="ml-2">
+													<p class="text-sm font-medium leading-none">
+														{{ user.name }}
+													</p>
+													<p class="text-sm text-muted-foreground">
+														{{ user.email }}
+													</p>
+												</div>
+												<Check v-if="selectedUsers.includes(user)"
+													class="ml-auto flex h-5 w-5 text-primary" />
+											</CommandItem>
+										</CommandGroup>
 									</CommandList>
 								</Command>
 							</TooltipTrigger>
@@ -306,20 +302,14 @@ function onSubmit(values: any) {
 						Вы можете добавить людей, которые будут заниматься задачами по новому листу
 					</DialogDescription>
 				</DialogHeader>
-				<Command
-					class="overflow-hidden rounded-t-none border-t"
-					:filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))"
-				>
+				<Command class="overflow-hidden rounded-t-none border-t"
+					:filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))">
 					<CommandInput placeholder="Найти пользователя..." />
 					<CommandList>
-					<CommandEmpty>Нет пользователей.</CommandEmpty>
-					<CommandGroup class="p-2">
-						<CommandItem
-						v-for="user in globalStore.defaultUsers"
-						:key="user.email"
-						:value="user"
-						class="flex items-center px-2"
-						@select="() => {
+						<CommandEmpty>Нет пользователей.</CommandEmpty>
+						<CommandGroup class="p-2">
+							<CommandItem v-for="user in globalStore.defaultUsers" :key="user.email" :value="user"
+								class="flex items-center px-2" @select="() => {
 							const index = selectedUsers.findIndex(u => u === user)
 							if (index !== -1) {
 								formResult.participants.splice(index, 1)
@@ -329,33 +319,29 @@ function onSubmit(values: any) {
 								formResult.participants.push(user)
 								selectedUsers.push(user)
 							}
-						}"
-						>
-						<Avatar>
-							<AvatarImage :src="user?.avatar" alt="Image" />
-							<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-						</Avatar>
-						<div class="ml-2">
-							<p class="text-sm font-medium leading-none">
-							{{ user.name }}
-							</p>
-							<p class="text-sm text-muted-foreground">
-							{{ user.email }}
-							</p>
-						</div>
-						<Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
-						</CommandItem>
-					</CommandGroup>
+						}">
+								<Avatar>
+									<AvatarImage :src="getImageUrl(user.avatar) " alt="Image" />
+									<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+								</Avatar>
+								<div class="ml-2">
+									<p class="text-sm font-medium leading-none">
+										{{ user.name }}
+									</p>
+									<p class="text-sm text-muted-foreground">
+										{{ user.email }}
+									</p>
+								</div>
+								<Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
+							</CommandItem>
+						</CommandGroup>
 					</CommandList>
 				</Command>
 				<DialogFooter class="flex items-center border-t p-4 sm:justify-between">
 					<div v-if="selectedUsers.length > 0" class="flex -space-x-2 overflow-hidden">
-						<Avatar
-							v-for="user in selectedUsers"
-							:key="user.email"
-							class="inline-block border-2 border-background"
-						>
-							<AvatarImage :src="user.avatar" />
+						<Avatar v-for="user in selectedUsers" :key="user.email"
+							class="inline-block border-2 border-background">
+							<AvatarImage :src="getImageUrl(user.avatar) " />
 							<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
 						</Avatar>
 					</div>
@@ -364,11 +350,8 @@ function onSubmit(values: any) {
 						Нужно выбрать минимум 1 человека
 					</p>
 
-					<Button
-						:disabled="selectedUsers.length < 1"
-						@click="openUserSelect = false"
-					>
-					Continue
+					<Button :disabled="selectedUsers.length < 1" @click="openUserSelect = false">
+						Continue
 					</Button>
 				</DialogFooter>
 			</DialogContent>

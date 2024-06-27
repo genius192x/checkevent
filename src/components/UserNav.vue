@@ -18,7 +18,9 @@ import {
 import { useUserStore } from '@/store/UserStore'
 
 const userStore = useUserStore()
-
+function getImageUrl(name) {
+	return new URL(`../assets/avatars/${name}`, import.meta.url).href
+}
 </script>
 
 <template>
@@ -26,7 +28,7 @@ const userStore = useUserStore()
 		<DropdownMenuTrigger as-child>
 			<Button variant="ghost" class="relative h-8 w-8 rounded-full">
 				<Avatar class="h-8 w-8">
-					<AvatarImage src="src/assets/avatars/04.png" alt="АЗ" />
+					<AvatarImage :src="getImageUrl(userStore.userData.avatar)" alt="АЗ" />
 					<AvatarFallback>АЗ</AvatarFallback>
 				</Avatar>
 			</Button>
@@ -34,12 +36,12 @@ const userStore = useUserStore()
 		<DropdownMenuContent class="w-56" align="end">
 			<DropdownMenuLabel class="font-normal flex">
 				<div class="flex flex-col space-y-1">
-				<p class="text-sm font-medium leading-none">
-					{{ userStore.userData.name }} {{ userStore.userData.surname }}
-				</p>
-				<p class="text-xs leading-none text-muted-foreground">
-					{{ userStore.userData.email }}
-				</p>
+					<p class="text-sm font-medium leading-none">
+						{{ userStore.userData.name }} {{ userStore.userData.surname }}
+					</p>
+					<p class="text-xs leading-none text-muted-foreground">
+						{{ userStore.userData.email }}
+					</p>
 				</div>
 			</DropdownMenuLabel>
 			<DropdownMenuSeparator />
@@ -54,9 +56,9 @@ const userStore = useUserStore()
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
-				<DropdownMenuItem @click="userStore.logout()">
-					Выйти
-				</DropdownMenuItem>
+			<DropdownMenuItem @click="userStore.logout()">
+				Выйти
+			</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
 </template>

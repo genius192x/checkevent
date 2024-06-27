@@ -10,28 +10,28 @@
 			"surname": "Левченко",
 			"email": "levchenko@mail.ru",
 			"password": "lev123",
-			"avatar": "src/assets/avatars/04.png"
+			"avatar": "04.png"
 		},
 		{
 			"name": "Олег",
 			"surname": "",
 			"email": "oleg@mail.ru",
 			"password": "ole123",
-			"avatar": "src/assets/avatars/04.png"
+			"avatar": "04.png"
 		},
 		{
 			"name": "Сергей",
 			"surname": "Моисеев",
 			"email": "moiseev@mail.ru",
 			"password": "moi123",
-			"avatar": "src/assets/avatars/03.png"
+			"avatar": "03.png"
 		},
 		{
 			"name": "Настя",
 			"surname": "Курбатова",
 			"email": "kurbatova@mail.ru",
 			"password": "kur123",
-			"avatar": "src/assets/avatars/01.png"
+			"avatar": "01.png"
 		}
 	],
     "id": "1",
@@ -98,14 +98,14 @@
 			"surname": "Моисеев",
 			"email": "moiseev@mail.ru",
 			"password": "moi123",
-			"avatar": "src/assets/avatars/03.png"
+			"avatar": "03.png"
 		},
 		{
 			"name": "Настя",
 			"surname": "Курбатова",
 			"email": "kurbatova@mail.ru",
 			"password": "kur123",
-			"avatar": "src/assets/avatars/01.png"
+			"avatar": "01.png"
 		}
 	],
     "id": "2",
@@ -172,7 +172,7 @@
 			"surname": "Левченко",
 			"email": "levchenko@mail.ru",
 			"password": "lev123",
-			"avatar": "src/assets/avatars/04.png"
+			"avatar": "04.png"
 		}
 	],
     "id": "3",
@@ -239,28 +239,28 @@
 			"surname": "Левченко",
 			"email": "levchenko@mail.ru",
 			"password": "lev123",
-			"avatar": "src/assets/avatars/04.png"
+			"avatar": "04.png"
 		},
 		{
 			"name": "Олег",
 			"surname": "",
 			"email": "oleg@mail.ru",
 			"password": "ole123",
-			"avatar": "src/assets/avatars/04.png"
+			"avatar": "04.png"
 		},
 		{
 			"name": "Сергей",
 			"surname": "Моисеев",
 			"email": "moiseev@mail.ru",
 			"password": "moi123",
-			"avatar": "src/assets/avatars/03.png"
+			"avatar": "03.png"
 		},
 		{
 			"name": "Настя",
 			"surname": "Курбатова",
 			"email": "kurbatova@mail.ru",
 			"password": "kur123",
-			"avatar": "src/assets/avatars/01.png"
+			"avatar": "01.png"
 		}
 	],
     "id": "4",
