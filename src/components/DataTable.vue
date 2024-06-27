@@ -62,6 +62,12 @@ const table = useVueTable({
 	getFacetedRowModel: getFacetedRowModel(),
 	getFacetedUniqueValues: getFacetedUniqueValues(),
 })
+import { Button } from '@/components/ui/button'
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 </script>
 
 <template>
@@ -83,10 +89,26 @@ const table = useVueTable({
 				:key="row.id"
 				:data-state="row.getIsSelected() && 'selected'"
 				>
-				<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-					<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-				</TableCell>
+					<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+						<!-- {{ cell.column.columnDef.accessorKey }} -->
+						<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
+							<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+						</CollapsibleTrigger>
+
+						<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" v-else />
+
+					</TableCell>
+					<CollapsibleContent class="space-y-2 w-full" rowspan=2 as="td">
+						<div class="rounded-md border px-4 py-3 font-mono text-sm">
+							@radix-ui/colors
+						</div>
+						<div class="rounded-md border px-4 py-3 font-mono text-sm">
+							@stitches/react
+						</div>
+					</CollapsibleContent>
+
 				</TableRow>
+
 			</template>
 
 			<TableRow v-else>

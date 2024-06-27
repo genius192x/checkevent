@@ -30,7 +30,7 @@ export const columns: ColumnDef<Task>[] = [
 	},
 	{
 		accessorKey: 'title',
-		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Название' }),
+		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Название, тэг' }),
 
 		cell: ({ row }) => {
 		const label = labels.find(label => label.value === row.original.label)

@@ -47,17 +47,17 @@ export default {
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="start">
 			<DropdownMenuItem @click="column.toggleSorting(false)">
-			<ArrowUpIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-			Asc
+				<ArrowUpIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+				Повыш
 			</DropdownMenuItem>
 			<DropdownMenuItem @click="column.toggleSorting(true)">
-			<ArrowDownIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-			Desc
+				<ArrowDownIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+					Пониж
 			</DropdownMenuItem>
 			<DropdownMenuSeparator />
 			<DropdownMenuItem @click="column.toggleVisibility(false)">
-			<EyeNoneIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-			Hide
+				<EyeNoneIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+					Скрыть
 			</DropdownMenuItem>
 		</DropdownMenuContent>
 		</DropdownMenu>
