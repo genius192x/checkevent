@@ -68,59 +68,47 @@ import {
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from '@/components/ui/collapsible'
+const isOpen = ref(false)
 </script>
 
 <template>
 	<div class="space-y-4">
 		<DataTableToolbar :table="table" />
 		<div class="rounded-md border">
-		<Table>
-			<TableHeader>
-			<TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-				<TableHead v-for="header in headerGroup.headers" :key="header.id">
-				<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
-				</TableHead>
-			</TableRow>
-			</TableHeader>
-			<TableBody>
-			<template v-if="table.getRowModel().rows?.length">
-				<TableRow
-				v-for="row in table.getRowModel().rows"
-				:key="row.id"
-				:data-state="row.getIsSelected() && 'selected'"
-				>
-					<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-						<!-- {{ cell.column.columnDef.accessorKey }} -->
-						<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
-							<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-						</CollapsibleTrigger>
+			<Table>
+				<TableHeader>
+					<TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+						<TableHead v-for="header in headerGroup.headers" :key="header.id">
+							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+								:props="header.getContext()" />
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					<template v-if="table.getRowModel().rows?.length">
+						<Collapsible v-model:open="isOpen" class=" space-y-2" :as-child="true"
+							v-for="row in table.getRowModel().rows" :key="row.id">
+							<TableRow :isRow="true" :data-state="row.getIsSelected() && 'selected'">
+								<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+									<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
+										<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+									</CollapsibleTrigger>
 
-						<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" v-else />
+									<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"
+										v-else />
+								</TableCell>
+							</TableRow>
 
-					</TableCell>
-					<CollapsibleContent class="space-y-2 w-full" rowspan=2 as="td">
-						<div class="rounded-md border px-4 py-3 font-mono text-sm">
-							@radix-ui/colors
-						</div>
-						<div class="rounded-md border px-4 py-3 font-mono text-sm">
-							@stitches/react
-						</div>
-					</CollapsibleContent>
+						</Collapsible>
+					</template>
 
-				</TableRow>
-
-			</template>
-
-			<TableRow v-else>
-				<TableCell
-				:colspan="columns.length"
-				class="h-24 text-center"
-				>
-				Нет задач
-				</TableCell>
-			</TableRow>
-			</TableBody>
-		</Table>
+					<TableRow v-else>
+						<TableCell :colspan="columns.length" class="h-24 text-center">
+							Нет задач
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 		</div>
 
 		<DataTablePagination :table="table" />

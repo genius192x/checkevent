@@ -37,7 +37,7 @@ export const columns: ColumnDef<Task>[] = [
 
 		return h('div', { class: 'flex space-x-2 min-w-20 items-start' }, [
 			label ? h(Badge, { variant: 'outline' }, () => label.label) : null,
-			h('p', { class: 'line-clamp-1  font-medium' }, row.getValue('title')),
+			h('p', { class: 'line-clamp-1  font-medium' }, row.getValue('title'),),
 		])
 		},
 	},
