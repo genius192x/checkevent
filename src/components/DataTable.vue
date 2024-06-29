@@ -68,49 +68,65 @@ import {
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from '@/components/ui/collapsible'
+import CardChat from '@/components/CardChat.vue'
+import TeamMembers from '@/components/TeamMembers.vue'
 const isOpen = ref(false)
 </script>
 
 <template>
 	<div class="space-y-4">
-		<DataTableToolbar :table="table" />
-		<div class="rounded-md border">
+			<DataTableToolbar :table="table" />
+			<div class="rounded-md border">
 			<Table>
 				<TableHeader>
 					<TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
 						<TableHead v-for="header in headerGroup.headers" :key="header.id">
-							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-								:props="header.getContext()" />
+							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
 						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					<template v-if="table.getRowModel().rows?.length">
-						<Collapsible v-model:open="isOpen" class=" space-y-2" :as-child="true"
-							v-for="row in table.getRowModel().rows" :key="row.id">
-							<TableRow :isRow="true" :data-state="row.getIsSelected() && 'selected'">
-								<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-									<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
-										<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-									</CollapsibleTrigger>
 
-									<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"
-										v-else />
+					<Collapsible
+						asChild
+						v-if="table.getRowModel().rows?.length"
+						:key="row.id"
+						v-for="row in table.getRowModel().rows"
+						:data-state="row.getIsSelected() && 'selected'">
+						<TableRow>
+							<TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+								<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
+									<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+								</CollapsibleTrigger>
+
+								<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"
+									v-else />
+							</TableCell>
+						</TableRow>
+						<CollapsibleContent asChild>
+							<TableRow >
+								<TableCell colspan="3">
+									<CardChat/>
+								</TableCell>
+								<TableCell colspan="3" class="align-top">
+									<TeamMembers/>
 								</TableCell>
 							</TableRow>
-
-						</Collapsible>
-					</template>
+						</CollapsibleContent>
+					</Collapsible>
 
 					<TableRow v-else>
-						<TableCell :colspan="columns.length" class="h-24 text-center">
-							Нет задач
+						<TableCell
+						:colspan="columns.length"
+						class="h-24 text-center "
+						>
+						Нет задач
 						</TableCell>
 					</TableRow>
 				</TableBody>
 			</Table>
-		</div>
+			</div>
 
-		<DataTablePagination :table="table" />
-	</div>
+			<DataTablePagination :table="table" />
+		</div>
 </template>
