@@ -68,7 +68,7 @@ import { log } from 'console'
 
 
 function isMobileHidden(data) {
-	return data == 'id' || data == 'status' || data == 'priority'
+	return data == 'id' || data == 'status' || data == 'priority' || data == 'actions'
 }
 
 let previewImage = ref(null);
@@ -89,7 +89,7 @@ function uploadImage(e) {
 		<div class="rounded-md border">
 			<div>
 				<div class="border-b">
-					<div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id" class="grid grid-cols-[35px_1fr_71px] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
+					<div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id" class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
 						<div v-for="header in headerGroup.headers" :key="header.id" class="p-4 py-3" :class="{'hidden md:block': isMobileHidden(header.id)}">
 							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
 						</div>
@@ -102,8 +102,8 @@ function uploadImage(e) {
 						v-for="row in table.getRowModel().rows"
 						:data-state="row.getIsSelected() || 'selected'"
 						class="border-b">
-						<div class="grid grid-cols-[35px_1fr_71px] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
-							<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3" :class="{'md:col-start-6': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
+						<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
+							<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3" :class="{'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
 								<CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
 									<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
 								</CollapsibleTrigger>
@@ -114,10 +114,10 @@ function uploadImage(e) {
 						</div>
 						<CollapsibleContent class="flex flex-col">
 							<div class="flex flex-col flex-wrap lg:flex-row">
-								<div class="max-w-full flex-1 m-4">
+								<div class="max-w-full flex-1 p-2 md:p-4">
 									<CardChat/>
 								</div>
-								<div class="align-top m-4">
+								<div class="align-top p-2 md:p-4">
 									<TeamMembers/>
 								</div>
 							</div>

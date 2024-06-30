@@ -29,14 +29,14 @@ const jacksonRole = ref('Исполнитель')
 
 <template>
 	<Card class="h-full flex flex-col">
-		<CardHeader>
-		<CardTitle>Участники Задания</CardTitle>
-		<CardDescription>
-			Тут отображаются все участники и их роли
-		</CardDescription>
+		<CardHeader class="p-4 md:p-6">
+			<CardTitle>Участники Задания</CardTitle>
+			<CardDescription>
+				Тут отображаются все участники и их роли
+			</CardDescription>
 		</CardHeader>
-		<CardContent class="grid gap-6">
-		<div class="flex items-center justify-between space-x-4">
+		<CardContent class="grid gap-6 p-4 md:p-6">
+		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
 			<Avatar>
 				<AvatarImage src="/avatars/01.png" />
@@ -44,7 +44,7 @@ const jacksonRole = ref('Исполнитель')
 			</Avatar>
 			<div>
 				<p class="text-sm font-medium leading-none">
-				Sofia Davis
+				Ольга Михайловна
 				</p>
 				<p class="text-sm text-muted-foreground">
 				m@example.com
@@ -53,7 +53,7 @@ const jacksonRole = ref('Исполнитель')
 			</div>
 			<Popover>
 			<PopoverTrigger as-child>
-				<Button variant="outline" class="ml-auto">
+				<Button variant="outline" class="">
 				{{ sofiaRole }}
 				<ChevronDownIcon class="ml-2 h-4 w-4 text-muted-foreground" />
 				</Button>
@@ -64,25 +64,25 @@ const jacksonRole = ref('Исполнитель')
 				<CommandList>
 					<CommandEmpty>No roles found.</CommandEmpty>
 					<CommandGroup>
-					<CommandItem value="Viewer" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+					<CommandItem value="Зритель" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 						<p>Зритель</p>
 						<p class="text-sm text-muted-foreground">
 						Можете просматривать и комментировать.
 						</p>
 					</CommandItem>
-					<CommandItem value="Developer" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+					<CommandItem value="Исполнитель" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 						<p>Исполнитель</p>
 						<p class="text-sm text-muted-foreground">
 						Можно просматривать, комментировать и редактировать.
 						</p>
 					</CommandItem>
-					<CommandItem value="Billing" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+					<CommandItem value="Бухгалтер" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 						<p>Бухгалтер</p>
 						<p class="text-sm text-muted-foreground">
 						Может просматривать, комментировать и управлять выставлением счетов.
 						</p>
 					</CommandItem>
-					<CommandItem value="Owner" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+					<CommandItem value="Админ" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 						<p>Админ</p>
 						<p class="text-sm text-muted-foreground">
 						Доступ ко всем ресурсам на уровне администратора.
@@ -94,15 +94,15 @@ const jacksonRole = ref('Исполнитель')
 			</PopoverContent>
 			</Popover>
 		</div>
-		<div class="flex items-center justify-between space-x-4">
+		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
 			<Avatar>
 				<AvatarImage src="/avatars/02.png" />
-				<AvatarFallback>JL</AvatarFallback>
+				<AvatarFallback>ДЖ</AvatarFallback>
 			</Avatar>
 			<div>
 				<p class="text-sm font-medium leading-none">
-				Jackson Lee
+				Дарья Жданова
 				</p>
 				<p class="text-sm text-muted-foreground">
 				p@example.com
@@ -111,7 +111,7 @@ const jacksonRole = ref('Исполнитель')
 			</div>
 			<Popover>
 			<PopoverTrigger as-child>
-				<Button variant="outline" class="ml-auto">
+				<Button variant="outline" class="">
 				{{ jacksonRole }}
 				<ChevronDownIcon class="ml-2 h-4 w-4 text-muted-foreground" />
 				</Button>
@@ -122,25 +122,25 @@ const jacksonRole = ref('Исполнитель')
 				<CommandList>
 					<CommandEmpty>No roles found.</CommandEmpty>
 					<CommandGroup>
-						<CommandItem value="Viewer" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+						<CommandItem value="Зритель" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 							<p>Зритель</p>
 							<p class="text-sm text-muted-foreground">
 							Можете просматривать и комментировать.
 							</p>
 						</CommandItem>
-						<CommandItem value="Developer" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+						<CommandItem value="Исполнитель" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 							<p>Исполнитель</p>
 							<p class="text-sm text-muted-foreground">
 							Можно просматривать, комментировать и редактировать.
 							</p>
 						</CommandItem>
-						<CommandItem value="Billing" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+						<CommandItem value="Бухгалтер" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 							<p>Бухгалтер</p>
 							<p class="text-sm text-muted-foreground">
 							Может просматривать, комментировать и управлять выставлением счетов.
 							</p>
 						</CommandItem>
-						<CommandItem value="Owner" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+						<CommandItem value="Админ" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
 							<p>Админ</p>
 							<p class="text-sm text-muted-foreground">
 							Доступ ко всем ресурсам на уровне администратора.
