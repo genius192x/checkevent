@@ -30,7 +30,7 @@ const task = computed(() => taskSchema.parse(props.row.original))
 </script>
 
 <template>
-	<DropdownMenu>
+	<!-- <DropdownMenu>
 		<DropdownMenuTrigger as-child>
 		<Button
 			variant="ghost"
@@ -61,5 +61,5 @@ const task = computed(() => taskSchema.parse(props.row.original))
 			<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
 		</DropdownMenuItem>
 		</DropdownMenuContent>
-	</DropdownMenu>
+	</DropdownMenu> -->
 </template>

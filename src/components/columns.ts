@@ -23,14 +23,12 @@ export const columns: ColumnDef<Task>[] = [
 	},
 	{
 		accessorKey: 'id',
-		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Задачи' }),
-		cell: ({ row }) => h('div', { class: 'w-20' }, row.getValue('id')),
-		enableSorting: false,
-		enableHiding: false,
+		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Задачи', className: 'hidden md:block' }),
+		cell: ({ row }) => h('div', { class: 'w-20 hidden md:flex' }, row.getValue('id')),
 	},
 	{
 		accessorKey: 'title',
-		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Название, тэг' }),
+		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Название, тэг', className: '' }),
 
 		cell: ({ row }) => {
 		const label = labels.find(label => label.value === row.original.label)
@@ -40,10 +38,11 @@ export const columns: ColumnDef<Task>[] = [
 			h('p', { class: 'line-clamp-1  font-medium' }, row.getValue('title'),),
 		])
 		},
+		enableHiding: false,
 	},
 	{
 		accessorKey: 'status',
-		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Статус' }),
+		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Статус', className: 'hidden md:block' }),
 
 		cell: ({ row }) => {
 		const status = statuses.find(
@@ -53,7 +52,7 @@ export const columns: ColumnDef<Task>[] = [
 		if (!status)
 			return null
 
-		return h('div', { class: 'flex w-[110px] items-center' }, [
+		return h('div', { class: 'flex w-[110px] items-center hidden md:flex' }, [
 			status.icon && h(status.icon, { class: 'mr-2 h-4 min-w-4 text-muted-foreground' }),
 			h('span', status.label),
 		])
@@ -64,22 +63,22 @@ export const columns: ColumnDef<Task>[] = [
 	},
 	{
 		accessorKey: 'priority',
-		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Приоритет' }),
+		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Приоритет', className: 'hidden md:block' }),
 		cell: ({ row }) => {
-		const priority = priorities.find(
-			priority => priority.value === row.getValue('priority'),
-		)
+			const priority = priorities.find(
+				priority => priority.value === row.getValue('priority'),
+			)
 
-		if (!priority)
-			return null
+			if (!priority)
+				return null
 
-		return h('div', { class: 'flex items-center' }, [
-			priority.icon && h(priority.icon, { class: 'mr-2 h-4 w-4 text-muted-foreground' }),
-			h('span', {}, priority.label),
-		])
+			return h('div', { class: 'flex items-center hidden md:flex' }, [
+				priority.icon && h(priority.icon, { class: 'mr-2 h-4 w-4 text-muted-foreground ' }),
+				h('span', {}, priority.label),
+			])
 		},
 		filterFn: (row, id, value) => {
-		return value.includes(row.getValue(id))
+			return value.includes(row.getValue(id))
 		},
 	},
 	{

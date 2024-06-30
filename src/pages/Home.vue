@@ -28,27 +28,6 @@ const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
-// const eventsExpired = ref([])
-// const eventsActive = ref([])
-// listStore.list.forEach((list) => {
-// 	if (list.lastApdate) {
-// 		const year = list.lastApdate.slice(6, 10),
-// 			month = list.lastApdate.slice(3, 5),
-// 			day = list.lastApdate.slice(0, 2),
-// 			deadLine = new Date(year, month, day).getTime(),
-// 			today = new Date().getTime()
-
-// 		console.log(deadLine);
-// 		console.log(today);
-
-// 		if (deadLine < today) {
-// 			eventsExpired.value.unshift(list)
-// 		} else {
-// 			eventsActive.value.unshift(list)
-// 		}
-// 	}
-// })
-
 let side = 'bottom';
 if (window.innerWidth > 768){
 	side = 'right'

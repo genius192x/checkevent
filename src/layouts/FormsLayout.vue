@@ -5,7 +5,6 @@ import SidebarNav from '@/components/SidebarNav.vue'
 
 <template>
   <div class="space-y-6 p-3 px-4 md:block md:pb-16 md:p-5">
-    <router-link to="/"><-назад</router-link>
     <div class="space-y-0.5 md:ml-[20%]">
       <h2 class="text-2xl font-bold tracking-tight">
         Настройки
