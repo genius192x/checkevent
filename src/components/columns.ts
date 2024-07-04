@@ -24,7 +24,7 @@ export const columns: ColumnDef<Task>[] = [
 	{
 		accessorKey: 'id',
 		header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Задачи', className: 'hidden md:block' }),
-		cell: ({ row }) => h('div', { class: 'w-20 hidden md:flex' }, row.getValue('id')),
+		cell: ({ row }) => h('div', { class: 'hidden md:block' }, row.getValue('id')),
 	},
 	{
 		accessorKey: 'title',
