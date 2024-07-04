@@ -22,9 +22,16 @@ export const useListStore = defineStore('listStore', () => {
 
 
 	function addList(item) {
-		console.log(list.value);
 		list.value.unshift(item)
 		setListToStore()
+	}
+
+	function addTask(item, listId) {
+		let curList = list.value.find(({ id }) => id == listId);
+		console.log(curList);
+		curList.tasks.unshift(item)
+		setListToStore()
+		console.log(curList);
 	}
 
 
@@ -54,5 +61,5 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 
-	return { addList, list, getItemById, deleteList}
+	return { addList, list, getItemById, deleteList, addTask}
 })

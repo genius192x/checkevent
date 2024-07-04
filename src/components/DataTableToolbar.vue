@@ -9,7 +9,21 @@ import DataTableViewOptions from './DataTableViewOptions.vue'
 import {Cross2Icon} from '@radix-icons/vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-
+import CreateTask from './form/CreateTask.vue'
+import { useGlobalStore } from '@/store/GlobalStore'
+import { useUserStore } from '@/store/UserStore'
+import { PlusIcon } from '@radix-icons/vue'
+import {
+	Sheet,
+	SheetContent,
+	SheetTrigger,
+	SheetClose,
+	SheetHeader,
+	SheetTitle,
+	SheetDescription
+} from '@/components/ui/sheet'
+const userStore = useUserStore()
+const globalStore = useGlobalStore()
 interface DataTableToolbarProps {
 	table: Table<Task>
 }
@@ -17,6 +31,10 @@ interface DataTableToolbarProps {
 const props = defineProps<DataTableToolbarProps>()
 
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0)
+let side = 'bottom';
+if (window.innerWidth > 768) {
+	side = 'right'
+}
 </script>
 
 <template>
@@ -52,5 +70,25 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
 			</Button>
 		</div>
 		<DataTableViewOptions :table="table" />
+		<Sheet :open="globalStore.isSheetOpen">
+			<SheetTrigger v-if="userStore.userData.admin">
+				<Button
+					variant="outline"
+					size="sm"
+					class="flex h-8 md:ml-auto"
+					@click="globalStore.isSheetOpen = true"
+				>
+					<PlusIcon class="mr-2 h-4 w-4" />
+					Новая задача
+				</Button>
+			</SheetTrigger>
+			<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+				<SheetHeader>
+				<SheetTitle>Создание новой задачи</SheetTitle>
+				</SheetHeader>
+				<CreateTask/>
+			</SheetContent>
+		</Sheet>
+
 	</div>
 </template>

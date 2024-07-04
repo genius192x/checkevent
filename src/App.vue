@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import devtools from '@vue/devtools'
 import Search from '@/components/Search.vue'
 import UserNav from '@/components/UserNav.vue'
 import { useColorMode } from '@vueuse/core'

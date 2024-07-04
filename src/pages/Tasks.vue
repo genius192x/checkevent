@@ -2,11 +2,11 @@
 import DataTable from '@/components/DataTable.vue'
 import { columns } from '@/components/columns'
 import { useListStore } from '@/store/ListsStore'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, watch, getCurrentInstance } from 'vue'
 import { ref } from "vue";
 import draggable from 'vuedraggable'
 import RawDisplayer from '@/components/RawDisplayer.vue'
-
+import { storeToRefs } from 'pinia'
 const listStore = useListStore()
 
 
@@ -29,6 +29,9 @@ const list2=  ref([
 	{ name: "Edgard", id: 6 },
 	{ name: "Johnson", id: 7 }
 ])
+watch(listStore.list, () => {
+	taskList.value = currList.value.tasks
+})
 function sort() {
 	this.list = this.list.sort((a, b) => a.order - b.order);
 }
@@ -40,12 +43,11 @@ function dragOptions() {
 		ghostClass: "ghost"
 	};
 }
-function log(evt) {
-	window.console.log(evt);
-}
 
 onBeforeMount(() => {
 	currList.value = listStore.getItemById(props.id)
+	console.log(currList.value.tasks.length);
+
 	if(currList.value){
 		taskList.value = currList.value.tasks
 	}
@@ -87,7 +89,7 @@ onBeforeMount(() => {
 
 			<rawDisplayer class="col-3" :value="list2" title="List 2" />
 		</div>
-		<DataTable :data="taskList" :columns="columns" v-else />
+		<DataTable :data="taskList" :columns="columns" :key="currList.tasks.lenght" v-else />
 	</div>
 </template>
 

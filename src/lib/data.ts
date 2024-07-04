@@ -44,11 +44,6 @@ export const statuses = [
 		label: 'Выполнено',
 		icon: h(CheckCircledIcon),
 	},
-	// {
-	// 	value: 'canceled',
-	// 	label: 'Canceled',
-	// 	icon: h(CrossCircledIcon),
-	// },
 ]
 
 export const priorities = [

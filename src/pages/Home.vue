@@ -41,8 +41,8 @@ if (window.innerWidth > 768){
 				Список мероприятий
 			</h2>
 			<div class="flex items-center flex-wrap">
-        <DateRangePicker/>
-        <Toaster />
+			<DateRangePicker/>
+			<Toaster />
 			</div>
 		</div>
 
@@ -57,17 +57,17 @@ if (window.innerWidth > 768){
 				</TabsTrigger>
 				</TabsList>
 				<Sheet :open="globalStore.isSheetOpen">
-				<SheetTrigger v-if="userStore.userData.admin">
-					<Button @click="globalStore.isSheetOpen = true">
-					<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
-					</Button>
-				</SheetTrigger>
-				<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-					<SheetHeader>
-					<SheetTitle>Создание нового листа</SheetTitle>
-					</SheetHeader>
-					<CreateList/>
-				</SheetContent>
+					<SheetTrigger v-if="userStore.userData.admin">
+						<Button @click="globalStore.isSheetOpen = true">
+						<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
+						</Button>
+					</SheetTrigger>
+					<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+						<SheetHeader>
+						<SheetTitle>Создание нового листа</SheetTitle>
+						</SheetHeader>
+						<CreateList/>
+					</SheetContent>
 				</Sheet>
 
 			</div>
