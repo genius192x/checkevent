@@ -49,43 +49,42 @@ if (window.innerWidth > 768){
 		<Tabs default-value="active" class="space-y-3 md:space-y-4">
 			<div class="flex justify-between">
 				<TabsList class="overflow-auto">
-				<TabsTrigger value="active">
-					Активные
-				</TabsTrigger>
-				<TabsTrigger value="archive" >
-					Архив
-				</TabsTrigger>
+					<TabsTrigger value="active">
+						Активные
+					</TabsTrigger>
+					<TabsTrigger value="archive" >
+						Архив
+					</TabsTrigger>
 				</TabsList>
 				<Sheet :open="globalStore.isSheetOpen">
 					<SheetTrigger v-if="userStore.userData.admin">
 						<Button @click="globalStore.isSheetOpen = true">
-						<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
+							<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
 						</Button>
 					</SheetTrigger>
 					<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
 						<SheetHeader>
-						<SheetTitle>Создание нового листа</SheetTitle>
+							<SheetTitle>Создание нового листа</SheetTitle>
 						</SheetHeader>
 						<CreateList/>
 					</SheetContent>
 				</Sheet>
-
 			</div>
 			<TabsContent value="active" class="space-y-4">
-			<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-				<div v-for="item in listStore.list" :key="item.id">
+				<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+					<div v-for="item in listStore.list" :key="item.id">
+						<ListCard
+							:item="item"
+						/>
+					</div>
+				</div>
+			</TabsContent>
+			<TabsContent value="archive" class="space-y-4">
+				<div v-for="item in eventsExpired" :key="item.id">
 					<ListCard
 						:item="item"
 					/>
 				</div>
-			</div>
-			</TabsContent>
-			<TabsContent value="archive" class="space-y-4">
-		<div v-for="item in eventsExpired" :key="item.id">
-		<ListCard
-			:item="item"
-		/>
-		</div>
 			</TabsContent>
 		</Tabs>
 	</div>

@@ -46,8 +46,10 @@ function getImageUrl(name) {
 			</DropdownMenuLabel>
 			<DropdownMenuSeparator />
 			<DropdownMenuGroup>
-				<DropdownMenuItem disabled>
-					Профиль
+				<DropdownMenuItem v-if="userStore.userData.admin">
+					<router-link to="/management">
+						Управление
+					</router-link>
 				</DropdownMenuItem>
 				<DropdownMenuItem>
 					<router-link to="/settings">

@@ -8,6 +8,7 @@ import SettingAppearance from "@/pages/settings/SettingAppearance.vue"
 import SettingNotifications from "@/pages/settings/SettingNotifications.vue"
 import AuthorizationVue from '@/pages/Authorization.vue'
 import RegistrationVue from '@/pages/Registration.vue'
+import ManagementVue from '@/pages/Management.vue'
 
 const routes = [
 	{
@@ -17,6 +18,10 @@ const routes = [
 	{
 		path: "/list",
 		component: TasksView,
+	},
+	{
+		path: "/management",
+		component: ManagementVue,
 	},
 	{
 		path: '/settings',
