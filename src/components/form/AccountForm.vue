@@ -32,12 +32,17 @@ import { useListStore } from '@/store/ListsStore'
 import { useUserStore } from '@/store/UserStore'
 const userStore = useUserStore()
 const { toast } = useToast()
+
+
 const open = ref(false)
 const name = ref('')
-console.log(userStore.userData.name);
+const email = ref('')
+
 
 name.value = userStore.userData.name
+email.value = userStore.userData.email
 const placeholder = ref()
+
 
 const df = new DateFormatter('en-US', {
 	dateStyle: 'long',
@@ -82,6 +87,18 @@ async function onSubmit(values: any) {
 					</FormControl>
 					<FormDescription>
 					Оно будет отображаться в приложении и в email письмах (уведомлениях)
+					</FormDescription>
+				<FormMessage />
+			</FormItem>
+		</FormField>
+		<FormField  name="email">
+			<FormItem>
+				<FormLabel>Email</FormLabel>
+					<FormControl>
+						<Input type="email" placeholder="Ваш email"  v-model="email" disabled/>
+					</FormControl>
+					<FormDescription>
+						На него могу приходить различные уведомления
 					</FormDescription>
 				<FormMessage />
 			</FormItem>

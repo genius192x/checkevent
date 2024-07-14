@@ -28,10 +28,8 @@ export const useListStore = defineStore('listStore', () => {
 
 	function addTask(item, listId) {
 		let curList = list.value.find(({ id }) => id == listId);
-		console.log(curList);
 		curList.tasks.unshift(item)
 		setListToStore()
-		console.log(curList);
 	}
 
 

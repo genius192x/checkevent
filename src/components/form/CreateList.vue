@@ -116,7 +116,7 @@ function onSubmit(values: any) {
 <template>
 	<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col max-h-[95%]"
 		@submit="onSubmit">
-		<div class="form__fields max-h-[350px] overflow-y-auto overflow-x-visible space-y-4 md:space-y-6 md:max-h-none">
+		<div class="form__fields max-h-[350px] overflow-y-auto overflow-x-visible md:overflow-auto space-y-4 md:space-y-6 md:max-h-none">
 			<FormField v-slot="{ componentField }" name="name">
 				<FormItem>
 					<FormLabel>Название листа</FormLabel>
@@ -150,9 +150,9 @@ function onSubmit(values: any) {
 						<PopoverTrigger as-child>
 							<FormControl>
 								<Button variant="outline" :class="cn(
-						'w-[240px] justify-start text-left font-normal',
-						!value && 'text-muted-foreground',
-					)">
+										'w-[240px] justify-start text-left font-normal',
+										!value && 'text-muted-foreground',
+									)">
 									<RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
 									<span>{{ value ? df.format(toDate(dateValue, getLocalTimeZone())) : "Выберите день"
 										}}</span>
@@ -163,17 +163,17 @@ function onSubmit(values: any) {
 							<Calendar v-model:placeholder="placeholder" v-model="dateValue"
 								calendar-label="День окончания" initial-focus :min-value="today(getLocalTimeZone())"
 								@update:model-value="(v) => {
-					if (v) {
-						dateValue = v
-						openDate = false
-						formResult.lastApdate = toDate(v).toLocaleDateString()
-						setFieldValue('date', toDate(v).toISOString())
-					}
-					else {
-						dateValue = undefined
-						setFieldValue('date', undefined)
-					}
-					}" />
+									if (v) {
+										dateValue = v
+										openDate = false
+										formResult.lastApdate = toDate(v).toLocaleDateString()
+										setFieldValue('date', toDate(v).toISOString())
+									}
+									else {
+										dateValue = undefined
+										setFieldValue('date', undefined)
+									}
+								}" />
 						</PopoverContent>
 					</Popover>
 					<FormDescription>
@@ -190,9 +190,9 @@ function onSubmit(values: any) {
 						<PopoverTrigger as-child>
 							<FormControl>
 								<Button variant="outline" role="combobox" :aria-expanded="open" :class="cn(
-						'w-[200px] justify-between',
-						!value && 'text-muted-foreground',
-					)">
+										'w-[200px] justify-between',
+										!value && 'text-muted-foreground',
+									)">
 									{{ value ? types.find(
 									(type) => type.value === value,
 									)?.label : 'Выберите тип...' }}
@@ -247,16 +247,16 @@ function onSubmit(values: any) {
 										<CommandGroup class="p-2 max-h-[180px] overflow-y-scroll">
 											<CommandItem v-for="user in selectedUsers" :key="user.email" :value="user"
 												class="flex items-center px-2" @select="() => {
-											const index = selectedUsers.findIndex(u => u === user)
-											if (index !== -1) {
-												formResult.participants.splice(index, 1)
-												selectedUsers.splice(index, 1)
-											}
-											else {
-												formResult.participants.push(user)
-												selectedUsers.push(user)
-											}
-										}">
+														const index = selectedUsers.findIndex(u => u === user)
+														if (index !== -1) {
+															formResult.participants.splice(index, 1)
+															selectedUsers.splice(index, 1)
+														}
+														else {
+															formResult.participants.push(user)
+															selectedUsers.push(user)
+														}
+													}">
 												<Avatar>
 													<AvatarImage :src="getImageUrl(user.avatar)" alt="Image" />
 													<AvatarFallback>{{ user.name[0] }}</AvatarFallback>
@@ -310,16 +310,16 @@ function onSubmit(values: any) {
 						<CommandGroup class="p-2">
 							<CommandItem v-for="user in globalStore.defaultUsers" :key="user.email" :value="user"
 								class="flex items-center px-2" @select="() => {
-							const index = selectedUsers.findIndex(u => u === user)
-							if (index !== -1) {
-								formResult.participants.splice(index, 1)
-								selectedUsers.splice(index, 1)
-							}
-							else {
-								formResult.participants.push(user)
-								selectedUsers.push(user)
-							}
-						}">
+									const index = selectedUsers.findIndex(u => u === user)
+									if (index !== -1) {
+										formResult.participants.splice(index, 1)
+										selectedUsers.splice(index, 1)
+									}
+									else {
+										formResult.participants.push(user)
+										selectedUsers.push(user)
+									}
+								}">
 								<Avatar>
 									<AvatarImage :src="getImageUrl(user.avatar) " alt="Image" />
 									<AvatarFallback>{{ user.name[0] }}</AvatarFallback>

@@ -47,6 +47,14 @@ import {useListStore} from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 
+
+interface Props {
+	listId?: string
+}
+
+const props = defineProps<Props>()
+
+//Сторы
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
 const listStore = useListStore()
@@ -62,6 +70,12 @@ const openUserSelect = ref(false)
 const selectedUsers = ref<User[]>([])
 const list = ref(listStore.list)
 
+
+const currList = ref(listStore.getItemById(props.listId))
+
+// console.log(currList.value);
+
+
 const types = [
 	{ label: 'Документы', value: 'documents' },
 	{ label: 'Звук', value: 'sound' },
@@ -73,10 +87,12 @@ const df = new DateFormatter('ru-RU', {
 })
 const formResult = {
 	title: '',
-	id: `${list.value.length + 1}`,
+	id: `TASK-${currList.value.tasks.length + 1}`,
 	description: '',
 	lastApdate: dateValue,
-	type: null,
+	status: 'todo',
+	priority: 'low',
+	label: null,
 	participants: [],
 	tasks: []
 }
@@ -117,7 +133,6 @@ const url = window.location.href;
 const lastParam = url.split("/").slice(-1)[0];
 
 function onSubmit(values: any) {
-	console.log(JSON.stringify(values, null, 2));
 	listStore.addTask(formResult, lastParam)
 	globalStore.isSheetOpen = false
 	toast({
@@ -130,7 +145,7 @@ function onSubmit(values: any) {
 <template>
 	<Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col max-h-[95%]"
 		@submit="onSubmit">
-		<div class="form__fields max-h-[350px] overflow-y-auto overflow-x-visible space-y-4 md:space-y-6 md:max-h-none">
+		<div class="form__fields max-h-[350px] overflow-auto md:overflow-auto space-y-4 md:space-y-6 md:max-h-none">
 			<FormField v-slot="{ componentField }" name="name">
 				<FormItem>
 					<FormLabel>Название задачи</FormLabel>
@@ -177,17 +192,17 @@ function onSubmit(values: any) {
 							<Calendar v-model:placeholder="placeholder" v-model="dateValue"
 								calendar-label="День окончания" initial-focus :min-value="today(getLocalTimeZone())"
 								@update:model-value="(v) => {
-					if (v) {
-						dateValue = v
-						openDate = false
-						formResult.lastApdate = toDate(v).toLocaleDateString()
-						setFieldValue('date', toDate(v).toISOString())
-					}
-					else {
-						dateValue = undefined
-						setFieldValue('date', undefined)
-					}
-					}" />
+									if (v) {
+										dateValue = v
+										openDate = false
+										formResult.lastApdate = toDate(v).toLocaleDateString()
+										setFieldValue('date', toDate(v).toISOString())
+									}
+									else {
+										dateValue = undefined
+										setFieldValue('date', undefined)
+									}
+									}" />
 						</PopoverContent>
 					</Popover>
 					<FormDescription>
@@ -221,7 +236,7 @@ function onSubmit(values: any) {
 									<CommandGroup>
 										<CommandItem v-for="type in types" :key="type.value" :value="type.label"
 											@select="() => {
-												formResult.type = type.value
+												formResult.label = type.value
 												setFieldValue('type', type.value)
 												open = false
 											}">

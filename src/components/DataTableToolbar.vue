@@ -84,9 +84,9 @@ if (window.innerWidth > 768) {
 			</SheetTrigger>
 			<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
 				<SheetHeader>
-				<SheetTitle>Создание новой задачи</SheetTitle>
+					<SheetTitle>Создание новой задачи</SheetTitle>
 				</SheetHeader>
-				<CreateTask/>
+				<CreateTask :list-id="$route.params.id"/>
 			</SheetContent>
 		</Sheet>
 

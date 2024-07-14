@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useGlobalStore } from '@/store/GlobalStore';
 import router from '@/router';
 import { useToast } from '@/components/ui/toast/use-toast'
+import axios from 'axios'
 const { toast } = useToast()
 
 
@@ -39,6 +40,12 @@ export const useUserStore = defineStore('userStore', () => {
 
 
 	function authorization(email, password) {
+		// axios
+		// 	.post('https://6bccdedf-dcf6-42bd-b1b6-ee13ec818593.mock.pstmn.io/auth', {
+		// 		email: email,
+		// 		password:  password,
+		// 	})
+		// 	.then((response) => console.log(response))
 		const users = ref([])
 		users.value = JSON.parse(localStorage.getItem("users") || [])
 		if (users) {

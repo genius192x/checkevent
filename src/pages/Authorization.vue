@@ -37,6 +37,7 @@ const accountFormSchema = toTypedSchema(z.object({
 }))
 function onSubmit(data) {
 	userStore.authorization(data.email, data.password)
+	// console.log(data);
 
 }
 </script>

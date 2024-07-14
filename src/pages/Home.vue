@@ -41,8 +41,8 @@ if (window.innerWidth > 768){
 				Список мероприятий
 			</h2>
 			<div class="flex items-center flex-wrap">
-			<DateRangePicker/>
-			<Toaster />
+				<!-- <DateRangePicker/> -->
+				<Toaster />
 			</div>
 		</div>
 
@@ -71,7 +71,7 @@ if (window.innerWidth > 768){
 				</Sheet>
 			</div>
 			<TabsContent value="active" class="space-y-4">
-				<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+				<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
 					<div v-for="item in listStore.list" :key="item.id">
 						<ListCard
 							:item="item"

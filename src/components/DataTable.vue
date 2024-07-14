@@ -23,10 +23,14 @@ import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
 import { valueUpdater } from '@/lib/utils'
 import UploadFile from '@/components/UploadFile.vue'
+import { useListStore } from '@/store/ListsStore'
+const listStore = useListStore()
+
 
 interface DataTableProps {
 	columns: ColumnDef<Task, any>[]
 	data: Task[]
+	id: string
 }
 const props = defineProps<DataTableProps>()
 
@@ -45,6 +49,7 @@ const table = useVueTable({
 		get rowSelection() { return rowSelection.value },
 	},
 	enableRowSelection: true,
+	onStateChange:  updaterOrValue => valueUpdater(updaterOrValue, sorting),
 	onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
 	onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
 	onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
@@ -66,6 +71,17 @@ import CardChat from '@/components/CardChat.vue'
 import TeamMembers from '@/components/TeamMembers.vue'
 import { log } from 'console'
 
+const currList = ref(null)
+
+watch(listStore.list, () => {
+	// currList.value = listStore.getItemById(props.id);
+	console.log(props.data);
+	// console.log('new one', currList.value.tasks[0]);
+	// props.data.unshift(currList.value.tasks[0]);
+	console.log('changed');
+	console.log(table.getState());
+
+})
 
 function isMobileHidden(data) {
 	return data == 'id' || data == 'status' || data == 'priority' || data == 'actions'
@@ -81,6 +97,7 @@ function uploadImage(e) {
 		console.log(e);
 	};
 }
+
 </script>
 
 <template>
