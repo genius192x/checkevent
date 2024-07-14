@@ -86,13 +86,13 @@ const df = new DateFormatter('ru-RU', {
 	dateStyle: 'long',
 })
 const formResult = {
-	title: '',
 	id: `TASK-${currList.value.tasks.length + 1}`,
+	title: '',
+	status: 'todo',
+	label: null,
+	priority: 'low',
 	description: '',
 	lastApdate: dateValue,
-	status: 'todo',
-	priority: 'low',
-	label: null,
 	participants: [],
 	tasks: []
 }
