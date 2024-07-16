@@ -23,12 +23,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+function getImageUrl(name) {
+	return new URL(`../assets/avatars/${name}`, import.meta.url).href
+}
+
 const sofiaRole = ref('Админ')
 const jacksonRole = ref('Исполнитель')
 </script>
 
 <template>
-	<Card class="h-full flex flex-col">
+	<Card class="h-full flex flex-col border-none">
 		<CardHeader class="p-4 md:p-6">
 			<CardTitle>Участники Задания</CardTitle>
 			<CardDescription>
@@ -39,7 +43,7 @@ const jacksonRole = ref('Исполнитель')
 		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
 			<Avatar>
-				<AvatarImage src="/avatars/01.png" />
+				<AvatarImage :src="getImageUrl('01.png')" />
 				<AvatarFallback>OM</AvatarFallback>
 			</Avatar>
 			<div>
@@ -97,7 +101,7 @@ const jacksonRole = ref('Исполнитель')
 		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
 			<Avatar>
-				<AvatarImage src="/avatars/02.png" />
+				<AvatarImage :src="getImageUrl('02.png')" />
 				<AvatarFallback>ДЖ</AvatarFallback>
 			</Avatar>
 			<div>

@@ -17,11 +17,12 @@ import {
 	getSortedRowModel,
 	useVueTable,
 } from '@tanstack/vue-table'
-
+import CaretSortIcon from '@radix-icons/vue/CaretSortIcon'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
 import { valueUpdater } from '@/lib/utils'
+import { useMedia } from "@/lib/useMedia";
 import UploadFile from '@/components/UploadFile.vue'
 import { useListStore } from '@/store/ListsStore'
 const listStore = useListStore()
@@ -106,6 +107,9 @@ function uploadImage(e) {
 	};
 }
 
+const isMobile = useMedia("(max-width: 425px)")
+
+
 </script>
 
 <template>
@@ -131,23 +135,37 @@ function uploadImage(e) {
 						<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative">
 							<CollapsibleTrigger class="absolute w-full h-full top-0 left-0 ml-8"></CollapsibleTrigger>
 							<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3 " :class="{'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
-								<!-- <CollapsibleTrigger as-child v-if="cell.column.columnDef.accessorKey === 'title'">
-									<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-								</CollapsibleTrigger> -->
-
 								<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"/>
 							</div>
 						</div>
 						<CollapsibleContent class="flex flex-col">
 							<div class="flex flex-col flex-wrap lg:flex-row">
-								<div class="max-w-full flex-1 p-2 md:p-4">
+								<div class="max-w-full flex-1 p-2 md:p-4" v-if="!isMobile">
 									<CardChat/>
 								</div>
 								<div class="align-top p-2 md:p-4">
 									<TeamMembers/>
 								</div>
 							</div>
-							<UploadFile/>
+							<div class="px-6">
+								<UploadFile/>
+							</div>
+							<Collapsible
+								class="w-full space-y-2 p-2"
+								v-if="isMobile"
+							>
+
+								<CollapsibleTrigger as-child="" class="w-full">
+									<Button variant="ghost"  class="p-2 flex items-center justify-between space-x-4 px-4 w-full">
+										<span>Показать содержимое чата</span>
+										<CaretSortIcon class="h-4 w-4" />
+										<!-- <span class="sr-only">Toggle</span> -->
+									</Button>
+								</CollapsibleTrigger>
+								<CollapsibleContent class="space-y-2">
+									<CardChat/>
+								</CollapsibleContent>
+							</Collapsible>
 						</CollapsibleContent>
 					</Collapsible>
 				</div>
