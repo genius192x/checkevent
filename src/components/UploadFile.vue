@@ -2,7 +2,7 @@
 import { computed, ref, watch,} from 'vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { PlusIcon } from '@radix-icons/vue'
+import { PlusIcon, TrashIcon } from '@radix-icons/vue'
 import { Label } from '@/components/ui/label'
 import {
 	FormControl,
@@ -13,44 +13,26 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 
-let previewImage = ref(null);
 
 let images = ref([])
 
-function onFileChange(e) {
-	let vm = this;
-
-	var selectedFiles = e.target.files;
-	for (let i = 0; i < selectedFiles.length; i++) {
-		// console.log(selectedFiles[i]);
-		images.value.push(selectedFiles[i]);
-	}
-
-	for (let i = 0; i < images.value.length; i++) {
-		let reader = new FileReader();
+function handleFileUpload(event) {
+	const files = event.target.files;
+	for (let i = 0; i < files.length; i++) {
+		const reader = new FileReader();
 		reader.onload = (e) => {
-
-			images.value[i].src = ref(e.target.result)
-			// console.log(images.value);
-			// previewImage.value = e.target.result
-			// console.log(e.target.result);
-			// this.$refs.image[i].src = reader.result;
-			// console.log(this.$refs.image[i].src);
+			images.value.push({
+				file: files[i],
+				previewUrl: e.target.result
+			});
 		};
-
-		reader.readAsDataURL(images.value[i]);
+		reader.readAsDataURL(files[i]);
 	}
 }
 
-function getImageValue(key) {
-
-	// console.log(images.value[key].value);
-	return images.value[key].value
+function removeImage(index) {
+	images.value.splice(index, 1);
 }
-watch(images.value, ()=> {
-	console.log(images.value);
-
-})
 </script>
 
 <template>
@@ -62,23 +44,21 @@ watch(images.value, ()=> {
 					<Button class="absolute bottom-0 left-0 bg-transparent border text-current w-full">
 						<PlusIcon/>
 					</Button>
+
 					<Input
 						id="picture"
 						type="file"
-						@change="onFileChange"
+						@change="handleFileUpload"
 						multiple
 						class="opacity-0"/>
 				</FormControl>
 			</FormItem>
 		</FormField>
-		<!-- <Button type="submit">
-			Submit
-		</Button> -->
 	</form>
-	<div v-for="(image, key) in images" :key="key">
-		<div>
-			<img v-if="image.src" class="preview" :src="image.src.value" />
-			{{ image.name }}
+	<div class="flex gap-4 flex-wrap pb-4">
+		<div v-for="(image, index) in images" :key="index" class=" flex justify-between items-center relative ">
+			<img :src="image.previewUrl" alt="Preview" class="profile-pic  rounded-md max-w-[150px] max-h-[100px] object-contain">
+			<button class="border p-2 rounded-md absolute top-0 right-0 backdrop-blur-sm" @click="removeImage(index)"><TrashIcon class="w-30"/></button>
 		</div>
 	</div>
 </template>

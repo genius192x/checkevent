@@ -40,20 +40,20 @@ const jacksonRole = ref('Исполнитель')
 			</CardDescription>
 		</CardHeader>
 		<CardContent class="grid gap-6 p-4 md:p-6">
-		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
+		<div class="flex items-stretch justify-between space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
-			<Avatar>
-				<AvatarImage :src="getImageUrl('01.png')" />
-				<AvatarFallback>OM</AvatarFallback>
-			</Avatar>
-			<div>
-				<p class="text-sm font-medium leading-none">
-				Ольга Михайловна
-				</p>
-				<p class="text-sm text-muted-foreground">
-				m@example.com
-				</p>
-			</div>
+				<Avatar>
+					<AvatarImage :src="getImageUrl('01.png')" />
+					<AvatarFallback>OM</AvatarFallback>
+				</Avatar>
+				<div>
+					<p class="text-sm font-medium leading-none">
+					Ольга Михайловна
+					</p>
+					<p class="text-sm text-muted-foreground">
+					m@example.com
+					</p>
+				</div>
 			</div>
 			<Popover>
 			<PopoverTrigger as-child>
@@ -98,20 +98,20 @@ const jacksonRole = ref('Исполнитель')
 			</PopoverContent>
 			</Popover>
 		</div>
-		<div class="flex flex-col items-stretch space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
+		<div class="flex  items-stretch justify-between space-y-4  sm:flex-row sm:justify-between sm:space-x-4 sm:space-y-0 ">
 			<div class="flex items-center space-x-4">
-			<Avatar>
-				<AvatarImage :src="getImageUrl('02.png')" />
-				<AvatarFallback>ДЖ</AvatarFallback>
-			</Avatar>
-			<div>
-				<p class="text-sm font-medium leading-none">
-				Дарья Жданова
-				</p>
-				<p class="text-sm text-muted-foreground">
-				p@example.com
-				</p>
-			</div>
+				<Avatar>
+					<AvatarImage :src="getImageUrl('02.png')" />
+					<AvatarFallback>ДЖ</AvatarFallback>
+				</Avatar>
+				<div>
+					<p class="text-sm font-medium leading-none">
+					Дарья Жданова
+					</p>
+					<p class="text-sm text-muted-foreground">
+					p@example.com
+					</p>
+				</div>
 			</div>
 			<Popover>
 			<PopoverTrigger as-child>

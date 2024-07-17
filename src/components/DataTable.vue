@@ -80,7 +80,7 @@ const clickedRow = ref(null)
 function isMobileHidden(data) {
 	return data == 'id' || data == 'status' || data == 'priority' || data == 'actions'
 }
-
+console.log(props.data);
 const selectedRows = computed(() => {
 
 
@@ -107,7 +107,7 @@ function uploadImage(e) {
 	};
 }
 
-const isMobile = useMedia("(max-width: 425px)")
+const isMobile = useMedia("(max-width: 768px)")
 
 
 </script>
@@ -173,5 +173,18 @@ const isMobile = useMedia("(max-width: 425px)")
 		</div>
 
 		<DataTablePagination :table="table" />
+	</div>
+	<div class=""></div>
+	<div class="flex flex-col gap-4">
+		<div class="space-y-2 bg-primary-foreground p-4 rounded-sm" v-for="(item, key) in props.data" :key="key">
+			<div class="flex justify-between">
+				<div class="p-2 border rounded-md text-xs">
+					{{ item.priority }}
+				</div>
+			</div>
+			<div class="text-xl">
+				{{ item.title }}
+			</div>
+		</div>
 	</div>
 </template>
