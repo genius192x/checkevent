@@ -6,7 +6,7 @@ import type {
 	VisibilityState,
 } from '@tanstack/vue-table'
 
-import { ref, onMounted, watch, getCurrentInstance, computed  } from 'vue'
+import { ref, onMounted, watch, getCurrentInstance, computed, reactive  } from 'vue'
 import {
 	FlexRender,
 	getCoreRowModel,
@@ -18,12 +18,15 @@ import {
 	useVueTable,
 } from '@tanstack/vue-table'
 import CaretSortIcon from '@radix-icons/vue/CaretSortIcon'
+import { CalendarIcon, ChatBubbleIcon } from '@radix-icons/vue'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
 import { valueUpdater } from '@/lib/utils'
 import { useMedia } from "@/lib/useMedia";
+import AvatarsGroup from "@/components/AvatarsGroup.vue"
 import UploadFile from '@/components/UploadFile.vue'
+import DataTableRowActions from './DataTableRowActions.vue'
 import { useListStore } from '@/store/ListsStore'
 const listStore = useListStore()
 
@@ -109,6 +112,18 @@ function uploadImage(e) {
 
 const isMobile = useMedia("(max-width: 768px)")
 
+const classPriority = reactive({
+	"bg-green": 'low',
+	'bg-red': 'high'
+})
+function getClass(property) {
+	return {
+		'bg-red-300 text-red-900': (property === 'high'),
+		'bg-amber-200 text-amber-700': (property === 'medium'),
+		'bg-green-300 text-green-800': (property === 'low'),
+	}
+}
+const avatars = ref([{ "name": "Михаил", "surname": "Левченко", "email": "levchenko@mail.ru", "password": "lev123", "avatar": "04.png" }, { "name": "Олег", "surname": "", "email": "oleg@mail.ru", "password": "ole123", "avatar": "04.png" }, { "name": "Сергей", "surname": "Моисеев", "email": "moiseev@mail.ru", "password": "moi123", "avatar": "03.png" }, { "name": "Настя", "surname": "Курбатова", "email": "kurbatova@mail.ru", "password": "kur123", "avatar": "01.png" }])
 
 </script>
 
@@ -176,14 +191,28 @@ const isMobile = useMedia("(max-width: 768px)")
 	</div>
 	<div class=""></div>
 	<div class="flex flex-col gap-4">
-		<div class="space-y-2 bg-primary-foreground p-4 rounded-sm" v-for="(item, key) in props.data" :key="key">
-			<div class="flex justify-between">
-				<div class="p-2 border rounded-md text-xs">
+		<div class="space-y-3 bg-primary-foreground p-4 rounded-sm " v-for="(item, key) in props.data" :key="key">
+			<div class="flex justify-between items-center">
+				<div class="p-1 rounded-md text-xs min-w-16 text-center text-white font-semibold shadow-muted-foreground" :class="getClass(item.priority)">
 					{{ item.priority }}
 				</div>
+				<DataTableRowActions :row="item"/>
 			</div>
 			<div class="text-xl">
 				{{ item.title }}
+			</div>
+			<div class="flex items-center gap-7">
+				<div class="flex items-center gap-2">
+					<CalendarIcon/>
+					<span>Jun 21</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<ChatBubbleIcon/>
+					<span>4</span>
+				</div>
+				<div class="block ml-auto">
+					<AvatarsGroup :avatars="avatars" />
+				</div>
 			</div>
 		</div>
 	</div>

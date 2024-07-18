@@ -48,7 +48,7 @@
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
         "label": "documents",
-        "priority": "medium"
+        "priority": "low"
       },
       {
         "id": "TASK-7839",
@@ -115,7 +115,7 @@
         "title": "Необходиом подписать документы",
         "status": "in progress",
         "label": "documents",
-        "priority": "medium"
+        "priority": "low"
       },
       {
         "id": "TASK-7878",
@@ -182,7 +182,7 @@
         "title": "Необходиом подписать документы",
         "status": "in progress",
         "label": "documents",
-        "priority": "medium"
+        "priority": "low"
       },
       {
         "id": "TASK-7878",
@@ -270,7 +270,7 @@
         "title": "Необходиом подписать документы",
         "status": "in progress",
         "label": "documents",
-        "priority": "medium"
+        "priority": "low"
       },
       {
         "id": "TASK-7878",

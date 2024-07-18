@@ -101,6 +101,7 @@ const container = ref(null)
 					<div class=" md:mt-0">Крайний срок {{item.lastApdate}}</div>
 				</div>
 				<div class="block">
+					{{ item.participants }}
 					<AvatarsGroup :avatars="item.participants" />
 				</div>
 			</div>

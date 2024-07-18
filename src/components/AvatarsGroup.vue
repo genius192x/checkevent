@@ -19,7 +19,7 @@ function initialsPersonal(name, surname) {
 </script>
 
 <template>
-	<div class="flex -space-x-1">
+	<div class="flex -space-x-2">
 		<div class="block" v-for="(avatar, index) in $props.avatars">
 			<Avatar class="h-8 w-8 border-2 border-background" v-if="index < 3">
 				<AvatarImage :src="getImageUrl(avatar.avatar)" :alt="initialsPersonal(avatar.name, avatar.surname)" />

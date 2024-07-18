@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Row } from '@tanstack/vue-table'
 import { computed } from 'vue'
-import { labels } from '@/lib/data'
+import { priorities } from '@/lib/data'
 import { taskSchema } from '@/lib/schema'
 import type { Task } from '@/lib/schema'
 import {DotsHorizontalIcon} from '@radix-icons/vue'
@@ -27,10 +27,14 @@ interface DataTableRowActionsProps {
 const props = defineProps<DataTableRowActionsProps>()
 
 const task = computed(() => taskSchema.parse(props.row.original))
+
+console.log(props.row);
+
+
 </script>
 
 <template>
-	<!-- <DropdownMenu>
+	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
 		<Button
 			variant="ghost"
@@ -41,25 +45,25 @@ const task = computed(() => taskSchema.parse(props.row.original))
 		</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end" class="w-[160px]">
-		<DropdownMenuItem>Edit</DropdownMenuItem>
-		<DropdownMenuItem>Make a copy</DropdownMenuItem>
-		<DropdownMenuItem>Favorite</DropdownMenuItem>
+		<DropdownMenuItem>Изменить</DropdownMenuItem>
+		<DropdownMenuItem>Сделать копию</DropdownMenuItem>
+		<DropdownMenuItem>Избранное</DropdownMenuItem>
 		<DropdownMenuSeparator />
+		<!-- TODO Сделать смену приоритета для админов -->
 		<DropdownMenuSub>
-			<DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
+			<DropdownMenuSubTrigger>Приоритет</DropdownMenuSubTrigger>
 			<DropdownMenuSubContent>
-			<DropdownMenuRadioGroup :value="task.label">
-				<DropdownMenuRadioItem v-for="label in labels" :key="label.value" :value="label.value">
-				{{ label.label }}
+			<DropdownMenuRadioGroup :value="props.row.priority">
+				<DropdownMenuRadioItem v-for="priority in priorities" :key="priority.value" :value="priority.value">
+					{{ priority.label }}
 				</DropdownMenuRadioItem>
 			</DropdownMenuRadioGroup>
 			</DropdownMenuSubContent>
 		</DropdownMenuSub>
 		<DropdownMenuSeparator />
 		<DropdownMenuItem>
-			Delete
-			<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+			Удалить
 		</DropdownMenuItem>
 		</DropdownMenuContent>
-	</DropdownMenu> -->
+	</DropdownMenu>
 </template>
