@@ -30,11 +30,16 @@ interface DataTableToolbarProps {
 
 const props = defineProps<DataTableToolbarProps>()
 
+const emit = defineEmits(['setFilter'])
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0)
 let side = 'bottom';
 if (window.innerWidth > 768) {
 	side = 'right'
 }
+function updateFilter(values) {
+  emit('setFilter', values)
+}
+
 </script>
 
 <template>
@@ -46,16 +51,17 @@ if (window.innerWidth > 768) {
 				class="h-8 lg:w-[250px] w-full md:w-[150px]"
 				@input="table.getColumn('title')?.setFilterValue($event.target.value)"
 			/>
-			<DataTableFacetedFilter
+			<!-- <DataTableFacetedFilter
 				v-if="table.getColumn('status')"
 				:column="table.getColumn('status')"
 				title="Статус"
 				:options="statuses"
-			/>
+			/> -->
 			<DataTableFacetedFilter
 				v-if="table.getColumn('priority')"
 				:column="table.getColumn('priority')"
 				title="Приоритет"
+        @setFilter="(values) => updateFilter(values)"
 				:options="priorities"
 			/>
 

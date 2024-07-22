@@ -27,7 +27,7 @@ interface DataTableFacetedFilter {
 		icon?: Component
 	}[]
 }
-
+defineEmits(['setFilter'])
 const props = defineProps<DataTableFacetedFilter>()
 
 const facets = computed(() => props.column?.getFacetedUniqueValues())
@@ -76,7 +76,6 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 		<Command
 			:filter-function="(list: DataTableFacetedFilter['options'], term) => list.filter(i => i.label.toLowerCase()?.includes(term)) "
 		>
-			<CommandInput :placeholder="title" />
 			<CommandList>
 			<CommandEmpty>No results found.</CommandEmpty>
 			<CommandGroup>
@@ -89,11 +88,13 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 					const isSelected = selectedValues.has(option.value)
 					if (isSelected) {
 					selectedValues.delete(option.value)
+          $emit('setFilter', selectedValues)
 					}
 					else {
 					selectedValues.add(option.value)
 					}
 					const filterValues = Array.from(selectedValues)
+          $emit('setFilter', filterValues)
 					column?.setFilterValue(
 					filterValues.length ? filterValues : undefined,
 					)

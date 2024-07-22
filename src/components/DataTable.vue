@@ -129,6 +129,9 @@ const classPriority = reactive({
 	"bg-green": 'low',
 	'bg-red': 'high'
 })
+
+const tasks = ref(props.data)
+
 function getClass(property) {
 	return {
 		'bg-red-300 text-red-900': (property === 'high'),
@@ -137,6 +140,22 @@ function getClass(property) {
 	}
 }
 const avatars = ref([{ "name": "Михаил", "surname": "Левченко", "email": "levchenko@mail.ru", "password": "lev123", "avatar": "04.png" }, { "name": "Олег", "surname": "", "email": "oleg@mail.ru", "password": "ole123", "avatar": "04.png" }, { "name": "Сергей", "surname": "Моисеев", "email": "moiseev@mail.ru", "password": "moi123", "avatar": "03.png" }, { "name": "Настя", "surname": "Курбатова", "email": "kurbatova@mail.ru", "password": "kur123", "avatar": "01.png" }])
+
+function setFilter(values) {
+  if (values.length) {
+    let filterResult = [];
+    values.forEach(value => {
+
+      let tasks = props.data.slice()
+      tasks.forEach(item => {
+        if (item.priority === value) {
+          filterResult.push(item)
+        }
+      })
+    });
+    tasks.value = filterResult
+  }
+}
 
 </script>
 
@@ -200,8 +219,9 @@ const avatars = ref([{ "name": "Михаил", "surname": "Левченко", "e
 
     <DataTablePagination :table="table" />
   </div>
+  <DataTableToolbar :table="table" @setFilter="(values) => setFilter(values)"/>
   <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
-    <div v-for="(item, key) in props.data" :key="key">
+    <div v-for="(item, key) in tasks" :key="key">
       <Sheet>
         <div class="space-y-3 cursor-pointer bg-primary-foreground p-4 rounded-sm relative">
           <div class="flex justify-between items-center">

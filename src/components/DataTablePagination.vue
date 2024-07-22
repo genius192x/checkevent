@@ -58,8 +58,8 @@ defineProps<DataTablePaginationProps>()
 					:disabled="!table.getCanPreviousPage()"
 					@click="table.setPageIndex(0)"
 					>
-					<span class="sr-only">Go to first page</span>
-					<DoubleArrowLeftIcon class="h-4 w-4" />
+            <span class="sr-only">Go to first page</span>
+            <DoubleArrowLeftIcon class="h-4 w-4" />
 					</Button>
 					<Button
 					variant="outline"
@@ -67,8 +67,8 @@ defineProps<DataTablePaginationProps>()
 					:disabled="!table.getCanPreviousPage()"
 					@click="table.previousPage()"
 					>
-					<span class="sr-only">Go to previous page</span>
-					<ChevronLeftIcon class="h-4 w-4" />
+            <span class="sr-only">Go to previous page</span>
+            <ChevronLeftIcon class="h-4 w-4" />
 					</Button>
 					<Button
 					variant="outline"
@@ -76,8 +76,8 @@ defineProps<DataTablePaginationProps>()
 					:disabled="!table.getCanNextPage()"
 					@click="table.nextPage()"
 					>
-					<span class="sr-only">Go to next page</span>
-					<ChevronRightIcon class="h-4 w-4" />
+            <span class="sr-only">Go to next page</span>
+            <ChevronRightIcon class="h-4 w-4" />
 					</Button>
 					<Button
 					variant="outline"
@@ -85,8 +85,8 @@ defineProps<DataTablePaginationProps>()
 					:disabled="!table.getCanNextPage()"
 					@click="table.setPageIndex(table.getPageCount() - 1)"
 					>
-					<span class="sr-only">Go to last page</span>
-					<DoubleArrowRightIcon class="h-4 w-4" />
+            <span class="sr-only">Go to last page</span>
+            <DoubleArrowRightIcon class="h-4 w-4" />
 					</Button>
 				</div>
 			</div>

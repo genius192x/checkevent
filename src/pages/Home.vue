@@ -5,7 +5,6 @@ import CreateList from "@/components/form/CreateList.vue"
 import { PlusIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
 import { Toaster } from '@/components/ui/sonner'
-import { Button } from '@/components/ui/button'
 import {useListStore} from '@/store/ListsStore'
 import {
     Tabs,
@@ -22,6 +21,21 @@ import {
 	SheetTitle,
 	SheetDescription
 } from '@/components/ui/sheet'
+import {
+  Pagination,
+  PaginationEllipsis,
+  PaginationFirst,
+  PaginationLast,
+  PaginationList,
+  PaginationListItem,
+  PaginationNext,
+  PaginationPrev,
+} from '@/components/ui/pagination'
+
+import {
+  Button,
+} from '@/components/ui/button'
+import DataTablePagination from '@/components/DataTablePagination.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
 import {useUserStore} from '@/store/UserStore'
 const userStore = useUserStore()
@@ -71,13 +85,9 @@ if (window.innerWidth > 768){
 				</Sheet>
 			</div>
 			<TabsContent value="active" class="space-y-4">
-				<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-					<div v-for="item in listStore.list" :key="item.id">
-						<ListCard
-							:item="item"
-						/>
-					</div>
-				</div>
+        <ListCard
+          :items="listStore.list"
+        />
 			</TabsContent>
 			<TabsContent value="archive" class="space-y-4">
 				<div v-for="item in eventsExpired" :key="item.id">
