@@ -21,16 +21,6 @@ import {
 	SheetTitle,
 	SheetDescription
 } from '@/components/ui/sheet'
-import {
-  Pagination,
-  PaginationEllipsis,
-  PaginationFirst,
-  PaginationLast,
-  PaginationList,
-  PaginationListItem,
-  PaginationNext,
-  PaginationPrev,
-} from '@/components/ui/pagination'
 
 import {
   Button,
@@ -90,11 +80,11 @@ if (window.innerWidth > 768){
         />
 			</TabsContent>
 			<TabsContent value="archive" class="space-y-4">
-				<div v-for="item in eventsExpired" :key="item.id">
+				<!-- <div v-for="item in eventsExpired" :key="item.id">
 					<ListCard
 						:item="item"
 					/>
-				</div>
+				</div> -->
 			</TabsContent>
 		</Tabs>
 	</div>

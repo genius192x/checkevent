@@ -28,7 +28,6 @@ const props = defineProps<DataTableRowActionsProps>()
 
 const task = computed(() => taskSchema.parse(props.row.original))
 
-console.log(props.row);
 
 
 </script>

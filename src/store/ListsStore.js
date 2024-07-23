@@ -3,12 +3,25 @@ import { ref } from "vue";
 import { useToast } from '@/components/ui/toast/use-toast'
 const { toast } = useToast()
 import tasks from '@/lib/tasks.json'
-
+import {priorities} from '@/lib/data.ts'
 const myTasks = tasks
 
 export const useListStore = defineStore('listStore', () => {
-	let list = ref([]);
-	list.value = myTasks
+  let list = ref([]);
+
+  const filters = ref([
+    {
+      value: "proirity",
+      label: 'Приоритет',
+      options: priorities,
+      checked: [],
+      filtered: false,
+    }
+  ]);
+  console.log(filters.value);
+  list.value = myTasks
+
+
 	updateList()
 
 
@@ -59,5 +72,5 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 
-	return { addList, list, getItemById, deleteList, addTask}
+	return { addList, list, getItemById, deleteList, addTask, filters}
 })

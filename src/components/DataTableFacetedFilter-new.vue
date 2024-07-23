@@ -17,21 +17,23 @@ import {
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-
+import { useListStore } from '@/store/ListsStore'
+const listStore = useListStore()
 interface DataTableFacetedFilter {
-	column?: Column<Task, any>
+  value?: string
 	title?: string
 	options: {
 		label: string
 		value: string
 		icon?: Component
-	}[]
+  }[]
+  checked: any[]
 }
 defineEmits(['setFilter'])
 const props = defineProps<DataTableFacetedFilter>()
 
-const facets = computed(() => props.column?.getFacetedUniqueValues())
-const selectedValues = computed(() => new Set(props.column?.getFilterValue() as string[]))
+// const facets = computed(() => props.column?.getFacetedUniqueValues())
+// const selectedValues = computed(() => new Set(props.column?.getFilterValue() as string[]))
 </script>
 
 <template>
@@ -40,25 +42,25 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 		<Button variant="outline" size="sm" class="h-8 border-dashed">
 			<PlusCircledIcon class="mr-2 h-4 w-4" />
 			{{ title }}
-			<template v-if="selectedValues.size > 0">
+			<template v-if="props.checked.length > 0">
 			<Separator orientation="vertical" class="mx-2 h-4" />
 			<Badge
 				variant="secondary"
 				class="rounded-sm px-1 font-normal lg:hidden"
 			>
-				{{ selectedValues.size }}
+				{{ props.checked.length }}
 			</Badge>
 			<div class="hidden space-x-1 lg:flex">
 				<Badge
-				v-if="selectedValues.size > 2"
+				v-if="props.checked.length > 2"
 				variant="secondary"
 				class="rounded-sm px-1 font-normal"
 				>
-				{{ selectedValues.size }} selected
+				{{ props.checked.length }} selected
 				</Badge>
 
 				<template v-else>
-				<Badge
+				<!-- <Badge
 					v-for="option in options
 					.filter((option) => selectedValues.has(option.value))"
 					:key="option.value"
@@ -66,7 +68,7 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 					class="rounded-sm px-1 font-normal"
 				>
 					{{ option.label }}
-				</Badge>
+				</Badge> -->
 				</template>
 			</div>
 			</template>
@@ -80,30 +82,36 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 			<CommandEmpty>No results found.</CommandEmpty>
 			<CommandGroup>
 				<CommandItem
-				v-for="option in options"
+				v-for="option in props.options"
 				:key="option.value"
 				:value="option"
 				@select="(e) => {
-					console.log(e.detail.value)
-					const isSelected = selectedValues.has(option.value)
-					if (isSelected) {
-            selectedValues.delete(option.value)
-            $emit('setFilter', selectedValues)
-					}
-					else {
-					  selectedValues.add(option.value)
-					}
-					const filterValues = Array.from(selectedValues)
-          $emit('setFilter', filterValues)
-					column?.setFilterValue(
-					filterValues.length ? filterValues : undefined,
-					)
+          console.log(e.detail.value);
+
+				  const isSelected = listStore.filters[0].checked.filter(item => item.label == e.detail.value.label);
+          console.log('isSelected', isSelected);
+
+				  if (isSelected.length) {
+				    // selectedValues.delete(option.value)
+				    // $emit('setFilter', selectedValues)
+            listStore.filters[0].checked = listStore.filters[0].checked.filter(item => item.value !== e.detail.value[0].value)
+				  }
+				  else {
+				    listStore.filters[0].checked.push(e.detail.value)
+            console.log(listStore.filters);
+
+				  }
+				  // const filterValues = Array.from(selectedValues)
+				  // $emit('setFilter', filterValues)
+				  // column?.setFilterValue(
+				  //   filterValues.length ? filterValues : undefined,
+				  // )
 				}"
 				>
 				<div
 					:class="cn(
 					'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
-					selectedValues.has(option.value)
+					props.checked.includes(option.value)
 						? 'bg-primary text-primary-foreground'
 						: 'opacity-50 [&_svg]:invisible',
 					)"
@@ -112,13 +120,13 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 				</div>
 				<component :is="option.icon" v-if="option.icon" class="mr-2 h-4 w-4 text-muted-foreground" />
 				<span>{{ option.label }}</span>
-				<span v-if="facets?.get(option.value)" class="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
+				<!-- <span v-if="facets?.get(option.value)" class="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
 					{{ facets.get(option.value) }}
-				</span>
+				</span> -->
 				</CommandItem>
 			</CommandGroup>
 
-			<template v-if="selectedValues.size > 0">
+			<!-- <template v-if="selectedValues.size > 0">
 				<CommandSeparator />
 				<CommandGroup>
 				<CommandItem
@@ -129,7 +137,7 @@ const selectedValues = computed(() => new Set(props.column?.getFilterValue() as 
 					Clear filters
 				</CommandItem>
 				</CommandGroup>
-			</template>
+			</template> -->
 			</CommandList>
 		</Command>
 		</PopoverContent>

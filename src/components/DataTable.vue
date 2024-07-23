@@ -31,6 +31,7 @@ import { CalendarIcon, ChatBubbleIcon } from '@radix-icons/vue'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
+import DataTableToolbarNew from './DataTableToolbar-new.vue'
 import { valueUpdater } from '@/lib/utils'
 import { useMedia } from "@/lib/useMedia";
 import AvatarsGroup from "@/components/AvatarsGroup.vue"
@@ -103,15 +104,6 @@ const selectedRows = computed(() => {
 	return table.getSelectedRowModel().rows
 })
 
-watch(selectedRows, () => {
-	clickedRow.value = selectedRows;
-	// console.log(clickedRow.value.value.at(-1));
-	// console.log(table.getState().rowSelection);
-
-	// console.log(table.getRowModel().rows[4].toggleSelected(true));
-
-})
-
 let previewImage = ref(null);
 function uploadImage(e) {
 	const image = e.target.files[0];
@@ -141,27 +133,11 @@ function getClass(property) {
 }
 const avatars = ref([{ "name": "Михаил", "surname": "Левченко", "email": "levchenko@mail.ru", "password": "lev123", "avatar": "04.png" }, { "name": "Олег", "surname": "", "email": "oleg@mail.ru", "password": "ole123", "avatar": "04.png" }, { "name": "Сергей", "surname": "Моисеев", "email": "moiseev@mail.ru", "password": "moi123", "avatar": "03.png" }, { "name": "Настя", "surname": "Курбатова", "email": "kurbatova@mail.ru", "password": "kur123", "avatar": "01.png" }])
 
-function setFilter(values) {
-  if (values.length) {
-    let filterResult = [];
-    values.forEach(value => {
-
-      let tasks = props.data.slice()
-      tasks.forEach(item => {
-        if (item.priority === value) {
-          filterResult.push(item)
-        }
-      })
-    });
-    tasks.value = filterResult
-  }
-}
-
 </script>
 
 <template>
   <!-- {{ selectedRows }} -->
-  <div class="space-y-4">
+  <!-- <div class="space-y-4">
     <DataTableToolbar :table="table" />
     <div class="rounded-md border">
       <div>
@@ -204,7 +180,7 @@ function setFilter(values) {
                   <Button variant="ghost" class="p-2 flex items-center justify-between space-x-4 px-4 w-full">
                     <span>Показать содержимое чата</span>
                     <CaretSortIcon class="h-4 w-4" />
-                    <!-- <span class="sr-only">Toggle</span> -->
+                    <span class="sr-only">Toggle</span>
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent class="space-y-2">
@@ -218,12 +194,12 @@ function setFilter(values) {
     </div>
 
     <DataTablePagination :table="table" />
-  </div>
-  <DataTableToolbar :table="table" @setFilter="(values) => setFilter(values)"/>
+  </div> -->
+  <DataTableToolbarNew :filters="listStore.filters"/>
   <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
     <div v-for="(item, key) in tasks" :key="key">
       <Sheet>
-        <div class="space-y-3 cursor-pointer bg-primary-foreground p-4 rounded-sm relative">
+        <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
           <div class="flex justify-between items-center">
             <div class="p-1 rounded-md text-xs min-w-16 text-center text-white font-semibold shadow-muted-foreground"
               :class="getClass(item.priority)">
@@ -235,7 +211,7 @@ function setFilter(values) {
           <div class="text-xl">
             {{ item.title }}
           </div>
-          <div class="flex items-center gap-7">
+          <div class="flex items-center gap-7 mt-auto">
             <div class="flex items-center gap-2">
               <CalendarIcon />
               <span>Jun 21</span>

@@ -98,11 +98,11 @@ function changePage(pageNumber) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" :align-offset="-5" class="w-[200px]">
-                <DropdownMenuItem>
+                <!-- <DropdownMenuItem>
                   Скопировать лист
                 </DropdownMenuItem>
                 <DropdownMenuItem>Редактировать лист</DropdownMenuItem>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator /> -->
                 <DropdownMenuItem class="text-red-500" @click="list.deleteList(item.id)">Удалить лист
                 </DropdownMenuItem>
               </DropdownMenuContent>
