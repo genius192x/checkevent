@@ -28,8 +28,8 @@ function getImageUrl(name) {
 		<DropdownMenuTrigger as-child>
 			<Button variant="ghost" class="relative h-8 w-8 rounded-full">
 				<Avatar class="h-8 w-8">
-					<AvatarImage :src="getImageUrl(userStore.userData.avatar)" alt="АЗ" />
-					<AvatarFallback>АЗ</AvatarFallback>
+					<AvatarImage :src="getImageUrl(userStore.userData.avatar)" alt="АЗ" v-if="userStore.userData.avatar"/>
+					<AvatarFallback v-else>АЗ</AvatarFallback>
 				</Avatar>
 			</Button>
 		</DropdownMenuTrigger>
@@ -37,7 +37,7 @@ function getImageUrl(name) {
 			<DropdownMenuLabel class="font-normal flex">
 				<div class="flex flex-col space-y-1">
 					<p class="text-sm font-medium leading-none">
-						{{ userStore.userData.name }} {{ userStore.userData.surname }}
+						{{ userStore.userData.first_name }} {{ userStore.userData.last_name }}
 					</p>
 					<p class="text-xs leading-none text-muted-foreground">
 						{{ userStore.userData.email }}

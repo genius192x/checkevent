@@ -39,7 +39,7 @@ const name = ref('')
 const email = ref('')
 
 
-name.value = userStore.userData.name
+name.value = userStore.userData.first_name
 email.value = userStore.userData.email
 const placeholder = ref()
 

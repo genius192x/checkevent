@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
+import { ReloadIcon } from '@radix-icons/vue'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import {
@@ -81,8 +82,9 @@ function onSubmit(data) {
 							</FormItem>
 						</FormField>
 					</div>
-					<Button class="w-full" type="submit">
-						Войти
+					<Button class="w-full" type="submit" :disabled="userStore.isLoaded">
+            <ReloadIcon class="w-4 h-4 mr-2 animate-spin" v-if="userStore.isLoaded"/>
+						{{ userStore.isLoaded ? 'Загружаю' : 'Войти' }}
 					</Button>
 					<div class="mt-4 text-center text-sm">
 						Еще нет аккаунта?
