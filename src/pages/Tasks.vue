@@ -98,7 +98,7 @@ watch(listStore.list, () => {
 			<rawDisplayer class="col-3" :value="list2" title="List 2" />
 		</div>
 
-		<DataTable :data="taskList" :columns="columns" :id="props.id" :key="updateCount" v-else />
+		<DataTable :data="taskList" :id="props.id" :key="updateCount" v-else />
 	</div>
 </template>
 

@@ -51,8 +51,10 @@ onMounted(() => {
 <style>
 body{
 	min-height: 100dvh;
+  transition: all 0.3s ease 0s;
 }
 #app{
 	min-height: 100dvh;
+
 }
 </style>
