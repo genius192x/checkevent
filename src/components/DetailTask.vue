@@ -84,14 +84,14 @@ const isMobile = useMedia("(max-width: 768px)")
       <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
         <div class="flex justify-between items-center">
           <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-            :class="getClass(item.priority)">
-            {{ item.priority }}
+            :class="getClass(props.item.priority)">
+            {{ props.item.priority }}
           </div>
           <!-- TODO после mvp нужно добавить действия с задачей -->
           <!-- <DataTableRowActions :row="item" /> -->
         </div>
         <div class="text-xl">
-          {{ item.title }}
+          {{ props.item.title }}
         </div>
         <div class="flex items-center gap-7 mt-auto">
           <div class="flex items-center gap-2">
@@ -109,11 +109,26 @@ const isMobile = useMedia("(max-width: 768px)")
         <SheetTrigger class="absolute w-full h-full top-0 left-0" />
         <SheetContent
           class="w-[100%] h-[100dvh] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-          <SheetHeader>
-            <SheetTitle> {{ item.title }}</SheetTitle>
-            <SheetDescription>{{ item.description }}</SheetDescription>
+          <div class="flex justify-between pr-10">
+            <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
+              :class="getClass(props.item.priority)">
+              {{ props.item.priority }}
+            </div>
+            <div class="flex items-center gap-7 mt-auto">
+              <div class="flex items-center gap-2">
+                <CalendarIcon />
+                <span>Авг 21</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <ChatBubbleIcon />
+                <span>4</span>
+              </div>
+            </div>
+          </div>
+          <SheetHeader class="mt-6">
+            <SheetTitle> {{ props.item.title }}</SheetTitle>
+            <SheetDescription>{{ props.item.description }}</SheetDescription>
           </SheetHeader>
-          <DetailTask />
         </SheetContent>
       </div>
     </Sheet>
@@ -122,14 +137,14 @@ const isMobile = useMedia("(max-width: 768px)")
         <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
           <div class="flex justify-between items-center">
             <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-              :class="getClass(item.priority)">
-              {{ item.priority }}
+              :class="getClass(props.item.priority)">
+              {{ props.item.priority }}
             </div>
             <!-- TODO после mvp нужно добавить действия с задачей -->
             <!-- <DataTableRowActions :row="item" /> -->
           </div>
           <div class="text-xl">
-            {{ item.title }}
+            {{ props.item.title }}
           </div>
           <div class="flex items-center gap-7 mt-auto">
             <div class="flex items-center gap-2">
@@ -150,8 +165,8 @@ const isMobile = useMedia("(max-width: 768px)")
         <DrawerHeader class="text-left space-y-4">
           <div class="flex justify-between">
             <div class="p-1 rounded-md text-xs min-w-16 text-center text-white font-semibold shadow-muted-foreground"
-              :class="getClass(item.priority)">
-              {{ item.priority }}
+              :class="getClass(props.item.priority)">
+              {{ props.item.priority }}
             </div>
             <div class="flex items-center gap-7 mt-auto">
               <div class="flex items-center gap-2">
@@ -164,9 +179,9 @@ const isMobile = useMedia("(max-width: 768px)")
               </div>
             </div>
           </div>
-          <DrawerTitle> {{ item.title }}</DrawerTitle>
+          <DrawerTitle> {{ props.item.title }}</DrawerTitle>
           <DrawerDescription>
-            {{ item.description }}
+            {{ props.item.description }}
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter class="pt-2">

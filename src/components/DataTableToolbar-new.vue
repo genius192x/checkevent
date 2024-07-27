@@ -76,7 +76,7 @@ function updateFilter(values) {
 			</Button> -->
 		</div>
 		<Sheet :open="globalStore.isSheetOpen">
-			<SheetTrigger v-if="userStore.userData.admin">
+			<SheetTrigger>
 				<Button
 					variant="outline"
 					size="sm"
