@@ -52,12 +52,11 @@ onBeforeMount(() => {
 		taskList.value = currList.value.tasks
 	}
 })
-let updateCount = ref(0)
-watch(listStore.list, () => {
-	console.log(taskList.value);
-	updateCount.value++
-	console.log(updateCount);
 
+let updateCount = ref(0)
+
+watch(listStore.list, () => {
+	updateCount.value++
 })
 
 </script>

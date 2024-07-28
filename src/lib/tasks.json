@@ -1,6 +1,6 @@
 [
   {
-    "title": "Матч ЦСКА-СГАУ-Саратов",
+    "title": "Матч ЦСКА-Ростов",
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "19.06.2023",
@@ -89,26 +89,26 @@
     ]
   },
   {
-    "title": "Корпоратив женской команды",
+    "title": "Корпоратив мужской команды",
     "description": "Список задач по организации/проведению корпоратива",
     "type": "Гандбол Женский",
     "lastApdate": "15.05.2023",
-	"participants":[
-		{
-			"name": "Сергей",
-			"surname": "Моисеев",
-			"email": "moiseev@mail.ru",
-			"password": "moi123",
-			"avatar": "03.png"
-		},
-		{
-			"name": "Настя",
-			"surname": "Курбатова",
-			"email": "kurbatova@mail.ru",
-			"password": "kur123",
-			"avatar": "01.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Сергей",
+        "surname": "Моисеев",
+        "email": "moiseev@mail.ru",
+        "password": "moi123",
+        "avatar": "03.png"
+      },
+      {
+        "name": "Настя",
+        "surname": "Курбатова",
+        "email": "kurbatova@mail.ru",
+        "password": "kur123",
+        "avatar": "01.png"
+      }
+    ],
     "id": "2",
     "tasks":[
       {
@@ -164,19 +164,19 @@
     ]
   },
   {
-    "title": "Матч Зенит-ЦСКА",
+    "title": "Матч Томь-ЦСКА",
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "10.06.2023",
-	"participants":[
-		{
-			"name": "Михаил",
-			"surname": "Левченко",
-			"email": "levchenko@mail.ru",
-			"password": "lev123",
-			"avatar": "04.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Михаил",
+        "surname": "Левченко",
+        "email": "levchenko@mail.ru",
+        "password": "lev123",
+        "avatar": "04.png"
+      }
+    ],
     "id": "3",
     "tasks":[
       {
@@ -236,36 +236,36 @@
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "19.01.2023",
-	"participants":[
-		{
-			"name": "Михаил",
-			"surname": "Левченко",
-			"email": "levchenko@mail.ru",
-			"password": "lev123",
-			"avatar": "04.png"
-		},
-		{
-			"name": "Олег",
-			"surname": "",
-			"email": "oleg@mail.ru",
-			"password": "ole123",
-			"avatar": "04.png"
-		},
-		{
-			"name": "Сергей",
-			"surname": "Моисеев",
-			"email": "moiseev@mail.ru",
-			"password": "moi123",
-			"avatar": "03.png"
-		},
-		{
-			"name": "Настя",
-			"surname": "Курбатова",
-			"email": "kurbatova@mail.ru",
-			"password": "kur123",
-			"avatar": "01.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Михаил",
+        "surname": "Левченко",
+        "email": "levchenko@mail.ru",
+        "password": "lev123",
+        "avatar": "04.png"
+      },
+      {
+        "name": "Олег",
+        "surname": "",
+        "email": "oleg@mail.ru",
+        "password": "ole123",
+        "avatar": "04.png"
+      },
+      {
+        "name": "Сергей",
+        "surname": "Моисеев",
+        "email": "moiseev@mail.ru",
+        "password": "moi123",
+        "avatar": "03.png"
+      },
+      {
+        "name": "Настя",
+        "surname": "Курбатова",
+        "email": "kurbatova@mail.ru",
+        "password": "kur123",
+        "avatar": "01.png"
+      }
+    ],
     "id": "4",
     "tasks":[
       {
@@ -325,36 +325,36 @@
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "19.06.2023",
-	"participants":[
-		{
-			"name": "Михаил",
-			"surname": "Левченко",
-			"email": "levchenko@mail.ru",
-			"password": "lev123",
-			"avatar": "04.png"
-		},
-		{
-			"name": "Олег",
-			"surname": "",
-			"email": "oleg@mail.ru",
-			"password": "ole123",
-			"avatar": "04.png"
-		},
-		{
-			"name": "Сергей",
-			"surname": "Моисеев",
-			"email": "moiseev@mail.ru",
-			"password": "moi123",
-			"avatar": "03.png"
-		},
-		{
-			"name": "Настя",
-			"surname": "Курбатова",
-			"email": "kurbatova@mail.ru",
-			"password": "kur123",
-			"avatar": "01.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Михаил",
+        "surname": "Левченко",
+        "email": "levchenko@mail.ru",
+        "password": "lev123",
+        "avatar": "04.png"
+      },
+      {
+        "name": "Олег",
+        "surname": "",
+        "email": "oleg@mail.ru",
+        "password": "ole123",
+        "avatar": "04.png"
+      },
+      {
+        "name": "Сергей",
+        "surname": "Моисеев",
+        "email": "moiseev@mail.ru",
+        "password": "moi123",
+        "avatar": "03.png"
+      },
+      {
+        "name": "Настя",
+        "surname": "Курбатова",
+        "email": "kurbatova@mail.ru",
+        "password": "kur123",
+        "avatar": "01.png"
+      }
+    ],
     "id": "1",
     "tasks": [
       {
@@ -414,22 +414,22 @@
     "description": "Список задач по организации/проведению корпоратива",
     "type": "Гандбол Женский",
     "lastApdate": "15.05.2023",
-	"participants":[
-		{
-			"name": "Сергей",
-			"surname": "Моисеев",
-			"email": "moiseev@mail.ru",
-			"password": "moi123",
-			"avatar": "03.png"
-		},
-		{
-			"name": "Настя",
-			"surname": "Курбатова",
-			"email": "kurbatova@mail.ru",
-			"password": "kur123",
-			"avatar": "01.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Сергей",
+        "surname": "Моисеев",
+        "email": "moiseev@mail.ru",
+        "password": "moi123",
+        "avatar": "03.png"
+      },
+      {
+        "name": "Настя",
+        "surname": "Курбатова",
+        "email": "kurbatova@mail.ru",
+        "password": "kur123",
+        "avatar": "01.png"
+      }
+    ],
     "id": "2",
     "tasks":[
       {
@@ -489,15 +489,15 @@
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "10.06.2023",
-	"participants":[
-		{
-			"name": "Михаил",
-			"surname": "Левченко",
-			"email": "levchenko@mail.ru",
-			"password": "lev123",
-			"avatar": "04.png"
-		}
-	],
+    "participants":[
+      {
+        "name": "Михаил",
+        "surname": "Левченко",
+        "email": "levchenko@mail.ru",
+        "password": "lev123",
+        "avatar": "04.png"
+      }
+    ],
     "id": "3",
     "tasks":[
       {

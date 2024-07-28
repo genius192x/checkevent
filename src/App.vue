@@ -11,6 +11,13 @@ import { onMounted } from 'vue'
 import router from './router'
 import { useUserStore } from './store/UserStore'
 
+import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
+
+rudderAnalytics.ready(() => {
+  console.log("The JavaScript SDK is ready.");
+});
+
+
 const mode = useColorMode()
 const { toast } = useToast()
 const userStore = useUserStore()
@@ -19,7 +26,7 @@ const globalStore = useGlobalStore()
 onMounted(() => {
 	if (!globalStore.isAuth) {
 		router.push('/authorization')
-	}
+  }
 });
 
 </script>

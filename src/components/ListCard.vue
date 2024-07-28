@@ -56,7 +56,7 @@ const container = ref(null)
 
 const currentPage = ref(1)
 
-const itemsPerPage = ref(4)
+const itemsPerPage = ref(8)
 
 const pageCount = computed(() =>
   Math.ceil(props.items.length / itemsPerPage.value)

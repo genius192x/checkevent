@@ -7,7 +7,6 @@ import Search from '@/components/Search.vue'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
-import DataTableToolbarNew from './DataTableToolbar-new.vue'
 import { useMedia } from "@/lib/useMedia";
 
 
@@ -33,8 +32,6 @@ const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
-console.log(props.data);
-
 let previewImage = ref(null);
 function uploadImage(e) {
 	const image = e.target.files[0];
@@ -57,24 +54,40 @@ const tasks = ref(props.data)
 
 const searchValue= ref('')
 
+const filters = ref(listStore.filters[0].checked)
 
-const filteredList = function(value) {
-  console.log(value);
-  console.log(tasks.value.filter((task) => task.title.toLowerCase().includes(value.toLowerCase())));
 
-  return tasks.value.filter((task) =>
-    task.title.toLowerCase().includes(value.toLowerCase())
-  );
+
+const checkedLabels = ref(listStore.filters[0].checked.map(item => item.value));
+
+// console.log(checkedLabels);
+// console.log(tasks.value);
+
+const filteredList = function(searchValue, filterValue) {
+  if (filters.value.length) {
+    return tasks.value.filter((task) =>
+      task.title.toLowerCase().includes(searchValue.toLowerCase()) && filterValue.includes(task.priority)
+    );
+  } else {
+    return tasks.value.filter((task) =>
+      task.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
 }
+watch(listStore.filters[0].checked, (newValue, oldValue) => {
+  filters.value = listStore.filters[0].checked
+  checkedLabels.value = listStore.filters[0].checked.map(item => item.value)
 
+})
 
 </script>
 
 <template>
-  <Search @changeQuery="(value) => searchValue = value"/>
-  <DataTableToolbarNew :filters="listStore.filters"/>
+  <DataTableToolbar
+    @changeQuery="(value) => searchValue = value"
+    :filters="listStore.filters"/>
   <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
-    <div v-for="(item, key) in filteredList(searchValue)" :key="key">
+    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key">
       <DetailTask :item="item" :id="item.id"/>
     </div>
   </div>
