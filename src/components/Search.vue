@@ -12,7 +12,7 @@ const value = ref('')
 		type="search"
     v-model="value"
 		placeholder="Поиск..."
-		class="md:w-[300px] lg:w-[350px]"
+		class="md:w-[300px] lg:w-[350px] text-[16px]"
     @input="$emit('changeQuery', value)"
 		/>
 	</div>

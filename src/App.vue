@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import devtools from '@vue/devtools'
+import { useToggle } from '@vueuse/core'
 import Search from '@/components/Search.vue'
 import UserNav from '@/components/UserNav.vue'
 import { useColorMode } from '@vueuse/core'
@@ -7,27 +8,51 @@ import Toaster from '@/components/ui/toast/Toaster.vue'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { useGlobalStore } from './store/GlobalStore';
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import router from './router'
 import { useUserStore } from './store/UserStore'
-
 import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
+import Button from '@/components/ui/button/Button.vue'
 
+import {MoonIcon} from '@radix-icons/vue'
+import {SunIcon} from '@radix-icons/vue'
+import {Half2Icon} from '@radix-icons/vue'
+const mode = useColorMode()
+
+const themeValue = localStorage.getItem('vueuse-color-scheme')
 rudderAnalytics.ready(() => {
   console.log("The JavaScript SDK is ready.");
 });
 
 
-const mode = useColorMode()
 const { toast } = useToast()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
+
+const changeTheme = function () {
+  switch (mode.value) {
+    case "light":
+      mode.value = 'dark'
+      break;
+
+    case 'dark':
+      mode.value = "light"
+      break;
+
+    default:
+      break;
+  }
+}
 
 onMounted(() => {
 	if (!globalStore.isAuth) {
 		router.push('/authorization')
   }
 });
+
+const isDark = computed(() => {
+  return mode.value === 'dark'
+})
 
 </script>
 
@@ -44,7 +69,19 @@ onMounted(() => {
 						</svg>
 					</router-link>
 					<div class="ml-auto flex items-center space-x-4 relative z-20">
-						<Search />
+						<!-- <Search /> -->
+            <Button
+              class="w-9 h-9"
+              aria-label="Toggle dark mode"
+              :variant="'ghost'"
+              :size="'icon'"
+              @click="changeTheme"
+            >
+              <component
+                :is="isDark ? SunIcon : MoonIcon"
+                class="w-5 h-5 text-foreground"
+              />
+            </Button>
 						<UserNav />
 					</div>
 				</div>

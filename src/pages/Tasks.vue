@@ -50,10 +50,12 @@ onBeforeMount(() => {
 
 	if(currList.value){
 		taskList.value = currList.value.tasks
-	}
+  }
+  console.log(currList.value);
 })
 
 let updateCount = ref(0)
+
 
 watch(listStore.list, () => {
 	updateCount.value++
@@ -62,7 +64,7 @@ watch(listStore.list, () => {
 </script>
 
 <template>
-	<div class=" flex-1 flex-col min-h-full space-y-8 p-2  md:flex md:p-8">
+	<div class=" flex-1 flex-col min-h-full space-y-8 p-2  md:flex md:p-8 bg-background">
 		<div class="flex items-center justify-between space-y-2">
 			<div>
 				<h2 class="text-2xl font-bold tracking-tight" v-if="currList.title">

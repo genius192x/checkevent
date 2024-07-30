@@ -45,6 +45,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useListStore } from '@/store/ListsStore'
+import { item } from '@unovis/ts/components/bullet-legend/style'
 const list = useListStore()
 
 interface Props {
@@ -66,10 +67,15 @@ const displayedItems = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage.value;
   const endIndex = startIndex + itemsPerPage.value;
 
-
-  return props.items.slice(startIndex, endIndex);
+  return props.items.slice(startIndex, endIndex)
 });
 
+const deleteId = ref(0)
+const confirmOpen = function (item) {
+  open.value = true
+  deleteId.value = item.id
+}
+const open = ref(false)
 function changePage(pageNumber) {
   console.log(itemsPerPage.value);
 
@@ -103,13 +109,27 @@ function changePage(pageNumber) {
                 </DropdownMenuItem>
                 <DropdownMenuItem>Редактировать лист</DropdownMenuItem>
                 <DropdownMenuSeparator /> -->
-                <DropdownMenuItem class="text-red-500" @click="list.deleteList(item.id)">Удалить лист
+                <DropdownMenuItem class="text-red-500" @click="confirmOpen(item)">Удалить лист
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </CardHeader>
         <CardContent class="p-4 pt-0 md:p-6">
+          <AlertDialog v-model:open="open">
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Это действие невозможно отменить. Это приведет к удалению данного листа навсегда.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction @click="list.deleteList(deleteId)">Удалить</AlertDialogAction>
+                  <AlertDialogCancel>Отменить</AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           <div class="flex items-end gap-4 justify-between md:flex-row md:items-center">
             <div
               class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:flex-wrap md:space-y-0 2xl:flex-row">
