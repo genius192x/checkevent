@@ -89,10 +89,9 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
     @changeQuery="(value) => searchValue = value"
     @toggleCheck="isCheckable = !isCheckable"
     :filters="listStore.filters"/>
-  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition overflow-hidden" :class="{'md:gap-y-10':isCheckable}">
     <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
       <DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
     </div>
-    <div class=""></div>
   </div>
 </template>

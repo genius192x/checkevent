@@ -56,8 +56,8 @@ type User = (typeof users.value)[number]
 const messages = ref([
 	{ role: 'agent', content: 'Здарова' },
 	{ role: 'user', content: 'Привет' },
-	{ role: 'agent', content: 'Получилось сделать разворачивание в таблице?' },
-	{ role: 'user', content: 'ДА!' },
+	{ role: 'agent', content: 'Какой стату по задаче' },
+	{ role: 'user', content: 'Почти сделал!' },
 ])
 
 const open = ref(false)
@@ -65,7 +65,7 @@ const selectedUsers = ref<User[]>([])
 </script>
 
 <template>
-	<Card>
+	<Card class="border-none">
 		<CardContent class="p-2 pt-2 md:p-6 md:pt-6">
 		<div class="space-y-4">
 			<div

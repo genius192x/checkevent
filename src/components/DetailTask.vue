@@ -75,15 +75,17 @@ function getClass(property) {
 const avatars = ref([{ "name": "Михаил", "surname": "Левченко", "email": "levchenko@mail.ru", "password": "lev123", "avatar": "04.png" }, { "name": "Олег", "surname": "", "email": "oleg@mail.ru", "password": "ole123", "avatar": "04.png" }, { "name": "Сергей", "surname": "Моисеев", "email": "moiseev@mail.ru", "password": "moi123", "avatar": "03.png" }, { "name": "Настя", "surname": "Курбатова", "email": "kurbatova@mail.ru", "password": "kur123", "avatar": "01.png" }])
 
 const open = ref(false)
-
-
+const openChat = ref(false)
+const openImages = ref(false)
 
 const isMobile = useMedia("(max-width: 768px)")
+
+const isChangeable = ref(false)
 </script>
 
 <template>
-  <div class="transition" :class="{'translate-x-10': isCheckable}">
-    <Checkbox class="absolute top-1/2 left-2 transition" :class="{'-left-8' : isCheckable}" :id="props.item.id" />
+  <div class="transition-all duration-300" :class="{'translate-x-10 md:translate-y-5 md:translate-x-0': isCheckable}">
+    <Checkbox class="absolute top-1/2 left-2 transition-all md:left-0 md:top-1" :class="{'-left-8 md:-left-0 md:-top-5' : isCheckable}" :id="props.item.id" />
     <Sheet v-if="!isMobile">
       <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
         <div class="flex justify-between items-center">
@@ -188,6 +190,46 @@ const isMobile = useMedia("(max-width: 768px)")
             {{ props.item.description }}
           </DrawerDescription>
         </DrawerHeader>
+				<div class="align-top p-2 md:p-4">
+					<TeamMembers :isChangeable="isCheckable" />
+				</div>
+
+				<div class="flex w-full justify-between px-4 gap-3">
+					<Button @click="openChat = true" class="bg-muted text-primary flex-1">
+						Чат
+					</Button>
+					<Button @click="openImages = true" class="bg-muted text-primary flex-1">
+						Картинки
+					</Button>
+				</div>
+				<Drawer v-model:open="openChat"  v-if="isMobile">
+					<DrawerContent>
+						<div class="max-w-full flex-1 p-2 md:p-4">
+							<CardChat />
+						</div>
+						<DrawerFooter class="pt-2">
+							<DrawerClose as-child>
+								<Button variant="outline" @click="openChat = false">
+									Закрыть
+								</Button>
+							</DrawerClose>
+						</DrawerFooter>
+					</DrawerContent>
+				</Drawer>
+				<Drawer v-model:open="openImages"  v-if="isMobile">
+					<DrawerContent>
+						<div class="px-4 pb-3">
+							<UploadFile @submit="openImages = false"/>
+						</div>
+						<DrawerFooter class="pt-2">
+							<DrawerClose as-child>
+								<Button variant="outline" @click="openImages = false">
+									Закрыть
+								</Button>
+							</DrawerClose>
+						</DrawerFooter>
+					</DrawerContent>
+				</Drawer>
         <DrawerFooter class="pt-2">
           <DrawerClose as-child>
             <Button variant="outline">

@@ -179,9 +179,9 @@ function onSubmit(values: any) {
 						<PopoverTrigger as-child>
 							<FormControl>
 								<Button variant="outline" :class="cn(
-						'w-[240px] justify-start text-left font-normal',
-						!value && 'text-muted-foreground',
-					)">
+									'w-[240px] justify-start text-left font-normal',
+									!value && 'text-muted-foreground',
+								)">
 									<RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
 									<span>{{ value ? df.format(toDate(dateValue, getLocalTimeZone())) : "Выберите день"
 										}}</span>
@@ -291,8 +291,6 @@ function onSubmit(values: any) {
 								</SelectItem>
 							</SelectContent>
 						</Select>
-
-
 					<FormDescription>
 						Выберите ответственного для задачи человека
 					</FormDescription>
