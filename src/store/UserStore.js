@@ -24,6 +24,7 @@ export const useUserStore = defineStore('userStore', () => {
 
 
   function setUserTokens(data) {
+    console.log(data)
     userToken.value = data.token
     userTokenRefresh.value = data.token
     getUserInfo(userToken.value)
