@@ -83,8 +83,7 @@ const isMobile = useMedia("(max-width: 768px)")
 
 <template>
   <div class="transition" :class="{'translate-x-10': isCheckable}">
-    <Checkbox class="absolute top-1/2 left-2 transition" :class="{'-left-8
-    ' : isCheckable}" :id="props.item.id" />
+    <Checkbox class="absolute top-1/2 left-2 transition" :class="{'-left-8' : isCheckable}" :id="props.item.id" />
     <Sheet v-if="!isMobile">
       <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
         <div class="flex justify-between items-center">
