@@ -32,6 +32,8 @@ import {
   SheetTitle,
   SheetDescription
 } from '@/components/ui/sheet'
+import Checkbox from '@/components/ui/checkbox/Checkbox.vue'
+
 import UploadFile from '@/components/UploadFile.vue'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -59,7 +61,8 @@ interface Item {
 
 const props = defineProps<{
   item: Item,
-  id: string
+  id: string,
+  isCheckable: boolean
 }>()
 
 function getClass(property) {
@@ -79,7 +82,9 @@ const isMobile = useMedia("(max-width: 768px)")
 </script>
 
 <template>
-  <div>
+  <div class="transition" :class="{'translate-x-10': isCheckable}">
+    <Checkbox class="absolute top-1/2 left-2 transition" :class="{'-left-8
+    ' : isCheckable}" :id="props.item.id" />
     <Sheet v-if="!isMobile">
       <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
         <div class="flex justify-between items-center">

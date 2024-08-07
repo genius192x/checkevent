@@ -22,7 +22,6 @@ const props = defineProps<DataTableProps>()
 
 const rowSelection = ref({})
 
-
 import DetailTask from '@/components/DetailTask.vue'
 import CardChat from '@/components/CardChat.vue'
 import TeamMembers from '@/components/TeamMembers.vue'
@@ -56,7 +55,7 @@ const searchValue= ref('')
 
 const filters = ref(listStore.filters[0].checked)
 
-
+const isCheckable = ref(false)
 
 const checkedLabels = ref(listStore.filters[0].checked.map(item => item.value));
 
@@ -74,6 +73,9 @@ const filteredList = function(searchValue, filterValue) {
     );
   }
 }
+
+const selectedItems = ref([])
+
 watch(listStore.filters[0].checked, (newValue, oldValue) => {
   filters.value = listStore.filters[0].checked
   checkedLabels.value = listStore.filters[0].checked.map(item => item.value)
@@ -85,10 +87,12 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
 <template>
   <DataTableToolbar
     @changeQuery="(value) => searchValue = value"
+    @toggleCheck="isCheckable = !isCheckable"
     :filters="listStore.filters"/>
   <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
-    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key">
-      <DetailTask :item="item" :id="item.id"/>
+    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
+      <DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
     </div>
+    <div class=""></div>
   </div>
 </template>

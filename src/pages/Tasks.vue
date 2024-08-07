@@ -70,7 +70,7 @@ watch(listStore.list, () => {
 				<h2 class="text-2xl font-bold tracking-tight" v-if="currList.title">
 					{{currList.title}}
 				</h2>
-				<p class="text-muted-foreground line-clamp-1">
+				<p class="text-muted-foreground">
 					Ниже представлен список всех необходимых задач
 				</p>
 			</div>
