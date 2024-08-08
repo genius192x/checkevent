@@ -58,7 +58,7 @@ const isDark = computed(() => {
 
 <template>
 	<TooltipProvider :delay-duration="0">
-		<div class="flex-col md:flex transition-all duration-500 h-full" :class="{'scale-95' : globalStore.isSheetOpen }">
+		<div class="flex-col md:flex transition-all duration-500 h-full overflow-hidden" :class="{'scale-95' : globalStore.isSheetOpen }">
 			<div class="border-b min-h-[100dvh]">
 				<div class="sticky top-0 flex h-16 z-50 items-center gap-4 border-b bg-background px-4 md:px-6 "  v-if="globalStore.isAuth">
 					<router-link to="/" class="w-[40px] h-[40px]">

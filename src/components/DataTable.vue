@@ -8,7 +8,21 @@ import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
 import { useMedia } from "@/lib/useMedia";
-
+import {
+	ContextMenu,
+	ContextMenuCheckboxItem,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuLabel,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuSeparator,
+	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubContent,
+	ContextMenuSubTrigger,
+	ContextMenuTrigger,
+} from '@/components/ui/context-menu'
 
 import DataTableRowActions from './DataTableRowActions.vue'
 import { useListStore } from '@/store/ListsStore'
@@ -89,9 +103,23 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
     @changeQuery="(value) => searchValue = value"
     @toggleCheck="isCheckable = !isCheckable"
     :filters="listStore.filters"/>
-  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition overflow-hidden" :class="{'md:gap-y-10':isCheckable}">
+
+  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition" :class="{'md:gap-y-10':isCheckable}">
     <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
-      <DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
+			<ContextMenu>
+				<ContextMenuTrigger>
+					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
+				</ContextMenuTrigger>
+				<ContextMenuContent class="w-64">
+					<ContextMenuItem inset>
+						Отметить как выполенное
+					</ContextMenuItem>
+					<ContextMenuItem inset disabled class="text-red-600">
+						Удалить
+					</ContextMenuItem>
+				</ContextMenuContent>
+			</ContextMenu>
+
     </div>
   </div>
 </template>
