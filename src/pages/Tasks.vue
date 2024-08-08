@@ -50,26 +50,27 @@ onBeforeMount(() => {
 
 	if(currList.value){
 		taskList.value = currList.value.tasks
-	}
+  }
+  console.log(currList.value);
 })
-let updateCount = ref(0)
-watch(listStore.list, () => {
-	console.log(taskList.value);
-	updateCount.value++
-	console.log(updateCount);
 
+let updateCount = ref(0)
+
+
+watch(listStore.list, () => {
+	updateCount.value++
 })
 
 </script>
 
 <template>
-	<div class=" flex-1 flex-col min-h-full space-y-8 p-2  md:flex md:p-8">
+	<div class=" flex-1 flex-col min-h-full space-y-8 p-2  md:flex md:p-8 bg-background">
 		<div class="flex items-center justify-between space-y-2">
 			<div>
 				<h2 class="text-2xl font-bold tracking-tight" v-if="currList.title">
 					{{currList.title}}
 				</h2>
-				<p class="text-muted-foreground line-clamp-1">
+				<p class="text-muted-foreground">
 					Ниже представлен список всех необходимых задач
 				</p>
 			</div>

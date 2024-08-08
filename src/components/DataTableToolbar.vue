@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Table } from '@tanstack/vue-table'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Task } from '@/lib/schema'
 
 import { priorities, statuses } from '@/lib/data'
@@ -25,12 +25,12 @@ import {
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 interface DataTableToolbarProps {
-	table: Table<Task>
+	filters: any[]
 }
 
 const props = defineProps<DataTableToolbarProps>()
 
-const emit = defineEmits(['setFilter'])
+const emit = defineEmits(['setFilter','changeQuery', 'toggleCheck'])
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0)
 let side = 'bottom';
 if (window.innerWidth > 768) {
@@ -40,32 +40,30 @@ function updateFilter(values) {
   emit('setFilter', values)
 }
 
+const value = ref('')
+
 </script>
 
 <template>
-	<div class="flex flex-col gap-4 md:justify-between md:items-center md:flex-row">
+	<div class="flex flex-col gap-8 md:justify-between md:items-center md:flex-row">
 		<div class="flex gap-2 flex-1 flex-wrap md:space-x-2 md:items-center">
 			<Input
-				placeholder="Поиск по названию..."
-				:model-value="(table.getColumn('title')?.getFilterValue() as string) ?? ''"
-				class="h-8 lg:w-[250px] w-full md:w-[150px]"
-				@input="table.getColumn('title')?.setFilterValue($event.target.value)"
-			/>
-			<!-- <DataTableFacetedFilter
-				v-if="table.getColumn('status')"
-				:column="table.getColumn('status')"
-				title="Статус"
-				:options="statuses"
-			/> -->
+        type="search"
+        v-model="value"
+        placeholder="Поиск по названию"
+        class="md:w-[300px] lg:w-[350px]"
+        @input="$emit('changeQuery', value)"
+  		/>
 			<DataTableFacetedFilter
-				v-if="table.getColumn('priority')"
-				:column="table.getColumn('priority')"
-				title="Приоритет"
-        @setFilter="(values) => updateFilter(values)"
-				:options="priorities"
+        v-for="filter in props.filters"
+				:value="filter.value"
+				:title="filter.label"
+				:options="filter.options"
+        :checked="filter.checked"
+        @set-filter="(value)=> console.log(value)"
 			/>
 
-			<Button
+			<!-- <Button
 				v-if="isFiltered"
 				variant="ghost"
 				class="h-8 px-2 lg:px-3"
@@ -73,28 +71,29 @@ function updateFilter(values) {
 			>
 				Сбросить
 				<Cross2Icon class="ml-2 h-4 w-4" />
-			</Button>
+			</Button> -->
+      <Sheet :open="globalStore.isSheetOpen">
+        <SheetTrigger>
+          <Button
+            variant="outline"
+            size="sm"
+            class="flex h-8 md:ml-auto"
+            @click="globalStore.isSheetOpen = true"
+          >
+            <PlusIcon class="mr-2 h-4 w-4" />
+            Новая задача
+          </Button>
+        </SheetTrigger>
+        <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+          <SheetHeader>
+            <SheetTitle>Создание новой задачи</SheetTitle>
+          </SheetHeader>
+          <CreateTask :list-id="$route.params.id"/>
+        </SheetContent>
+      </Sheet>
 		</div>
-		<DataTableViewOptions :table="table" />
-		<Sheet :open="globalStore.isSheetOpen">
-			<SheetTrigger v-if="userStore.userData.admin">
-				<Button
-					variant="outline"
-					size="sm"
-					class="flex h-8 md:ml-auto"
-					@click="globalStore.isSheetOpen = true"
-				>
-					<PlusIcon class="mr-2 h-4 w-4" />
-					Новая задача
-				</Button>
-			</SheetTrigger>
-			<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-				<SheetHeader>
-					<SheetTitle>Создание новой задачи</SheetTitle>
-				</SheetHeader>
-				<CreateTask :list-id="$route.params.id"/>
-			</SheetContent>
-		</Sheet>
-
+    <Button @click="$emit('toggleCheck')">
+      Выбрать
+    </Button>
 	</div>
 </template>

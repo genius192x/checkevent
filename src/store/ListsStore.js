@@ -46,11 +46,11 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 
-	function deleteList(id) {
-		console.log(list.value);
-		list.value = list.value.filter(el => el.id !== id);
+  function deleteList(id) {
+    let deletingItem = getItemById(id)
+    list.value = list.value.filter(el => el.id !== id);
 		toast({
-			description: 'Лист успешно удален',
+			description: `Лист ${deletingItem.title} успешно удален`,
 		});
 		setListToStore()
 		updateList()
@@ -68,7 +68,7 @@ export const useListStore = defineStore('listStore', () => {
 
 
 	function getItemById(id){
-		return list.value.find(item=>item.id === id)
+		return list.value.find(item=>item.id == id)
 	}
 
 

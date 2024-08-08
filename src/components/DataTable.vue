@@ -7,9 +7,22 @@ import Search from '@/components/Search.vue'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
-import DataTableToolbarNew from './DataTableToolbar-new.vue'
 import { useMedia } from "@/lib/useMedia";
-
+import {
+	ContextMenu,
+	ContextMenuCheckboxItem,
+	ContextMenuContent,
+	ContextMenuItem,
+	ContextMenuLabel,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuSeparator,
+	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubContent,
+	ContextMenuSubTrigger,
+	ContextMenuTrigger,
+} from '@/components/ui/context-menu'
 
 import DataTableRowActions from './DataTableRowActions.vue'
 import { useListStore } from '@/store/ListsStore'
@@ -23,7 +36,6 @@ const props = defineProps<DataTableProps>()
 
 const rowSelection = ref({})
 
-
 import DetailTask from '@/components/DetailTask.vue'
 import CardChat from '@/components/CardChat.vue'
 import TeamMembers from '@/components/TeamMembers.vue'
@@ -32,8 +44,6 @@ import { useUserStore } from '@/store/UserStore'
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
-
-console.log(props.data);
 
 let previewImage = ref(null);
 function uploadImage(e) {
@@ -57,25 +67,59 @@ const tasks = ref(props.data)
 
 const searchValue= ref('')
 
+const filters = ref(listStore.filters[0].checked)
 
-const filteredList = function(value) {
-  console.log(value);
-  console.log(tasks.value.filter((task) => task.title.toLowerCase().includes(value.toLowerCase())));
+const isCheckable = ref(false)
 
-  return tasks.value.filter((task) =>
-    task.title.toLowerCase().includes(value.toLowerCase())
-  );
+const checkedLabels = ref(listStore.filters[0].checked.map(item => item.value));
+
+// console.log(checkedLabels);
+// console.log(tasks.value);
+
+const filteredList = function(searchValue, filterValue) {
+  if (filters.value.length) {
+    return tasks.value.filter((task) =>
+      task.title.toLowerCase().includes(searchValue.toLowerCase()) && filterValue.includes(task.priority)
+    );
+  } else {
+    return tasks.value.filter((task) =>
+      task.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
 }
 
+const selectedItems = ref([])
+
+watch(listStore.filters[0].checked, (newValue, oldValue) => {
+  filters.value = listStore.filters[0].checked
+  checkedLabels.value = listStore.filters[0].checked.map(item => item.value)
+
+})
 
 </script>
 
 <template>
-  <Search @changeQuery="(value) => searchValue = value"/>
-  <DataTableToolbarNew :filters="listStore.filters"/>
-  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
-    <div v-for="(item, key) in filteredList(searchValue)" :key="key">
-      <DetailTask :item="item" :id="item.id"/>
+  <DataTableToolbar
+    @changeQuery="(value) => searchValue = value"
+    @toggleCheck="isCheckable = !isCheckable"
+    :filters="listStore.filters"/>
+
+  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition" :class="{'md:gap-y-10':isCheckable}">
+    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
+			<ContextMenu>
+				<ContextMenuTrigger>
+					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
+				</ContextMenuTrigger>
+				<ContextMenuContent class="w-64">
+					<ContextMenuItem inset>
+						Отметить как выполенное
+					</ContextMenuItem>
+					<ContextMenuItem inset disabled class="text-red-600">
+						Удалить
+					</ContextMenuItem>
+				</ContextMenuContent>
+			</ContextMenu>
+
     </div>
   </div>
 </template>

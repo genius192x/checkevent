@@ -4,6 +4,7 @@ import { useGlobalStore } from '@/store/GlobalStore';
 import router from '@/router';
 import { useToast } from '@/components/ui/toast/use-toast'
 import axios from 'axios'
+import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
 const { toast } = useToast()
 
 
@@ -26,6 +27,7 @@ export const useUserStore = defineStore('userStore', () => {
   function setUserTokens(data) {
     console.log(data)
     userToken.value = data.token
+    localStorage.setItem('curToken', userToken.value)
     userTokenRefresh.value = data.token
     getUserInfo(userToken.value)
 		//
@@ -48,8 +50,21 @@ export const useUserStore = defineStore('userStore', () => {
   function setUser(data) {
     userData.value = data
     localStorage.setItem('curUser', JSON.stringify(userData.value))
+
     isLoaded.value = false
     useGlobalStore().isAuth = true
+
+    rudderAnalytics.identify(
+      userToken.value, {
+      firstName: userData.value.first_name,
+      lastName: userData.value.last_name,
+      email: userData.value.email,
+    },
+      () => {
+        console.log("Identify event successfully submitted to the RudderStack SDK.");
+      }
+    );
+
     router.push('/')
   }
 

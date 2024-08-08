@@ -61,7 +61,8 @@ if (window.innerWidth > 768){
 					</TabsTrigger>
 				</TabsList>
 				<Sheet :open="globalStore.isSheetOpen">
-					<SheetTrigger v-if="userStore.userData.admin">
+					<!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
+					<SheetTrigger >
 						<Button @click="globalStore.isSheetOpen = true">
 							<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
 						</Button>

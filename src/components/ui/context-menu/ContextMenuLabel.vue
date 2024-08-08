@@ -1,13 +1,13 @@
 <script setup>
 import { computed } from "vue";
-import { AlertDialogAction } from "radix-vue";
+import { ContextMenuLabel } from "radix-vue";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },
+  inset: { type: Boolean, required: false },
 });
 
 const delegatedProps = computed(() => {
@@ -18,10 +18,16 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-  <AlertDialogAction
+  <ContextMenuLabel
     v-bind="delegatedProps"
-    :class="cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', props.class)"
+    :class="
+      cn(
+        'px-2 py-1.5 text-sm font-semibold text-foreground',
+        inset && 'pl-8',
+        props.class,
+      )
+    "
   >
     <slot />
-  </AlertDialogAction>
+  </ContextMenuLabel>
 </template>

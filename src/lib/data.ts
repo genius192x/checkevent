@@ -48,16 +48,19 @@ export const statuses = [
 
 export const priorities = [
 	{
+    checked: false,
 		label: 'Низкий',
 		value: 'low',
 		icon: h(ArrowDownIcon),
 	},
 	{
+    checked: false,
 		label: 'Средний',
 		value: 'medium',
 		icon: h(ArrowRightIcon),
 	},
 	{
+    checked: false,
 		label: 'Высокий',
 		value: 'high',
 		icon: h(ArrowUpIcon),
