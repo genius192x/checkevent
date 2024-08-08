@@ -99,18 +99,17 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
 </script>
 
 <template>
-  <DataTableToolbar
-    @changeQuery="(value) => searchValue = value"
-    @toggleCheck="isCheckable = !isCheckable"
-    :filters="listStore.filters"/>
+	<DataTableToolbar @changeQuery="(value) => searchValue = value" @toggleCheck="isCheckable = !isCheckable"
+		:filters="listStore.filters" />
 
-  <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition" :class="{'md:gap-y-10':isCheckable}">
-    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
+	<div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition select-none md:select-auto"
+		:class="{'md:gap-y-10':isCheckable}">
+		<div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
 			<ContextMenu>
 				<ContextMenuTrigger>
-					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable"/>
+					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable" />
 				</ContextMenuTrigger>
-				<ContextMenuContent class="w-64">
+				<ContextMenuContent>
 					<ContextMenuItem inset>
 						Отметить как выполенное
 					</ContextMenuItem>
@@ -120,6 +119,6 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
 				</ContextMenuContent>
 			</ContextMenu>
 
-    </div>
-  </div>
+		</div>
+	</div>
 </template>

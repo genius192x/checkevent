@@ -14,6 +14,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+import {
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -84,112 +89,134 @@ const isChangeable = ref(false)
 </script>
 
 <template>
-  <div class="transition-all duration-300" :class="{'translate-x-10 md:translate-y-5 md:translate-x-0': isCheckable}">
-    <Checkbox class="absolute top-1/2 left-2 transition-all md:left-0 md:top-1" :class="{'-left-8 md:-left-0 md:-top-5' : isCheckable}" :id="props.item.id" />
-    <Sheet v-if="!isMobile">
-      <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
-        <div class="flex justify-between items-center">
-          <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-            :class="getClass(props.item.priority)">
-            {{ props.item.priority }}
-          </div>
-          <!-- TODO после mvp нужно добавить действия с задачей -->
-          <!-- <DataTableRowActions :row="item" /> -->
-        </div>
-        <div class="text-xl">
-          {{ props.item.title }}
-        </div>
-        <div class="flex items-center gap-7 mt-auto">
-          <div class="flex items-center gap-2">
-            <CalendarIcon />
-            <span>Jun 21</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <ChatBubbleIcon />
-            <span>4</span>
-          </div>
-          <div class="block ml-auto">
-            <AvatarsGroup :avatars="avatars" />
-          </div>
-        </div>
-        <SheetTrigger class="absolute w-full h-full top-0 left-0" />
-        <SheetContent
-          class="w-[100%] h-[100dvh] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-          <div class="flex justify-between pr-10">
-            <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-              :class="getClass(props.item.priority)">
-              {{ props.item.priority }}
-            </div>
-            <div class="flex items-center gap-7 mt-auto">
-              <div class="flex items-center gap-2">
-                <CalendarIcon />
-                <span>Авг 21</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <ChatBubbleIcon />
-                <span>4</span>
-              </div>
-            </div>
-          </div>
-          <SheetHeader class="mt-6">
-            <SheetTitle> {{ props.item.title }}</SheetTitle>
-            <SheetDescription>{{ props.item.description }}</SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </div>
-    </Sheet>
-    <Drawer v-else v-model:open="open">
-      <DrawerTrigger as-child>
-        <div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
-          <div class="flex justify-between items-center">
-            <div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-              :class="getClass(props.item.priority)">
-              {{ props.item.priority }}
-            </div>
-            <!-- TODO после mvp нужно добавить действия с задачей -->
-            <!-- <DataTableRowActions :row="item" /> -->
-          </div>
-          <div class="text-xl">
-            {{ props.item.title }}
-          </div>
-          <div class="flex items-center gap-7 mt-auto">
-            <div class="flex items-center gap-2">
-              <CalendarIcon />
-              <span>Авг 21</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <ChatBubbleIcon />
-              <span>4</span>
-            </div>
-            <div class="block ml-auto">
-              <AvatarsGroup :avatars="avatars" />
-            </div>
-          </div>
-        </div>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader class="text-left space-y-4">
-          <div class="flex justify-between">
-            <div class="p-1 rounded-md text-xs min-w-16 text-center text-white font-semibold shadow-muted-foreground"
-              :class="getClass(props.item.priority)">
-              {{ props.item.priority }}
-            </div>
-            <div class="flex items-center gap-7 mt-auto">
-              <div class="flex items-center gap-2">
-                <CalendarIcon />
-                <span>Авг 21</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <ChatBubbleIcon />
-                <span>4</span>
-              </div>
-            </div>
-          </div>
-          <DrawerTitle> {{ props.item.title }}</DrawerTitle>
-          <DrawerDescription>
-            {{ props.item.description }}
-          </DrawerDescription>
-        </DrawerHeader>
+	<div class="transition-all duration-300" :class="{'translate-x-10 md:translate-y-5 md:translate-x-0': isCheckable}">
+		<Checkbox class="absolute top-1/2 left-2 transition-all md:left-0 md:top-1"
+			:class="{'-left-8 md:-left-0 md:-top-5' : isCheckable}" :id="props.item.id" />
+		<Sheet v-if="!isMobile">
+			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
+				<div class="flex justify-between items-center">
+					<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
+						:class="getClass(props.item.priority)">
+						{{ props.item.priority }}
+					</div>
+					<!-- TODO после mvp нужно добавить действия с задачей -->
+					<!-- <DataTableRowActions :row="item" /> -->
+				</div>
+				<div class="text-xl">
+					{{ props.item.title }}
+				</div>
+				<div class="flex items-center gap-7 mt-auto">
+					<div class="flex items-center gap-2">
+						<CalendarIcon />
+						<span>Jun 21</span>
+					</div>
+					<div class="flex items-center gap-2">
+						<ChatBubbleIcon />
+						<span>4</span>
+					</div>
+					<div class="block ml-auto">
+						<AvatarsGroup :avatars="avatars" />
+					</div>
+				</div>
+				<SheetTrigger class="absolute w-full h-full top-0 left-0" />
+				<SheetContent
+					class="w-[100%] h-[100dvh] p-4 pb-4 rounded-t-xl md:w-[540px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+					<div class="flex justify-between pr-10">
+						<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
+							:class="getClass(props.item.priority)">
+							{{ props.item.priority }}
+						</div>
+						<div class="flex items-center gap-7 mt-auto">
+							<div class="flex items-center gap-2">
+								<CalendarIcon />
+								<span>Авг 21</span>
+							</div>
+							<div class="flex items-center gap-2">
+								<ChatBubbleIcon />
+								<span>4</span>
+							</div>
+						</div>
+					</div>
+					<SheetHeader class="mt-6">
+						<SheetTitle> {{ props.item.title }}</SheetTitle>
+						<SheetDescription>{{ props.item.description }}</SheetDescription>
+					</SheetHeader>
+					<div class="align-top">
+						<TeamMembers :isChangeable="isCheckable" />
+					</div>
+					<div class="flex w-full justify-between px-4 gap-3">
+						<Button @click="openChat = !openChat" class="bg-muted text-primary flex-1">
+							Чат
+						</Button>
+						<Button @click="openImages = !openImages" class="bg-muted text-primary flex-1">
+							Картинки
+						</Button>
+					</div>
+					<Collapsible v-model:open="openChat">
+						<CollapsibleContent>
+							<CardChat />
+						</CollapsibleContent>
+					</Collapsible>
+					<Collapsible v-model:open="openImages">
+						<CollapsibleContent>
+							<UploadFile/>
+						</CollapsibleContent>
+					</Collapsible>
+				</SheetContent>
+			</div>
+		</Sheet>
+		<Drawer v-else v-model:open="open">
+			<DrawerTrigger as-child>
+				<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
+					<div class="flex justify-between items-center">
+						<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
+							:class="getClass(props.item.priority)">
+							{{ props.item.priority }}
+						</div>
+						<!-- TODO после mvp нужно добавить действия с задачей -->
+						<!-- <DataTableRowActions :row="item" /> -->
+					</div>
+					<div class="text-xl">
+						{{ props.item.title }}
+					</div>
+					<div class="flex items-center gap-7 mt-auto">
+						<div class="flex items-center gap-2">
+							<CalendarIcon />
+							<span>Авг 21</span>
+						</div>
+						<div class="flex items-center gap-2">
+							<ChatBubbleIcon />
+							<span>4</span>
+						</div>
+						<div class="block ml-auto">
+							<AvatarsGroup :avatars="avatars" />
+						</div>
+					</div>
+				</div>
+			</DrawerTrigger>
+			<DrawerContent>
+				<DrawerHeader class="text-left space-y-4">
+					<div class="flex justify-between">
+						<div class="p-1 rounded-md text-xs min-w-16 text-center text-white font-semibold shadow-muted-foreground"
+							:class="getClass(props.item.priority)">
+							{{ props.item.priority }}
+						</div>
+						<div class="flex items-center gap-7 mt-auto">
+							<div class="flex items-center gap-2">
+								<CalendarIcon />
+								<span>Авг 21</span>
+							</div>
+							<div class="flex items-center gap-2">
+								<ChatBubbleIcon />
+								<span>4</span>
+							</div>
+						</div>
+					</div>
+					<DrawerTitle> {{ props.item.title }}</DrawerTitle>
+					<DrawerDescription>
+						{{ props.item.description }}
+					</DrawerDescription>
+				</DrawerHeader>
 				<div class="align-top p-2 md:p-4">
 					<TeamMembers :isChangeable="isCheckable" />
 				</div>
@@ -202,7 +229,7 @@ const isChangeable = ref(false)
 						Картинки
 					</Button>
 				</div>
-				<Drawer v-model:open="openChat"  v-if="isMobile">
+				<Drawer v-model:open="openChat">
 					<DrawerContent>
 						<div class="max-w-full flex-1 p-2 md:p-4">
 							<CardChat />
@@ -216,10 +243,10 @@ const isChangeable = ref(false)
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
-				<Drawer v-model:open="openImages"  v-if="isMobile">
+				<Drawer v-model:open="openImages">
 					<DrawerContent>
 						<div class="px-4 pb-3">
-							<UploadFile @submit="openImages = false"/>
+							<UploadFile @submit="openImages = false" />
 						</div>
 						<DrawerFooter class="pt-2">
 							<DrawerClose as-child>
@@ -230,14 +257,14 @@ const isChangeable = ref(false)
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
-        <DrawerFooter class="pt-2">
-          <DrawerClose as-child>
-            <Button variant="outline">
-              Изменить
-            </Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  </div>
+				<DrawerFooter class="pt-2">
+					<DrawerClose as-child>
+						<Button variant="outline">
+							Изменить
+						</Button>
+					</DrawerClose>
+				</DrawerFooter>
+			</DrawerContent>
+		</Drawer>
+	</div>
 </template>
