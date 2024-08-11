@@ -51,7 +51,7 @@ onBeforeMount(() => {
 	if(currList.value){
 		taskList.value = currList.value.tasks
   }
-  console.log(currList.value);
+  // console.log(currList.value);
 })
 
 let updateCount = ref(0)
@@ -99,7 +99,7 @@ watch(listStore.list, () => {
 			<rawDisplayer class="col-3" :value="list2" title="List 2" />
 		</div>
 
-		<DataTable :data="taskList" :id="props.id" :key="updateCount" v-else />
+		<DataTable :data="taskList" :id="+props.id" :key="updateCount" v-else />
 	</div>
 </template>
 

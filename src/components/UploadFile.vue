@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch,} from 'vue'
+import { computed, onMounted, ref, watch,} from 'vue'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { PlusIcon, TrashIcon } from '@radix-icons/vue'
@@ -13,6 +13,9 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 
+const props = defineProps<{
+	images: object,
+}>()
 
 let images = ref([])
 
@@ -30,7 +33,7 @@ function handleFileUpload(event) {
 			});
 		};
 		reader.readAsDataURL(files[i]);
-		console.log(files[i]);
+		// console.log(files[i]);
 	}
 }
 
@@ -39,10 +42,14 @@ function removeImage(index) {
 }
 
 function onSubmit() {
-	console.log('отправлено', images),
-	emit('submit')
+	// console.log('отправлено', images),
+	emit('submit', images)
 }
-
+// onMounted(() => {
+// 	if (props.images) {
+// 		images.value = props.images
+// 	}
+// }),
 </script>
 
 <template>

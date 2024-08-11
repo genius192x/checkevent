@@ -30,7 +30,7 @@ import { useListStore } from '@/store/ListsStore'
 
 interface DataTableProps {
 	data: Task[]
-	id: string
+	id: number
 }
 const props = defineProps<DataTableProps>()
 
@@ -93,7 +93,6 @@ const selectedItems = ref([])
 watch(listStore.filters[0].checked, (newValue, oldValue) => {
   filters.value = listStore.filters[0].checked
   checkedLabels.value = listStore.filters[0].checked.map(item => item.value)
-
 })
 
 </script>
@@ -110,8 +109,8 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
 					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable" />
 				</ContextMenuTrigger>
 				<ContextMenuContent>
-					<ContextMenuItem inset>
-						Отметить как выполенное
+					<ContextMenuItem inset @click="listStore.changeStatus(props.id, item.id)">
+						{{ !item.isDone ? "Отметить как выполнено" : "Вернуть в работу" }}
 					</ContextMenuItem>
 					<ContextMenuItem inset disabled class="text-red-600">
 						Удалить

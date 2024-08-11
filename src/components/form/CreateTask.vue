@@ -77,24 +77,25 @@ const currList = ref(listStore.getItemById(props.listId))
 
 
 const types = [
-	{ label: 'Документы', value: 'documents' },
-	{ label: 'Звук', value: 'sound' },
-	{ label: 'Свет', value: 'light' },
+	{ label: 'Высокий', value: 'high' },
+	{ label: 'Средний', value: 'medium' },
+	{ label: 'Низкий', value: 'low' },
 ] as const
 
 const df = new DateFormatter('ru-RU', {
 	dateStyle: 'long',
 })
 const formResult = {
-	id: `TASK-${currList.value.tasks.length + 1}`,
+	id: currList.value.tasks.length + 1,
 	title: '',
 	status: 'todo',
 	label: null,
-	priority: 'low',
+	priority: '',
 	description: '',
-	lastApdate: dateValue,
+	deadLine: dateValue,
 	participants: [],
-	tasks: []
+	messages: [],
+	responsible:{}
 }
 const accountFormSchema = toTypedSchema(z.object({
 	name: z
@@ -106,12 +107,12 @@ const accountFormSchema = toTypedSchema(z.object({
 			required_error: 'Обязательное поле.',
 		}),
 	date: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
-	type: z
+	priority: z
 		.string({
 			required_error: 'Обязательное поле.',
 		})
 		.min(1, 'Необходимо выбрать тип.'),
-	participants: z
+	responsible: z
 		.string({
 			required_error: 'Обязательное поле.',
 		})
@@ -122,21 +123,22 @@ function getImageUrl(name) {
 	return new URL(`../../assets/avatars/${name}`, import.meta.url).href
 }
 
-// function onSubmit(values: any) {
-// 	listStore.addList(formResult)
-// 	globalStore.isSheetOpen = false
-// 	toast({
-// 		description: 'Лист успешно создан',
-// 	});
-// }
+
 const url = window.location.href;
 const lastParam = url.split("/").slice(-1)[0];
 
-function onSubmit(values: any) {
+const options = {
+	day: 'numeric',
+	month: 'long',
+};
+
+
+function onSubmit(values) {
 	listStore.addTask(formResult, lastParam)
+//
 	globalStore.isSheetOpen = false
 	toast({
-		description: 'Задача добавлена в лист',
+		description: "Лист успешно создан",
 	});
 }
 
@@ -195,7 +197,7 @@ function onSubmit(values: any) {
 									if (v) {
 										dateValue = v
 										openDate = false
-										formResult.lastApdate = toDate(v).toLocaleDateString()
+										formResult.deadLine = toDate(v).toLocaleDateString('ru-RU', options)
 										setFieldValue('date', toDate(v).toISOString())
 									}
 									else {
@@ -211,9 +213,9 @@ function onSubmit(values: any) {
 				</FormItem>
 				<input type="hidden" v-bind="field">
 			</FormField>
-			<FormField v-slot="{ value }" name="type">
+			<FormField v-slot="{ value }" name="priority">
 				<FormItem class="flex flex-col">
-					<FormLabel>Категория задачи</FormLabel>
+					<FormLabel>Приоритет задачи</FormLabel>
 
 					<Popover v-model:open="open">
 						<PopoverTrigger as-child>
@@ -224,7 +226,7 @@ function onSubmit(values: any) {
 					)">
 									{{ value ? types.find(
 									(type) => type.value === value,
-									)?.label : 'Выберите категорию' }}
+									)?.label : 'Выберите приоритет' }}
 
 									<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 								</Button>
@@ -236,8 +238,8 @@ function onSubmit(values: any) {
 									<CommandGroup>
 										<CommandItem v-for="type in types" :key="type.value" :value="type.label"
 											@select="() => {
-												formResult.label = type.value
-												setFieldValue('type', type.value)
+												formResult.priority = type.value
+												setFieldValue('priority', type.value)
 												open = false
 											}">
 											<Check :class="cn(
@@ -254,15 +256,21 @@ function onSubmit(values: any) {
 
 
 					<FormDescription>
-						Тип будет отображаться под описанием лита для удобства
+
 					</FormDescription>
 				</FormItem>
 			</FormField>
-			<FormField  v-slot="{ componentField }" name="participants">
+			<FormField  v-slot="{ field, value }" name="responsible">
 				<FormItem class="flex flex-col">
 					<FormLabel>Исполнитель</FormLabel>
 
-						<Select v-bind="componentField">
+						<Select v-bind="field"
+						@update:model-value="(v) => {
+							if (v) {
+								console.log(v);
+								formResult.responsible = globalStore.defaultUsers.find(person => person.email === v)
+							}
+						}">
 							<SelectTrigger
 							id="model"
 							class="items-center [&_[data-description]]:hidden h-auto"

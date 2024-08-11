@@ -14,6 +14,7 @@ import { useUserStore } from './store/UserStore'
 import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
 import Button from '@/components/ui/button/Button.vue'
 
+
 import {MoonIcon} from '@radix-icons/vue'
 import {SunIcon} from '@radix-icons/vue'
 import {Half2Icon} from '@radix-icons/vue'
@@ -59,7 +60,7 @@ const isDark = computed(() => {
 <template>
 	<TooltipProvider :delay-duration="0">
 		<div class="flex-col md:flex transition-all duration-500 h-full overflow-hidden" :class="{'scale-95' : globalStore.isSheetOpen }">
-			<div class="border-b min-h-[100dvh]">
+			<div class="border-b">
 				<div class="sticky top-0 flex h-16 z-50 items-center gap-4 border-b bg-background px-4 md:px-6 "  v-if="globalStore.isAuth">
 					<router-link to="/" class="w-[40px] h-[40px]">
 						<svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,11 +95,11 @@ const isDark = computed(() => {
 
 <style>
 body{
-	min-height: 100dvh;
+	/* min-height: 100dvh; */
   transition: all 0.3s ease 0s;
 }
 #app{
-	min-height: 100dvh;
+	/* min-height: 100dvh; */
 
 }
 </style>

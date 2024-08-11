@@ -18,7 +18,6 @@ export const useListStore = defineStore('listStore', () => {
       filtered: false,
     }
   ]);
-  console.log(filters.value);
   list.value = myTasks
 
 
@@ -42,6 +41,7 @@ export const useListStore = defineStore('listStore', () => {
 	function addTask(item, listId) {
 		let curList = list.value.find(({ id }) => id == listId);
 		curList.tasks.unshift(item)
+		console.log(item);
 		setListToStore()
 	}
 
@@ -54,6 +54,29 @@ export const useListStore = defineStore('listStore', () => {
 		});
 		setListToStore()
 		updateList()
+	}
+
+
+	function changeStatus(listId, taskId) {
+		console.log(getItemById(listId));
+		list.value.forEach(list => {
+			if (list.id == listId) {
+				list.tasks.forEach(task => {
+					if (task.id == taskId) {
+						task.isDone = !task.isDone
+						setListToStore()
+					}
+				})
+			}
+		})
+	}
+
+	function updateMessage(id, value) {
+		list.value.forEach(list => {
+			console.log(value);
+			list.tasks.find(task=> task.id === id).messages.push(value)
+			setListToStore()
+		})
 	}
 
 
@@ -72,5 +95,5 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 
-	return { addList, list, getItemById, deleteList, addTask, filters}
+	return { addList, list, getItemById, deleteList, addTask, filters, changeStatus, updateMessage}
 })

@@ -4,7 +4,6 @@ import DateRangePicker from '@/components/DateRangePicker.vue'
 import CreateList from "@/components/form/CreateList.vue"
 import { PlusIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
-import { Toaster } from '@/components/ui/sonner'
 import {useListStore} from '@/store/ListsStore'
 import {
     Tabs,
@@ -44,10 +43,6 @@ if (window.innerWidth > 768){
 			<h2 class="text-3xl font-bold tracking-tight">
 				Список мероприятий
 			</h2>
-			<div class="flex items-center flex-wrap">
-				<!-- <DateRangePicker/> -->
-				<Toaster />
-			</div>
 		</div>
 
 		<Tabs default-value="active" class="space-y-3 md:space-y-4">
