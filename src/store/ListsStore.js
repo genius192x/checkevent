@@ -73,8 +73,12 @@ export const useListStore = defineStore('listStore', () => {
 
 	function updateMessage(id, value) {
 		list.value.forEach(list => {
-			console.log(value);
-			list.tasks.find(task=> task.id === id).messages.push(value)
+			list.tasks.forEach(task => {
+				if (task.id === id) {
+					task.messages.push(value)
+				}
+			});
+			// list.tasks.find(task=> task.id === id).messages.push(value)
 			setListToStore()
 		})
 	}

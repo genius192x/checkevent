@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import { ref, onMounted, watch, getCurrentInstance, computed, reactive  } from 'vue'
+import { ref, onMounted, watch, getCurrentInstance, computed, reactive, onBeforeUpdate, onBeforeUnmount  } from 'vue'
 
 import Search from '@/components/Search.vue'
 import type { Task } from '@/lib/schema'
@@ -45,16 +45,6 @@ const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
-let previewImage = ref(null);
-function uploadImage(e) {
-	const image = e.target.files[0];
-	const reader = new FileReader();
-	reader.readAsDataURL(image);
-	reader.onload = e => {
-		previewImage.value = e.target.result;
-		console.log(e);
-	};
-}
 
 const isMobile = useMedia("(max-width: 768px)")
 

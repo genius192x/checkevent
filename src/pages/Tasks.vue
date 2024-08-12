@@ -57,9 +57,9 @@ onBeforeMount(() => {
 let updateCount = ref(0)
 
 
-watch(listStore.list, () => {
-	updateCount.value++
-})
+// watch(listStore.list, () => {
+// 	updateCount.value++
+// })
 
 </script>
 

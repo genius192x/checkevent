@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUpdate, onMounted, ref } from 'vue'
 import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
 import { Button } from '@/components/ui/button'
 import CaretSortIcon from '@radix-icons/vue/CaretSortIcon'
@@ -127,24 +127,31 @@ function saveImages(images) {
 	});
 }
 
-const messages = computed(() => {
+const messagesLength = computed(() => {
 	return props.item.messages.length || 0
 })
 
+const messages = computed(() => {
+	return props.item.messages
+})
+
 function updateMessages(value) {
-	console.log(value);
+	listStore.updateMessage(props.id, value)
+	console.log('update message');
+	console.log(messages.value);
 
 }
 
 function getImageUrl(name) {
 	return new URL(`../assets/avatars/${name}`, import.meta.url).href
 }
+
 function initialsPersonal(name, surname) {
 	let firstLetter = name.slice(0, 1)
 	let secondLetter = surname.slice(0, 1)
 	return (`${firstLetter}${secondLetter}`)
 }
-console.log(props.item);
+// console.log(props.item);
 
 </script>
 
@@ -172,7 +179,7 @@ console.log(props.item);
 					</div>
 					<div class="flex items-center gap-2">
 						<ChatBubbleIcon />
-						<span>{{ messages }}</span>
+						<span>{{ messagesLength }}</span>
 					</div>
 					<div class="block ml-auto">
 						<Avatar class="h-8 w-8 border-2 border-background">
@@ -196,7 +203,7 @@ console.log(props.item);
 							</div>
 							<div class="flex items-center gap-2">
 								<ChatBubbleIcon />
-								<span>{{ messages }}</span>
+								<span>{{ messagesLength }}</span>
 							</div>
 						</div>
 					</div>
@@ -215,11 +222,15 @@ console.log(props.item);
 							Картинки
 						</Button>
 					</div>
-					<Collapsible v-model:open="openChat">
+					<div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
+						<div class="px-6 pt-6 cursor-pointer" @click="openChat = !openChat">Назад</div>
+						<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class=""/>
+					</div>
+					<!-- <Collapsible v-model:open="openChat">
 						<CollapsibleContent>
 							<CardChat :messages="props.item.messages" @change-message="(value)=>{ updateMessages(value) }"/>
 						</CollapsibleContent>
-					</Collapsible>
+					</Collapsible> -->
 					<Collapsible v-model:open="openImages">
 						<CollapsibleContent>
 							<UploadFile @submit="saveImages" :images="props.item.images"/>
@@ -249,7 +260,7 @@ console.log(props.item);
 						</div>
 						<div class="flex items-center gap-2">
 							<ChatBubbleIcon />
-							<span>{{ messages }}</span>
+							<span>{{ messagesLength }}</span>
 						</div>
 						<div class="block ml-auto">
 							<Avatar class="h-8 w-8 border-2 border-background">
@@ -274,7 +285,7 @@ console.log(props.item);
 							</div>
 							<div class="flex items-center gap-2">
 								<ChatBubbleIcon />
-								<span>{{ messages }}</span>
+								<span>{{ messagesLength }}</span>
 							</div>
 						</div>
 					</div>
@@ -298,7 +309,7 @@ console.log(props.item);
 				<Drawer v-model:open="openChat">
 					<DrawerContent>
 						<div class="max-w-full flex-1 p-2 md:p-4">
-							<CardChat :messages="props.item.messages" @change-message="(value) => {updateMessages(value.value);}"/>
+							<CardChat :messages="messages" @change-message="(value) => {updateMessages(value.value);}"/>
 						</div>
 						<DrawerFooter class="pt-2">
 							<DrawerClose as-child>
