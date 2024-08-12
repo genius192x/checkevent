@@ -60,6 +60,15 @@ const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
+interface Responsible{
+	avatar: string,
+	email: string,
+	name: string,
+	password: string,
+	role: string,
+	surname: string,
+}
+
 interface Item {
   id: number,
   title: string,
@@ -67,9 +76,10 @@ interface Item {
   status: string,
   label: string,
 	priority: string,
+	deadLine: string,
 	images: object,
 	isDone: boolean,
-	responsible: object,
+	responsible: Responsible,
 	messages: [],
 }
 
@@ -173,7 +183,7 @@ console.log(props.item);
 				</div>
 				<SheetTrigger class="absolute w-full h-full top-0 left-0" />
 				<SheetContent
-					class="w-[100%] p-4 pb-4 rounded-t-xl md:w-[540px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+					class="w-[100%] p-0 pb-4 rounded-t-xl md:w-[540px] sm:max-w-none md:max-h-none md:rounded-xl md:p-6 outline-0 md:m-3 h-auto">
 					<div class="flex justify-between pr-10">
 						<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
 							:class="getClass(props.item.priority)">
@@ -195,9 +205,9 @@ console.log(props.item);
 						<SheetDescription>{{ props.item.description }}</SheetDescription>
 					</SheetHeader>
 					<div class="align-top">
-						<TeamMembers :isChangeable="isCheckable" />
+						<TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
 					</div>
-					<div class="flex w-full justify-between px-4 gap-3">
+					<div class="flex w-full justify-between gap-3">
 						<Button @click="openChat = !openChat" class="bg-muted text-primary flex-1">
 							Чат
 						</Button>

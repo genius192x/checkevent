@@ -43,6 +43,7 @@
         "status": "in progress",
         "label": "documents",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
@@ -81,6 +82,7 @@
         "status": "todo",
         "label": "documents",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
@@ -98,6 +100,7 @@
         "status": "todo",
         "label": "sound",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
@@ -141,6 +144,7 @@
         "status": "in progress",
         "label": "documents",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
@@ -158,6 +162,7 @@
         "status": "todo",
         "label": "documents",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
@@ -175,6 +180,7 @@
         "status": "todo",
         "label": "sound",
 				"isDone": false,
+				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
