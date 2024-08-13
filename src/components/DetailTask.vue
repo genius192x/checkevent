@@ -222,15 +222,15 @@ function initialsPersonal(name, surname) {
 							Картинки
 						</Button>
 					</div>
-					<div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
+					<!-- <div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
 						<div class="px-6 pt-6 cursor-pointer" @click="openChat = !openChat">Назад</div>
 						<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class=""/>
-					</div>
-					<!-- <Collapsible v-model:open="openChat">
+					</div> -->
+					<Collapsible v-model:open="openChat">
 						<CollapsibleContent>
-							<CardChat :messages="props.item.messages" @change-message="(value)=>{ updateMessages(value) }"/>
+							<CardChat :messages="messages" @change-message="(message)=>{ updateMessages(message) }"/>
 						</CollapsibleContent>
-					</Collapsible> -->
+					</Collapsible>
 					<Collapsible v-model:open="openImages">
 						<CollapsibleContent>
 							<UploadFile @submit="saveImages" :images="props.item.images"/>

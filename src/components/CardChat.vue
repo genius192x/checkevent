@@ -80,7 +80,7 @@ function pushMessage() {
 <template>
 	<Card class="border-none flex flex-col">
 		<CardContent class="p-2 pt-2 md:p-6 md:pt-6 flex-1">
-			<ScrollArea class="h-72 rounded-md border p-2 md:h-full max-h-full">
+			<ScrollArea class="h-72 rounded-md border p-2  max-h-96">
 				<div class="space-y-4">
 					<div
 					v-for="(message, index) in messages"

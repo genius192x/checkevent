@@ -30,10 +30,16 @@ const delegatedProps = computed(() => {
 		class="max-w-[100%]"
     :class="cn('relative overflow-hidden', props.class)"
   >
-    <ScrollAreaViewport class="h-full w-full rounded-[inherit]">
+    <ScrollAreaViewport class="h-full w-full rounded-[inherit] block ScrollAreaViewport">
       <slot />
     </ScrollAreaViewport>
     <ScrollBar />
     <ScrollAreaCorner />
   </ScrollAreaRoot>
 </template>
+
+<style>
+.ScrollAreaViewport > div{
+	display: block !important;
+}
+</style>
