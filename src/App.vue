@@ -14,6 +14,7 @@ import { useUserStore } from './store/UserStore'
 import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
 import Button from '@/components/ui/button/Button.vue'
 
+import { api } from '@/api'
 
 import {MoonIcon} from '@radix-icons/vue'
 import {SunIcon} from '@radix-icons/vue'

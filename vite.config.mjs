@@ -9,7 +9,7 @@ import autoprefixer from "autoprefixer"
 export default defineConfig({
     base: '/checkevent/',
     server: {
-        port: 8080,
+        port: 4080,
         watch: {
             usePolling: true
         }
