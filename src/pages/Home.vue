@@ -6,19 +6,19 @@ import { PlusIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
 import {useListStore} from '@/store/ListsStore'
 import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from '@/components/ui/tabs'
 import {
-	Sheet,
-	SheetContent,
-	SheetTrigger,
-	SheetClose,
-	SheetHeader,
-	SheetTitle,
-	SheetDescription
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription
 } from '@/components/ui/sheet'
 
 import {
@@ -27,61 +27,70 @@ import {
 import DataTablePagination from '@/components/DataTablePagination.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
 import {useUserStore} from '@/store/UserStore'
+import axios from 'axios'
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
 let side = 'bottom';
 if (window.innerWidth > 768){
-	side = 'right'
+  side = 'right'
 }
 </script>
 
 <template>
-    <div class="flex-1 space-y-6 p-2 pt-6 md:p-8">
-		<div class="flex justify-between space-y-6 flex-col md:flex-row md:items-center md:space-y-2">
-			<h2 class="text-3xl font-bold tracking-tight">
-				Список мероприятий
-			</h2>
-		</div>
+  <div class="flex-1 space-y-6 p-2 pt-6 md:p-8">
+    <div class="flex justify-between space-y-6 flex-col md:flex-row md:items-center md:space-y-2">
+      <h2 class="text-3xl font-bold tracking-tight">
+        Список мероприятий
+      </h2>
+    </div>
 
-		<Tabs default-value="active" class="space-y-3 md:space-y-4">
-			<div class="flex justify-between">
-				<TabsList class="overflow-auto">
-					<TabsTrigger value="active">
-						Активные
-					</TabsTrigger>
-					<TabsTrigger value="archive" >
-						Архив
-					</TabsTrigger>
-				</TabsList>
-				<Sheet :open="globalStore.isSheetOpen">
-					<!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
-					<SheetTrigger >
-						<Button @click="globalStore.isSheetOpen = true">
-							<PlusIcon class="w-4 h-4 mr-2" /> Новый лист
-						</Button>
-					</SheetTrigger>
-					<SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-						<SheetHeader>
-							<SheetTitle>Создание нового листа</SheetTitle>
-						</SheetHeader>
-						<CreateList/>
-					</SheetContent>
-				</Sheet>
-			</div>
-			<TabsContent value="active" class="space-y-4">
+    <Tabs default-value="active" class="space-y-3 md:space-y-4">
+      <div class="flex justify-between">
+        <TabsList class="overflow-auto">
+          <TabsTrigger value="active">
+            Активные
+          </TabsTrigger>
+          <TabsTrigger value="archive" >
+            Архив
+          </TabsTrigger>
+        </TabsList>
+        <!-- <Button @click="axios.get(`${import.meta.env.MOCK_ADRESS}/user`)
+          .then(response => {
+            console.log(response.status)
+            console.log(response.statusText)
+            console.log(response.headers)
+            console.log(response.data)
+
+          })">get user</Button> -->
+        <Sheet :open="globalStore.isSheetOpen">
+          <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
+          <SheetTrigger >
+            <Button @click="globalStore.isSheetOpen = true">
+              <PlusIcon class="w-4 h-4 mr-2" /> Новый лист
+            </Button>
+          </SheetTrigger>
+          <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+            <SheetHeader>
+              <SheetTitle>Создание нового листа</SheetTitle>
+            </SheetHeader>
+            <CreateList/>
+          </SheetContent>
+        </Sheet>
+      </div>
+      <TabsContent value="active" class="space-y-4">
         <ListCard
-          :items="listStore.list"
+        :items="listStore.list"
         />
-			</TabsContent>
-			<TabsContent value="archive" class="space-y-4">
-				<!-- <div v-for="item in eventsExpired" :key="item.id">
-					<ListCard
-						:item="item"
-					/>
-				</div> -->
-			</TabsContent>
-		</Tabs>
-	</div>
+      </TabsContent>
+      <TabsContent value="archive" class="space-y-4">
+        <!-- <div v-for="item in eventsExpired" :key="item.id">
+          <ListCard
+          :item="item"
+          />
+        </div> -->
+      </TabsContent>
+    </Tabs>
+  </div>
 </template>
