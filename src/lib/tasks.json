@@ -3,7 +3,7 @@
     "title": "Матч ЦСКА-Ростов",
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
-    "lastApdate": "19.06.2023",
+    "lastApdate": "19.09.2026",
 		"participants":[
 			{
 				"name": "Михаил",
@@ -62,7 +62,7 @@
 					{
 						"text": "Сообщение",
 						"userEmail": "13@rew.re",
-						"date": "09.08.2024",
+						"date": "09.11.2024",
 						"time": "15:54",
 						"isReaded": false
 					},
@@ -118,7 +118,87 @@
     "title": "Корпоратив мужской команды",
     "description": "Список задач по организации/проведению корпоратива",
     "type": "Гандбол Женский",
-    "lastApdate": "15.05.2023",
+    "lastApdate": "15.11.2023",
+    "participants":[
+      {
+        "name": "Сергей",
+        "surname": "Моисеев",
+        "email": "moiseev@mail.ru",
+        "password": "moi123",
+        "avatar": "03.png"
+      },
+      {
+        "name": "Настя",
+        "surname": "Курбатова",
+        "email": "kurbatova@mail.ru",
+        "password": "kur123",
+        "avatar": "01.png"
+      }
+    ],
+    "id": 2,
+    "tasks":[
+      {
+        "id": 45321,
+        "title": "Необходиом подписать документы",
+				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
+        "status": "in progress",
+        "label": "documents",
+				"isDone": false,
+				"deadLine":"30 августа",
+				"responsible": {
+					"name": "Настя",
+					"surname": "Курбатова",
+					"email": "kurbatova@mail.ru",
+					"password": "kur123",
+					"avatar": "01.png"
+				},
+				"messages": [
+				],
+        "priority": "low"
+      },
+      {
+        "id": 7347,
+        "title": "Оформить отчет про прошедшему мероприятию",
+        "status": "todo",
+        "label": "documents",
+				"isDone": false,
+				"deadLine":"30 августа",
+				"responsible": {
+					"name": "Настя",
+					"surname": "Курбатова",
+					"email": "kurbatova@mail.ru",
+					"password": "kur123",
+					"avatar": "01.png"
+				},
+				"messages": [
+				],
+        "priority": "medium"
+      },
+      {
+        "id": 3457,
+        "title": "Необходимо докупить 2 колонки",
+        "status": "todo",
+        "label": "sound",
+				"isDone": false,
+				"deadLine":"30 августа",
+				"responsible": {
+					"name": "Настя",
+					"surname": "Курбатова",
+					"email": "kurbatova@mail.ru",
+					"password": "kur123",
+					"avatar": "01.png"
+				},
+				"messages": [
+				],
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "title": "Корпоратив мужской команды",
+    "description": "Список задач по организации/проведению корпоратива",
+    "type": "Гандбол Женский",
+    "lastApdate": "15.11.2025",
     "participants":[
       {
         "name": "Сергей",

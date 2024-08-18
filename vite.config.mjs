@@ -7,7 +7,7 @@ import tailwind from "tailwindcss"
 import autoprefixer from "autoprefixer"
 
 export default defineConfig({
-    base: '/checkevent/',
+    // base: '/checkevent/',
     server: {
         port: 4080,
         watch: {

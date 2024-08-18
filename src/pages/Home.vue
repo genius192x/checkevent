@@ -2,7 +2,7 @@
 import {ref} from 'vue'
 import DateRangePicker from '@/components/DateRangePicker.vue'
 import CreateList from "@/components/form/CreateList.vue"
-import { PlusIcon } from '@radix-icons/vue'
+import { PlusIcon, ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from '@radix-icons/vue'
 import ListCard from '@/components/ListCard.vue'
 import {useListStore} from '@/store/ListsStore'
 import {
@@ -20,6 +20,13 @@ import {
   SheetTitle,
   SheetDescription
 } from '@/components/ui/sheet'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 import {
   Button,
@@ -37,6 +44,8 @@ if (window.innerWidth > 768){
   side = 'right'
 }
 const url = import.meta.env.VITE_API_URL
+
+const sortDirection = ref('');
 </script>
 
 <template>
@@ -49,21 +58,47 @@ const url = import.meta.env.VITE_API_URL
 
     <Tabs default-value="active" class="space-y-3 md:space-y-4">
       <div class="flex justify-between">
-        <TabsList class="overflow-auto">
-          <TabsTrigger value="active">
-            Активные
-          </TabsTrigger>
-          <TabsTrigger value="archive" >
-            Архив
-          </TabsTrigger>
-        </TabsList>
-        <Button @click="axios.get(`${url}/user`)
+        <div class="flex items-center gap-5">
+          <TabsList class="overflow-auto">
+            <TabsTrigger value="active">
+              Активные
+            </TabsTrigger>
+            <TabsTrigger value="archive" >
+              Архив
+            </TabsTrigger>
+          </TabsList>
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+              <Button
+              variant="ghost"
+              size="sm"
+              class="-ml-3 h-8 data-[state=open]:bg-accent"
+              >
+              <span>Дедлайн</span>
+              <ArrowDownIcon v-if="sortDirection === 'desc'" class="ml-2 h-4 w-4" />
+              <ArrowUpIcon v-else-if="sortDirection === 'asc'" class="ml-2 h-4 w-4" />
+              <CaretSortIcon v-else class="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem @click="sortDirection = 'asc'">
+              <ArrowUpIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Сначала срочные
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="sortDirection = 'desc'">
+              <ArrowDownIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Сначала не срочные
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <!-- <Button @click="axios.get(`${url}/user`)
         .then(response => {
           console.log(response)
           console.log(response.statusText)
           console.log(response.data)
 
-        })">get user</Button>
+        })">get user</Button> -->
         <Sheet :open="globalStore.isSheetOpen">
           <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
           <SheetTrigger >
@@ -82,6 +117,7 @@ const url = import.meta.env.VITE_API_URL
       <TabsContent value="active" class="space-y-4">
         <ListCard
         :items="listStore.list"
+        :sorted="sortDirection"
         />
       </TabsContent>
       <TabsContent value="archive" class="space-y-4">
