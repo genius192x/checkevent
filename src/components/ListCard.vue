@@ -132,7 +132,7 @@ function changePage(pageNumber) {
             </AlertDialog>
           <div class="flex items-end gap-4 justify-between md:flex-row md:items-center">
             <div
-              class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:flex-wrap md:space-y-0 2xl:flex-row">
+              class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:space-y-0">
               <div class="flex items-center">
                 <CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
                 {{item.type}}

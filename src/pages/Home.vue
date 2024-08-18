@@ -36,6 +36,7 @@ let side = 'bottom';
 if (window.innerWidth > 768){
   side = 'right'
 }
+const url = import.meta.env.VITE_API_URL
 </script>
 
 <template>
@@ -56,14 +57,13 @@ if (window.innerWidth > 768){
             Архив
           </TabsTrigger>
         </TabsList>
-        <!-- <Button @click="axios.get(`${import.meta.env.MOCK_ADRESS}/user`)
-          .then(response => {
-            console.log(response.status)
-            console.log(response.statusText)
-            console.log(response.headers)
-            console.log(response.data)
+        <Button @click="axios.get(`${url}/user`)
+        .then(response => {
+          console.log(response)
+          console.log(response.statusText)
+          console.log(response.data)
 
-          })">get user</Button> -->
+        })">get user</Button>
         <Sheet :open="globalStore.isSheetOpen">
           <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
           <SheetTrigger >

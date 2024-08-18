@@ -1,14 +1,17 @@
+/// <reference types="cypress" />
 
+context('Network Requests', () => {
+  beforeEach(() => {
+    cy.visit('https://example.cypress.io/commands/network-requests')
+  })
 
-describe('My First Test', () => {
-  it('Does not do much!', () => {
-    cy.intercept({
-      method: 'POST',
-      url: `http://localhost:4080/#//user`,
-    }).as('apiCheck')
-    cy.wait('@apiCheck').then((interception) => {
-      assert.isNotNull(interception.response, '1st API call has data')
-    })
-
+  it('cy.request() - make an XHR request', () => {
+    cy.request('http://localhost:4080/user').as('user')
+    // https://on.cypress.io/request
+    cy.get('@user').then(
+      (response) => {
+        // response.body is automatically serialized into JSON
+        expect(response.body).to.have.property('firstName', 'John') // true
+      })
   })
 })
