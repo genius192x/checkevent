@@ -24,7 +24,7 @@ import {
   PaginationNext,
   PaginationPrev,
 } from '@/components/ui/pagination'
-
+import { parse } from 'date-fns';
 import {
   Button,
 } from '@/components/ui/button'
@@ -50,8 +50,9 @@ const list = useListStore()
 
 interface Item {
   id: number,
-  lastApdate: string,
+  lastApdate: any,
   title: string,
+  type: string,
   description: string,
   status: string,
   participants: [],
@@ -77,132 +78,124 @@ const displayedItems = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage.value;
   const endIndex = startIndex + itemsPerPage.value;
   const slicedItems = ref(props.items.slice(startIndex, endIndex));
-  // const sortedItems = ref([...slicedItems]);
+  const sortedItems = ref(slicedItems.value.map(value => value));
   // console.log(sortedItems.value);
 
-  // if (props.sorted === 'asc') {
-    //   slicedItems.sort((a, b) => {
-      //     console.log(a.lastApdate);
+  sortedItems.value.forEach(item => {
+    // const [day, month, year] = item.lastApdate.split('.');
+    item.lastApdate = new Date(item.lastApdate);
+  })
 
-      //     new Date(a.lastApdate) - new Date(b.lastApdate);
-      //   });
-      // } else if (props.sorted === 'desc') {
-        //   slicedItems.sort((a, b) => {
-          //     console.log(a.lastApdate);
-          //     new Date(b.lastApdate) - new Date(a.lastApdate);
-          //   });
-          // }
-          slicedItems.value.sort((a, b) => {
-            if (props.sorted === 'asc') {
-              console.log('asc');
+  if (props.sorted === 'asc') {
+    sortedItems.value.sort((a, b) => a.lastApdate - b.lastApdate)
 
-              return new Date(a.lastApdate) - new Date(b.lastApdate);
-            } else if (props.sorted === 'desc') {
-              console.log('desc');
-              return new Date(b.lastApdate) - new Date(a.lastApdate);
-            } else {
-              return 0;
-            }
-          });
-          console.log(slicedItems.value);
+    // console.log('slicedItems.value', slicedItems.value.sort((a, b) => new Date(a.lastApdate) - new Date(b.lastApdate) ));
+    console.log();
 
-          return slicedItems.value
-        });
+  } else if (props.sorted === 'desc') {
+    sortedItems.value.sort((a, b) => b.lastApdate - a.lastApdate)
+  }
 
-        const deleteId = ref(0)
-        const confirmOpen = function (item) {
-          open.value = true
-          deleteId.value = item.id
-        }
-        const open = ref(false)
-        function changePage(pageNumber) {
-          console.log(itemsPerPage.value);
 
-          currentPage.value = pageNumber;
-        }
 
-      </script>
 
-      <template>
-        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          <div v-for="item in displayedItems" :key="item.id">
-            <Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer h-full flex flex-col justify-between">
-              <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">
-                <div class="space-y-1">
-                  <CardTitle>{{item.title}}
-                  </CardTitle>
-                  <CardDescription class="pt-2">
-                    {{item.description}}
-                  </CardDescription>
-                </div>
-                <div class=" rounded-md text-secondary-foreground" @click.stop ref="container">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger as-child>
-                      <Button variant="secondary" class="px-2 shadow-none">
-                        <ChevronDownIcon class="h-5 w-5 text-secondary-foreground" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" :align-offset="-5" class="w-[200px]">
-                      <!-- <DropdownMenuItem>
-                        Скопировать лист
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>Редактировать лист</DropdownMenuItem>
-                      <DropdownMenuSeparator /> -->
-                      <DropdownMenuItem class="text-red-500" @click="confirmOpen(item)">Удалить лист
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </CardHeader>
-              <CardContent class="p-4 pt-0 md:p-6">
-                <AlertDialog v-model:open="open">
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Это действие невозможно отменить. Это приведет к удалению данного листа навсегда.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogAction @click="list.deleteList(deleteId)">Удалить</AlertDialogAction>
-                      <AlertDialogCancel>Отменить</AlertDialogCancel>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-                <div class="flex items-end gap-4 justify-between md:flex-row md:items-center">
-                  <div
-                  class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:space-y-0">
-                  <div class="flex items-center">
-                    <CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
-                    {{item.type}}
-                  </div>
-                  <div class=" md:mt-0">Крайний срок {{item.lastApdate}}</div>
-                </div>
-                <div class="block">
-                  <!-- {{ item.participants }} -->
-                  <AvatarsGroup :avatars="item.participants" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+  return sortedItems.value
+});
+
+const deleteId = ref(0)
+const confirmOpen = function (item) {
+  open.value = true
+  deleteId.value = item.id
+}
+const open = ref(false)
+function changePage(pageNumber) {
+  console.log(itemsPerPage.value);
+
+  currentPage.value = pageNumber;
+}
+
+</script>
+
+<template>
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <div v-for="item in displayedItems" :key="item.id">
+      <Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer h-full flex flex-col justify-between">
+        <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">
+          <div class="space-y-1">
+            <CardTitle>{{item.title}}
+            </CardTitle>
+            <CardDescription class="pt-2">
+              {{item.description}}
+            </CardDescription>
+          </div>
+          <div class=" rounded-md text-secondary-foreground" @click.stop ref="container">
+            <DropdownMenu>
+              <DropdownMenuTrigger as-child>
+                <Button variant="secondary" class="px-2 shadow-none">
+                  <ChevronDownIcon class="h-5 w-5 text-secondary-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" :align-offset="-5" class="w-[200px]">
+                <!-- <DropdownMenuItem>
+                  Скопировать лист
+                </DropdownMenuItem>
+                <DropdownMenuItem>Редактировать лист</DropdownMenuItem>
+                <DropdownMenuSeparator /> -->
+                <DropdownMenuItem class="text-red-500" @click="confirmOpen(item)">Удалить лист
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </CardHeader>
+        <CardContent class="p-4 pt-0 md:p-6">
+          <AlertDialog v-model:open="open">
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Это действие невозможно отменить. Это приведет к удалению данного листа навсегда.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction @click="list.deleteList(deleteId)">Удалить</AlertDialogAction>
+                <AlertDialogCancel>Отменить</AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <div class="flex items-end gap-4 justify-between md:flex-row md:items-center">
+            <div
+            class="flex space-y-2 text-sm text-muted-foreground flex-col md:space-x-4 md:space-y-0">
+            <div class="flex items-center">
+              <CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
+              {{item.type}}
+            </div>
+            <div class=" md:mt-0">Крайний срок {{item.lastApdate.toLocaleDateString('ru-RU') }}</div>
+          </div>
+          <div class="block">
+            <!-- {{ item.participants }} -->
+            <AvatarsGroup :avatars="item.participants" />
+          </div>
         </div>
-      </div>
-      <Pagination v-slot="{ page }" :total="props.items.length" :default-page="1" :sibling-count="1" show-edges :items-per-page="itemsPerPage">
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst @click="changePage(1)"/>
-          <PaginationPrev @click="changePage(currentPage - 1)"/>
+      </CardContent>
+    </Card>
+  </div>
+</div>
+<Pagination v-slot="{ page }" :total="props.items.length" :default-page="1" :sibling-count="1" show-edges :items-per-page="itemsPerPage">
+  <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+    <PaginationFirst @click="changePage(1)"/>
+    <PaginationPrev @click="changePage(currentPage - 1)"/>
 
-          <template v-for="(item, index) in items">
-            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child @click="changePage(item.value)">
-              <Button class="w-9 h-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext @click="changePage(currentPage + 1)"/>
-          <PaginationLast @click="changePage(pageCount)"/>
-        </PaginationList>
-      </Pagination>
+    <template v-for="(item, index) in items">
+      <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child @click="changePage(item.value)">
+        <Button class="w-9 h-9 p-0" :variant="item.value === page ? 'default' : 'outline'">
+          {{ item.value }}
+        </Button>
+      </PaginationListItem>
+      <PaginationEllipsis v-else :key="item.type" :index="index" />
     </template>
+
+    <PaginationNext @click="changePage(currentPage + 1)"/>
+    <PaginationLast @click="changePage(pageCount)"/>
+  </PaginationList>
+</Pagination>
+</template>
