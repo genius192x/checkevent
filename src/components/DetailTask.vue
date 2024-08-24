@@ -295,7 +295,7 @@ function initialsPersonal(name, surname) {
 					</DrawerDescription>
 				</DrawerHeader>
 				<div class="align-top p-2 md:p-4">
-					<TeamMembers :isChangeable="isCheckable" />
+					<TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
 				</div>
 
 				<div class="flex w-full justify-between px-4 gap-3">
@@ -309,7 +309,7 @@ function initialsPersonal(name, surname) {
 				<Drawer v-model:open="openChat">
 					<DrawerContent>
 						<div class="max-w-full flex-1 p-2 md:p-4">
-							<CardChat :messages="messages" @change-message="(value) => {updateMessages(value.value);}"/>
+							<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }"/>
 						</div>
 						<DrawerFooter class="pt-2">
 							<DrawerClose as-child>
@@ -323,7 +323,7 @@ function initialsPersonal(name, surname) {
 				<Drawer v-model:open="openImages">
 					<DrawerContent>
 						<div class="px-4 pb-3">
-							<UploadFile @submit="saveImages" />
+							<UploadFile @submit="saveImages" :images="props.item.images"/>
 						</div>
 						<DrawerFooter class="pt-2">
 							<DrawerClose as-child>

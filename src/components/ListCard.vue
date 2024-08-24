@@ -61,6 +61,7 @@ interface Item {
 interface Props {
   items: Item[],
   sorted: string,
+  style: string,
 }
 const props = defineProps<Props>()
 
@@ -117,7 +118,7 @@ function changePage(pageNumber) {
 </script>
 
 <template>
-  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4" :class="{'!grid-cols-1' : props.style === 'column'}">
     <div v-for="item in displayedItems" :key="item.id">
       <Card @click="$router.push(`/list/${item.id}`)" class="cursor-pointer h-full flex flex-col justify-between">
         <CardHeader class="grid grid-cols-[minmax(0,1fr)_32px] items-start gap-4 space-y-0 p-4 md:p-6">

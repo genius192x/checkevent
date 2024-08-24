@@ -45,7 +45,7 @@ const value = ref('')
 </script>
 
 <template>
-	<div class="flex flex-col gap-8 md:justify-between md:items-center md:flex-row">
+	<div class="flex flex-col gap-3 md:justify-between md:items-center md:flex-row">
 		<div class="flex gap-2 flex-1 flex-wrap md:space-x-2 md:items-center">
 			<Input
         type="search"
@@ -72,28 +72,28 @@ const value = ref('')
 				Сбросить
 				<Cross2Icon class="ml-2 h-4 w-4" />
 			</Button> -->
-      <Sheet :open="globalStore.isSheetOpen">
-        <SheetTrigger>
-          <Button
-            variant="outline"
-            size="sm"
-            class="flex h-8 md:ml-auto"
-            @click="globalStore.isSheetOpen = true"
-          >
-            <PlusIcon class="mr-2 h-4 w-4" />
-            Новая задача
-          </Button>
-        </SheetTrigger>
-        <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-          <SheetHeader>
-            <SheetTitle>Создание новой задачи</SheetTitle>
-          </SheetHeader>
-          <CreateTask :list-id="$route.params.id"/>
-        </SheetContent>
-      </Sheet>
+      <Button variant="outline" @click="$emit('toggleCheck')">
+        Выбрать
+      </Button>
 		</div>
-    <Button @click="$emit('toggleCheck')">
-      Выбрать
-    </Button>
+    <Sheet :open="globalStore.isSheetOpen">
+      <SheetTrigger>
+        <Button
+
+          size="sm"
+          class="w-full md:w-fit"
+          @click="globalStore.isSheetOpen = true"
+        >
+          <PlusIcon class="mr-2 h-4 w-4" />
+          Новая задача
+        </Button>
+      </SheetTrigger>
+      <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+        <SheetHeader>
+          <SheetTitle>Создание новой задачи</SheetTitle>
+        </SheetHeader>
+        <CreateTask :list-id="$route.params.id"/>
+      </SheetContent>
+    </Sheet>
 	</div>
 </template>
