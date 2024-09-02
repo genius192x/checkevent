@@ -17,8 +17,11 @@ import { z } from 'zod';
 import { useUserStore } from '@/store/UserStore';
 import { useGlobalStore } from '@/store/GlobalStore';
 import router from '@/router';
-import { useToast } from '@/components/ui/toast/use-toast'
-const { toast } = useToast()
+
+import {
+  toast
+} from 'vue-sonner'
+
 
 const userStore = useUserStore()
 const globalStore = useGlobalStore()

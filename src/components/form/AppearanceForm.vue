@@ -5,7 +5,11 @@ import { useForm } from 'vee-validate'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { toast } from '@/components/ui/toast'
+// import { toast } from '@/components/ui/toast'
+import {
+  toast
+} from 'vue-sonner'
+
 import { useColorMode } from '@vueuse/core'
 const mode = useColorMode()
 

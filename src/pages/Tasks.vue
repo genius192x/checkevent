@@ -47,6 +47,7 @@ function dragOptions() {
 
 onBeforeMount(() => {
 	currList.value = listStore.getItemById(props.id)
+  console.log(currList.value.tasks[0].isDone);
 
 	if(currList.value){
 		taskList.value = currList.value.tasks
@@ -54,12 +55,7 @@ onBeforeMount(() => {
   // console.log(currList.value);
 })
 
-let updateCount = ref(0)
 
-
-// watch(listStore.list, () => {
-// 	updateCount.value++
-// })
 
 </script>
 
@@ -99,7 +95,7 @@ let updateCount = ref(0)
 			<rawDisplayer class="col-3" :value="list2" title="List 2" />
 		</div>
 
-		<DataTable :data="taskList" :id="+props.id" :key="updateCount" v-else />
+		<DataTable :data="taskList" :id="+props.id"  v-else />
 	</div>
 </template>
 

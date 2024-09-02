@@ -4,9 +4,11 @@ import { useGlobalStore } from '@/store/GlobalStore';
 import router from '@/router';
 import { useToast } from '@/components/ui/toast/use-toast'
 import axios from 'axios'
-// import { useToast } from '@/components/ui/toast/use-toast'
 import { rudderAnalytics } from '@/lib/rudderAnalytics.js'
-// const { toast } = useToast()
+import {
+  toast
+} from 'vue-sonner'
+
 
 
 export const useUserStore = defineStore('userStore', () => {

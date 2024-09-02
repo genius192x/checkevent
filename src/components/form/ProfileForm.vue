@@ -19,7 +19,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { toast } from '@/components/ui/toast'
+// import { toast } from '@/components/ui/toast'
+import { toast } from 'vue-sonner'
 
 const verifiedEmails = ref(['m@example.com', 'm@google.com', 'm@support.com'])
 

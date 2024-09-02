@@ -6,8 +6,10 @@ import { Check, ChevronsUpDown, Plus } from 'lucide-vue-next'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today, type DateValue } from '@internationalized/date'
 import { cn } from '@/lib/utils'
 import router from '@/router'
-import { useToast } from '@/components/ui/toast/use-toast'
-const { toast } = useToast()
+import {
+  toast
+} from 'vue-sonner'
+
 import RadixIconsCalendar from '@radix-icons/vue/CalendarIcon'
 import {
 	toDate
@@ -137,9 +139,7 @@ function onSubmit(values) {
 	listStore.addTask(formResult, lastParam)
 //
 	globalStore.isSheetOpen = false
-	toast({
-		description: "Лист успешно создан",
-	});
+	toast("Лист успешно создан");
 }
 
 </script>

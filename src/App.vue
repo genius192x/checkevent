@@ -4,9 +4,10 @@ import { useToggle } from '@vueuse/core'
 import Search from '@/components/Search.vue'
 import UserNav from '@/components/UserNav.vue'
 import { useColorMode } from '@vueuse/core'
-import Toaster from '@/components/ui/toast/Toaster.vue'
+// import Toaster from '@/components/ui/toast/Toaster.vue'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { useToast } from '@/components/ui/toast/use-toast'
+import { Toaster, toast } from 'vue-sonner'
+// import { useToast } from '@/components/ui/toast/use-toast'
 import { useGlobalStore } from './store/GlobalStore';
 import { computed, onMounted } from 'vue'
 import router from './router'
@@ -27,7 +28,7 @@ rudderAnalytics.ready(() => {
 });
 
 
-const { toast } = useToast()
+// const { toast } = useToast()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 
@@ -92,7 +93,7 @@ const isDark = computed(() => {
     </div>
   </div>
 </TooltipProvider>
-<Toaster />
+<Toaster richColors/>
 </template>
 
 <style>

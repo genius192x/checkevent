@@ -1,6 +1,7 @@
 [
   {
     "title": "Матч ЦСКА-Ростов",
+    "isArchived": false,
     "description": "Список задач по организации/проведению матча",
     "type": "Гандбол Мужской",
     "lastApdate": "2026-09-24",
@@ -116,6 +117,7 @@
   },
   {
     "title": "Корпоратив мужской команды",
+    "isArchived": false,
     "description": "Список задач по организации/проведению корпоратива",
     "type": "Гандбол Женский",
     "lastApdate": "2023-09-24",
@@ -196,6 +198,7 @@
   },
   {
     "title": "Корпоратив женской команды",
+    "isArchived": true,
     "description": "Список задач по организации/проведению корпоратива",
     "type": "Гандбол Женский",
     "lastApdate": "2028-09-24",
@@ -215,7 +218,7 @@
         "avatar": "01.png"
       }
     ],
-    "id": 2,
+    "id": 3,
     "tasks":[
       {
         "id": 45321,
@@ -223,7 +226,7 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
         "label": "documents",
-				"isDone": false,
+				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
@@ -241,7 +244,7 @@
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
         "label": "documents",
-				"isDone": false,
+				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",
@@ -259,7 +262,7 @@
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
         "label": "sound",
-				"isDone": false,
+				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
 					"name": "Настя",

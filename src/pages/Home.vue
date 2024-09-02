@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import DateRangePicker from '@/components/DateRangePicker.vue'
 import CreateList from "@/components/form/CreateList.vue"
 import { PlusIcon, ArrowDownIcon, ArrowUpIcon, CaretSortIcon, RowsIcon, DragHandleDots2Icon } from '@radix-icons/vue'
@@ -45,6 +45,15 @@ if (window.innerWidth > 768){
 }
 const url = import.meta.env.VITE_API_URL
 
+const activeList = computed(() => {
+  return listStore.list.filter(item => item.isArchived === false)
+})
+
+const archivedList = computed(() => {
+  return listStore.list.filter(item => item.isArchived === true)
+})
+
+
 const sortDirection = ref('');
 const styleState = ref('row');
 </script>
@@ -72,28 +81,35 @@ const styleState = ref('row');
             <DropdownMenu class="">
               <DropdownMenuTrigger as-child>
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  class="-ml-3 h-8 data-[state=open]:bg-accent"
+                variant="ghost"
+                size="sm"
+                class="-ml-3 h-8 data-[state=open]:bg-accent"
                 >
-                  <span>Дедлайн</span>
-                  <ArrowDownIcon v-if="sortDirection === 'desc'" class="ml-2 h-4 w-4" />
-                  <ArrowUpIcon v-else-if="sortDirection === 'asc'" class="ml-2 h-4 w-4" />
-                  <CaretSortIcon v-else class="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                <DropdownMenuItem @click="sortDirection = 'asc'">
-                  <ArrowUpIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                  Сначала срочные
-                </DropdownMenuItem>
-                <DropdownMenuItem @click="sortDirection = 'desc'">
-                  <ArrowDownIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                  Сначала не срочные
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+                <span>Дедлайн</span>
+                <ArrowDownIcon v-if="sortDirection === 'desc'" class="ml-2 h-4 w-4" />
+                <ArrowUpIcon v-else-if="sortDirection === 'asc'" class="ml-2 h-4 w-4" />
+                <CaretSortIcon v-else class="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem @click="sortDirection = 'asc'">
+                <ArrowUpIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Сначала срочные
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="sortDirection = 'desc'">
+                <ArrowDownIcon class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Сначала не срочные
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <Button @click="axios.get(`http://localhost:4080/api/user`)
+        .then(response => {
+          console.log(response)
+          console.log(response.statusText)
+          console.log(response.data)
+          console.log(`${url}/api/user`);
+        })">get user</Button>
         <div class="flex border rounded-md overflow-hidden">
           <Button class="h-8 w-10 p-0 rounded-none" :class="{'bg-muted' : styleState === 'column'}" variant="ghost" @click="styleState = 'column'">
             <RowsIcon/>
@@ -121,17 +137,17 @@ const styleState = ref('row');
     </div>
     <TabsContent value="active" class="space-y-4">
       <ListCard
-      :items="listStore.list"
+      :items="activeList"
       :sorted="sortDirection"
       :style="styleState"
       />
     </TabsContent>
     <TabsContent value="archive" class="space-y-4">
-      <!-- <div v-for="item in eventsExpired" :key="item.id">
-        <ListCard
-        :item="item"
+      <ListCard
+        :items="archivedList"
+        :sorted="sortDirection"
+        :style="styleState"
         />
-      </div> -->
     </TabsContent>
   </Tabs>
 </div>

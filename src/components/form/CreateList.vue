@@ -5,9 +5,10 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { Check, ChevronsUpDown, Plus } from 'lucide-vue-next'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today, type DateValue } from '@internationalized/date'
 import { cn } from '@/lib/utils'
+import {
+  toast
+} from 'vue-sonner'
 
-import { useToast } from '@/components/ui/toast/use-toast'
-const { toast } = useToast()
 import RadixIconsCalendar from '@radix-icons/vue/CalendarIcon'
 import {
 	toDate
@@ -108,9 +109,7 @@ function getImageUrl(name) {
 function onSubmit(values: any) {
 	listStore.addList(formResult)
 	globalStore.isSheetOpen = false
-	toast({
-		description: 'Лист успешно создан',
-	});
+	toast('Лист успешно создан');
 }
 </script>
 

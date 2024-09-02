@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
 import * as z from 'zod'
-import { useToast } from '@/components/ui/toast/use-toast'
+// import { useToast } from '@/components/ui/toast/use-toast'
 import { ReloadIcon } from '@radix-icons/vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Button } from '@/components/ui/button'
@@ -19,8 +19,12 @@ import { Label } from '@/components/ui/label'
 import { useUserStore } from '@/store/UserStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import router from '@/router'
+import {
+  toast
+} from 'vue-sonner'
 
-const { toast } = useToast()
+
+// const { toast } = useToast()
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const accountFormSchema = toTypedSchema(z.object({

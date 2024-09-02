@@ -55,6 +55,7 @@ interface Item {
   type: string,
   description: string,
   status: string,
+  isArchived: boolean,
   participants: [],
 }
 
@@ -80,41 +81,43 @@ const displayedItems = computed(() => {
   const endIndex = startIndex + itemsPerPage.value;
   const slicedItems = ref(props.items.slice(startIndex, endIndex));
   const sortedItems = ref(slicedItems.value.map(value => value));
-  // console.log(sortedItems.value);
 
   sortedItems.value.forEach(item => {
-    // const [day, month, year] = item.lastApdate.split('.');
     item.lastApdate = new Date(item.lastApdate);
   })
 
   if (props.sorted === 'asc') {
     sortedItems.value.sort((a, b) => a.lastApdate - b.lastApdate)
 
-    // console.log('slicedItems.value', slicedItems.value.sort((a, b) => new Date(a.lastApdate) - new Date(b.lastApdate) ));
     console.log();
 
   } else if (props.sorted === 'desc') {
     sortedItems.value.sort((a, b) => b.lastApdate - a.lastApdate)
   }
 
-
-
-
   return sortedItems.value
 });
 
 const deleteId = ref(0)
-const confirmOpen = function (item) {
-  open.value = true
+
+const confirmOpen = function (item, type) {
+  deleteConfirm.value = true
   deleteId.value = item.id
 }
-const open = ref(false)
+
+const deleteConfirm = ref(false)
+const backupConfirm = ref(false)
+
 function changePage(pageNumber) {
   console.log(itemsPerPage.value);
-
   currentPage.value = pageNumber;
 }
+function copyItem(item) {
+  const copiedList = Object.assign({}, list.getItemById(item.id));
+  copiedList.title = `${copiedList.title} (копия)`
 
+  list.copyList(copiedList)
+}
 </script>
 
 <template>
@@ -137,28 +140,31 @@ function changePage(pageNumber) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" :align-offset="-5" class="w-[200px]">
-                <!-- <DropdownMenuItem>
+                <DropdownMenuItem @click="copyItem(item)">
                   Скопировать лист
                 </DropdownMenuItem>
-                <DropdownMenuItem>Редактировать лист</DropdownMenuItem>
-                <DropdownMenuSeparator /> -->
-                <DropdownMenuItem class="text-red-500" @click="confirmOpen(item)">Удалить лист
+                <!-- <DropdownMenuItem>Редактировать лист</DropdownMenuItem> -->
+                <DropdownMenuSeparator />
+                <DropdownMenuItem v-if="!item.isArchived" class="text-red-500" @click="confirmOpen(item, 'del')">Удалить лист
+                </DropdownMenuItem>
+                <DropdownMenuItem v-else class="text-red-500" @click="confirmOpen(item, 'back')">Восстановить лист
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </CardHeader>
         <CardContent class="p-4 pt-0 md:p-6">
-          <AlertDialog v-model:open="open">
+          <AlertDialog v-model:open="deleteConfirm">
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Это действие невозможно отменить. Это приведет к удалению данного листа навсегда.
+                  Это действие приведет к {{ item.isArchived ? 'восстановлению' : 'удалению' }} данного листа.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogAction @click="list.deleteList(deleteId)">Удалить</AlertDialogAction>
+                <AlertDialogAction v-if="!item.isArchived" @click="list.deleteList(deleteId)">Удалить</AlertDialogAction>
+                <AlertDialogAction v-else @click="list.backupList(deleteId)">Восстановить</AlertDialogAction>
                 <AlertDialogCancel>Отменить</AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>

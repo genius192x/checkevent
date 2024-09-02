@@ -26,12 +26,14 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
-import { useToast } from '@/components/ui/toast/use-toast'
 
 import { useListStore } from '@/store/ListsStore'
 import { useUserStore } from '@/store/UserStore'
 const userStore = useUserStore()
-const { toast } = useToast()
+import {
+  toast
+} from 'vue-sonner'
+
 
 
 const open = ref(false)

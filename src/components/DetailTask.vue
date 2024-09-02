@@ -219,7 +219,7 @@ function initialsPersonal(name, surname) {
 							Чат
 						</Button>
 						<Button @click="openImages = !openImages" class="bg-muted text-primary flex-1">
-							Картинки
+							Изображения
 						</Button>
 					</div>
 					<!-- <div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
@@ -303,7 +303,7 @@ function initialsPersonal(name, surname) {
 						Чат
 					</Button>
 					<Button @click="openImages = true" class="bg-muted text-primary flex-1">
-						Картинки
+						Изображения
 					</Button>
 				</div>
 				<Drawer v-model:open="openChat">

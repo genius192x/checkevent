@@ -10,7 +10,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
-import { toast } from '@/components/ui/toast'
+// import { toast } from '@/components/ui/toast'
+import {
+  toast
+} from 'vue-sonner'
+
 
 const notificationsFormSchema = toTypedSchema(z.object({
 	type: z.enum(['all', 'mentions', 'none'], {
