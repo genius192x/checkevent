@@ -54,6 +54,32 @@ import {useListStore} from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 
+interface Responsible {
+  avatar: string,
+  email: string,
+  name: string,
+  password: string,
+  role: string,
+  surname: string,
+}
+
+interface Item {
+  id: number,
+  title: string,
+  description: string,
+  status: string,
+  label: string,
+  priority: string,
+  deadLine: string,
+  images: object,
+  isDone: boolean,
+  responsible: Responsible,
+  messages: [],
+}
+
+const props = defineProps<{
+  text: string,
+}>()
 const globalStore = useGlobalStore()
 const userStore = useUserStore()
 const listStore = useListStore()
@@ -101,6 +127,7 @@ const accountFormSchema = toTypedSchema(z.object({
 		})
 		.min(1, 'Необходимо выбрать тип.'),
 }))
+console.log(props.item);
 
 function getImageUrl(name) {
 	return new URL(`../../assets/avatars/${name}`, import.meta.url).href

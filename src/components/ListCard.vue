@@ -13,6 +13,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import CreateList from "@/components/form/CreateList.vue"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription
+} from '@/components/ui/sheet'
 import AvatarsGroup from '@/components/AvatarsGroup.vue'
 import {
   Pagination,
@@ -45,8 +55,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useListStore } from '@/store/ListsStore'
+import { useGlobalStore } from '@/store/GlobalStore'
 import { item } from '@unovis/ts/components/bullet-legend/style'
 const list = useListStore()
+const globalStore = useGlobalStore()
 
 interface Item {
   id: number,
@@ -118,6 +130,10 @@ function copyItem(item) {
 
   list.copyList(copiedList)
 }
+let side = 'bottom';
+if (window.innerWidth > 768) {
+  side = 'right'
+}
 </script>
 
 <template>
@@ -143,7 +159,20 @@ function copyItem(item) {
                 <DropdownMenuItem @click="copyItem(item)">
                   Скопировать лист
                 </DropdownMenuItem>
-                <!-- <DropdownMenuItem>Редактировать лист</DropdownMenuItem> -->
+                <DropdownMenuItem>
+                  <Sheet :open="globalStore.isSheetOpen">
+                    <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
+                    <SheetTrigger @click="globalStore.isSheetOpen = true">
+                      Редактировать лист
+                    </SheetTrigger>
+                    <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+                      <SheetHeader>
+                        <SheetTitle>Создание нового листа</SheetTitle>
+                      </SheetHeader>
+                      <CreateList :text="'text'"/>
+                    </SheetContent>
+                  </Sheet>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem v-if="!item.isArchived" class="text-red-500" @click="confirmOpen(item, 'del')">Удалить лист
                 </DropdownMenuItem>
