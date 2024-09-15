@@ -160,7 +160,7 @@ if (window.innerWidth > 768) {
                   Скопировать лист
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Sheet :open="globalStore.isSheetOpen">
+                  <Sheet>
                     <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
                     <SheetTrigger @click="globalStore.isSheetOpen = true">
                       Редактировать лист
@@ -169,7 +169,7 @@ if (window.innerWidth > 768) {
                       <SheetHeader>
                         <SheetTitle>Создание нового листа</SheetTitle>
                       </SheetHeader>
-                      <CreateList :text="'text'"/>
+                      <CreateList :item="item"/>
                     </SheetContent>
                   </Sheet>
                 </DropdownMenuItem>
