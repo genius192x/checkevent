@@ -91,12 +91,12 @@ watch(listStore.filters[0].checked, (newValue, oldValue) => {
 	<DataTableToolbar @changeQuery="(value) => searchValue = value" @toggleCheck="isCheckable = !isCheckable"
 		:filters="listStore.filters" />
 
-	<div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition select-none md:select-auto"
+	<div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition select-none md:select-auto items-stretch "
 		:class="{'md:gap-y-10':isCheckable}">
 		<div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key" class="relative">
 			<ContextMenu>
 				<ContextMenuTrigger>
-					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable" />
+					<DetailTask :item="item" :id="item.id" :isCheckable="isCheckable" class=" h-full flex flex-col"/>
 				</ContextMenuTrigger>
 				<ContextMenuContent>
 					<ContextMenuItem inset @click="listStore.changeStatus(props.id, item.id)">

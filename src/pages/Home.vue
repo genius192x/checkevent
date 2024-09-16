@@ -103,13 +103,13 @@ const styleState = ref('row');
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <Button @click="axios.get(`http://localhost:4080/api/user`)
+        <!-- <Button @click="axios.get(`http://localhost:4080/api/user`)
         .then(response => {
           console.log(response)
           console.log(response.statusText)
           console.log(response.data)
           console.log(`${url}/api/user`);
-        })">get user</Button>
+        })">get user</Button> -->
         <div class="flex border rounded-md overflow-hidden">
           <Button class="h-8 w-10 p-0 rounded-none" :class="{'bg-muted' : styleState === 'column'}" variant="ghost" @click="styleState = 'column'">
             <RowsIcon/>

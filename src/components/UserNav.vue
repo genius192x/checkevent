@@ -21,6 +21,10 @@ const userStore = useUserStore()
 function getImageUrl(name) {
 	return new URL(`../assets/avatars/${name}`, import.meta.url).href
 }
+function delList() {
+  localStorage.removeItem('lists')
+  window.location.reload()
+}
 </script>
 
 <template>
@@ -56,6 +60,9 @@ function getImageUrl(name) {
 						Настройки
 					</router-link>
 				</DropdownMenuItem>
+        <DropdownMenuItem @click="delList">
+          Очистить стор
+        </DropdownMenuItem>
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
 			<DropdownMenuItem @click="userStore.logout()">

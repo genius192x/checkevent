@@ -63,19 +63,6 @@ interface Responsible {
   surname: string,
 }
 
-// interface Item {
-//   id: number,
-//   title: string,
-//   description: string,
-//   status: string,
-//   label: string,
-//   priority: string,
-//   deadLine: string,
-//   images: object,
-//   isDone: boolean,
-//   responsible: Responsible,
-//   messages: [],
-// }
 interface Item {
 id: number,
 lastApdate: any,
@@ -86,10 +73,6 @@ status: string,
 isArchived: boolean,
 participants: [],
 }
-// const props = defineProps<Item>()
-// const props = defineProps({
-//   likes: Number
-// })
 
 const props = defineProps<{
   item: Item
@@ -163,18 +146,18 @@ onMounted(() => {
     }
   })
 
-// function onSubmit(values: any) {
-//   listStore.addList(formResult)
-//   globalStore.isSheetOpen = false
-//   toast('Лист успешно создан');
-// }
+function onSubmit(values: any) {
+  listStore.addList(formResult)
+  globalStore.isSheetOpen = false
+  toast('Лист успешно создан');
+}
 
-const form = useForm({
-  validationSchema: accountFormSchema,
-})
-form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
-})
+// const form = useForm({
+//   validationSchema: accountFormSchema,
+// })
+// form.handleSubmit((values) => {
+//   console.log('Form submitted!', values)
+// })
 </script>
 
     <template>
@@ -295,7 +278,7 @@ form.handleSubmit((values) => {
     </FormField>
     <FormField v-slot="{ value }" name="participants">
       <FormItem class="flex flex-col">
-        <FormLabel>ыбрать участников</FormLabel>
+        <FormLabel>Выбрать участников</FormLabel>
 
         <TooltipProvider>
           <Tooltip>
@@ -415,7 +398,7 @@ form.handleSubmit((values) => {
       </p>
 
       <Button :disabled="selectedUsers.length < 1" @click="openUserSelect = false">
-        Continue
+        Продолжить
       </Button>
       </DialogFooter>
       </DialogContent>

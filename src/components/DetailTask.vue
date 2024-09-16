@@ -160,7 +160,7 @@ function initialsPersonal(name, surname) {
 		<Checkbox class="absolute top-1/2 left-2 transition-all md:left-0 md:top-1"
 			:class="{'-left-8 md:-left-0 md:-top-5' : isCheckable}" :id="`${props.item.id}`" />
 		<Sheet v-if="!isMobile" v-model:open="open">
-			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
+			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
 				<div class="flex justify-between items-center">
 					<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
 						:class="getClass(props.item.priority)">
@@ -241,7 +241,7 @@ function initialsPersonal(name, surname) {
 		</Sheet>
 		<Drawer v-else v-model:open="open">
 			<DrawerTrigger as-child>
-				<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4">
+				<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative h-full flex flex-col gap-4 flex-1">
 					<div class="flex justify-between items-center">
 						<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
 							:class="getClass(props.item.priority)">
