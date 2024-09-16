@@ -3,7 +3,7 @@ import {computed, ref} from 'vue'
 import DateRangePicker from '@/components/DateRangePicker.vue'
 import CreateList from "@/components/form/CreateList.vue"
 import { PlusIcon, ArrowDownIcon, ArrowUpIcon, CaretSortIcon, RowsIcon, DragHandleDots2Icon } from '@radix-icons/vue'
-import ListCard from '@/components/ListCard.vue'
+import ListCards from '@/components/ListCards.vue'
 import {useListStore} from '@/store/ListsStore'
 
 import {
@@ -136,14 +136,14 @@ const styleState = ref('row');
       </Sheet>
     </div>
     <TabsContent value="active" class="space-y-4">
-      <ListCard
+      <ListCards
       :items="activeList"
       :sorted="sortDirection"
       :style="styleState"
       />
     </TabsContent>
     <TabsContent value="archive" class="space-y-4">
-      <ListCard
+      <ListCards
         :items="archivedList"
         :sorted="sortDirection"
         :style="styleState"

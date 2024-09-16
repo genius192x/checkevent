@@ -47,7 +47,7 @@ function dragOptions() {
 
 onBeforeMount(() => {
 	currList.value = listStore.getItemById(props.id)
-  console.log(currList.value.tasks[0].isDone);
+  // console.log(currList.value.tasks[0].isDone);
 
 	if(currList.value){
 		taskList.value = currList.value.tasks

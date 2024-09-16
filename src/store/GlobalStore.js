@@ -2,10 +2,12 @@ import { defineStore } from 'pinia'
 import {ref} from "vue";
 
 export const useGlobalStore = defineStore('globalStore', () => {
-	const isSettingsOpen = ref(false)
+	// TODO исправь этот костль
+  const isSettingsOpen = ref(false)
 	const isSheetOpen = ref(false)
 	const isCreateListOpen = ref(false)
-	const isAuth = ref(false)
+  const isAuth = ref(false)
+  const isChangeOpen = ref(false)
 	const usersList = ref([])
 
 	const defaultUsers = ref([
@@ -61,5 +63,14 @@ export const useGlobalStore = defineStore('globalStore', () => {
 		localStorage.setItem('users', JSON.stringify(defaultUsers.value));
 	}
 
-	return { isSettingsOpen, isSheetOpen, isAuth, usersList, defaultUsers, updateUsersList, isCreateListOpen}
+	return {
+    isSettingsOpen,
+    isSheetOpen,
+    isAuth,
+    usersList,
+    defaultUsers,
+    updateUsersList,
+    isCreateListOpen,
+    isChangeOpen
+	}
 })

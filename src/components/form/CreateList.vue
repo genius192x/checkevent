@@ -54,30 +54,6 @@ import {useListStore} from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 
-interface Responsible {
-  avatar: string,
-  email: string,
-  name: string,
-  password: string,
-  role: string,
-  surname: string,
-}
-
-interface Item {
-id: number,
-lastApdate: any,
-title: string,
-type: string,
-description: string,
-status: string,
-isArchived: boolean,
-participants: [],
-}
-
-const props = defineProps<{
-  item: Item
-}>()
-
 // const props = defineProps<{
   //   text: string,
   // }>()
@@ -132,19 +108,7 @@ const props = defineProps<{
 
   function getImageUrl(name) {
     return new URL(`../../assets/avatars/${name}`, import.meta.url).href
-  }
-
-onMounted(() => {
-    console.log(props.item);
-
-    if (props.item) {
-      formResult.title = props.item.title
-      formResult.description = props.item.description
-      formResult.lastApdate = props.item.lastApdate
-      formResult.type = props.item.type
-      formResult.participants = props.item.participants
-    }
-  })
+}
 
 function onSubmit(values: any) {
   listStore.addList(formResult)
@@ -152,13 +116,13 @@ function onSubmit(values: any) {
   toast('Лист успешно создан');
 }
 
-// const form = useForm({
-//   validationSchema: accountFormSchema,
-// })
-// form.handleSubmit((values) => {
-//   console.log('Form submitted!', values)
-// })
-</script>
+  // const form = useForm({
+    //   validationSchema: accountFormSchema,
+    // })
+    // form.handleSubmit((values) => {
+      //   console.log('Form submitted!', values)
+      // })
+    </script>
 
     <template>
       <Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col max-h-[95%]"
@@ -332,76 +296,76 @@ function onSubmit(values: any) {
     </FormDescription>
   </FormItem>
 </FormField>
-      </div>
-      <div class="flex justify-start gap-2 mt-auto">
-        <Button type="submit" class="outline-0 flex-auto md:flex-none">
-          Создать лист
-        </Button>
-        <!-- <Button class="bg-transparent text-primary border hover:bg-primary-foreground outline-0">
-          Сбросить значение полей
-        </Button> -->
-      </div>
-      <Dialog v-model:open="openUserSelect">
-        <DialogContent class="gap-0 p-0 outline-none">
-          <DialogHeader class="px-4 pb-4 pt-5">
-            <DialogTitle>Список пользователей</DialogTitle>
-            <DialogDescription>
-              Вы можете добавить людей, которые будут заниматься задачами по новому листу
-            </DialogDescription>
-          </DialogHeader>
-          <Command class="overflow-hidden rounded-t-none border-t"
-          :filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))">
-          <CommandInput placeholder="Найти пользователя..." />
-          <CommandList>
-            <CommandEmpty>Нет пользователей.</CommandEmpty>
-            <CommandGroup class="p-2">
-              <CommandItem v-for="user in globalStore.defaultUsers" :key="user.email" :value="user"
-              class="flex items-center px-2" @select="() => {
-                const index = selectedUsers.findIndex(u => u === user)
-                if (index !== -1) {
-                  formResult.participants.splice(index, 1)
-                  selectedUsers.splice(index, 1)
-                }
-                else {
-                  formResult.participants.push(user)
-                  selectedUsers.push(user)
-                }
-              }">
-              <Avatar>
-                <AvatarImage :src="getImageUrl(user.avatar) " alt="Image" />
-                <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-              </Avatar>
-              <div class="ml-2">
-                <p class="text-sm font-medium leading-none">
-                  {{ user.name }}
-                </p>
-                <p class="text-sm text-muted-foreground">
-                  {{ user.email }}
-                </p>
-              </div>
-              <Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </Command>
-      <DialogFooter class="flex items-center border-t p-4 sm:justify-between">
-        <div v-if="selectedUsers.length > 0" class="flex -space-x-2 overflow-hidden">
-          <Avatar v-for="user in selectedUsers" :key="user.email"
-          class="inline-block border-2 border-background">
-          <AvatarImage :src="getImageUrl(user.avatar) " />
+</div>
+<div class="flex justify-start gap-2 mt-auto">
+  <Button type="submit" class="outline-0 flex-auto md:flex-none">
+    Создать лист
+  </Button>
+  <!-- <Button class="bg-transparent text-primary border hover:bg-primary-foreground outline-0">
+    Сбросить значение полей
+  </Button> -->
+</div>
+<Dialog v-model:open="openUserSelect">
+  <DialogContent class="gap-0 p-0 outline-none">
+    <DialogHeader class="px-4 pb-4 pt-5">
+      <DialogTitle>Список пользователей</DialogTitle>
+      <DialogDescription>
+        Вы можете добавить людей, которые будут заниматься задачами по новому листу
+      </DialogDescription>
+    </DialogHeader>
+    <Command class="overflow-hidden rounded-t-none border-t"
+    :filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))">
+    <CommandInput placeholder="Найти пользователя..." />
+    <CommandList>
+      <CommandEmpty>Нет пользователей.</CommandEmpty>
+      <CommandGroup class="p-2">
+        <CommandItem v-for="user in globalStore.defaultUsers" :key="user.email" :value="user"
+        class="flex items-center px-2" @select="() => {
+          const index = selectedUsers.findIndex(u => u === user)
+          if (index !== -1) {
+            formResult.participants.splice(index, 1)
+            selectedUsers.splice(index, 1)
+          }
+          else {
+            formResult.participants.push(user)
+            selectedUsers.push(user)
+          }
+        }">
+        <Avatar>
+          <AvatarImage :src="getImageUrl(user.avatar) " alt="Image" />
           <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
         </Avatar>
-      </div>
+        <div class="ml-2">
+          <p class="text-sm font-medium leading-none">
+            {{ user.name }}
+          </p>
+          <p class="text-sm text-muted-foreground">
+            {{ user.email }}
+          </p>
+        </div>
+        <Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
+      </CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+<DialogFooter class="flex items-center border-t p-4 sm:justify-between">
+  <div v-if="selectedUsers.length > 0" class="flex -space-x-2 overflow-hidden">
+    <Avatar v-for="user in selectedUsers" :key="user.email"
+    class="inline-block border-2 border-background">
+    <AvatarImage :src="getImageUrl(user.avatar) " />
+    <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+  </Avatar>
+</div>
 
-      <p v-else class="text-sm text-muted-foreground">
-        Нужно выбрать минимум 1 человека
-      </p>
+<p v-else class="text-sm text-muted-foreground">
+  Нужно выбрать минимум 1 человека
+</p>
 
-      <Button :disabled="selectedUsers.length < 1" @click="openUserSelect = false">
-        Продолжить
-      </Button>
-      </DialogFooter>
-      </DialogContent>
-      </Dialog>
+<Button :disabled="selectedUsers.length < 1" @click="openUserSelect = false">
+  Продолжить
+</Button>
+</DialogFooter>
+</DialogContent>
+</Dialog>
 </Form>
 </template>

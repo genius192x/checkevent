@@ -152,7 +152,10 @@ function initialsPersonal(name, surname) {
 	return (`${firstLetter}${secondLetter}`)
 }
 // console.log(props.item);
+setInterval(() => {
+  console.log(props.item);
 
+}, 500)
 </script>
 
 <template>

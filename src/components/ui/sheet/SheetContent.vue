@@ -30,12 +30,12 @@ const props = defineProps({
 });
 
 const emits = defineEmits([
-  "escapeKeyDown",
-  "pointerDownOutside",
-  "focusOutside",
-  "interactOutside",
-  "openAutoFocus",
-  "closeAutoFocus",
+"escapeKeyDown",
+"pointerDownOutside",
+"focusOutside",
+"interactOutside",
+"openAutoFocus",
+"closeAutoFocus",
 ]);
 
 const delegatedProps = computed(() => {
@@ -48,24 +48,24 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 </script>
 
 <template>
-	<DialogPortal>
-		<DialogOverlay
-			@click="globalStore.isSheetOpen = false"
-			class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-		/>
-		<DialogContent
-			:class="cn(sheetVariants({ side }), props.class)"
-			v-bind="{ ...forwarded, ...$attrs }"
-		>
-		<slot />
+  <DialogPortal>
+    <DialogOverlay
+    @click="globalStore.isSheetOpen = false"
+    class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+    />
+    <DialogContent
+    :class="cn(sheetVariants({ side }), props.class)"
+    v-bind="{ ...forwarded, ...$attrs }"
+    >
+    <slot />
 
-		<DialogClose
-			class="absolute right-2 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:white"
-			@click="globalStore.isSheetOpen = false"
-		>
-			<X class="w-4 h-4" />
-		</DialogClose>
-			<DialogDescription></DialogDescription>
-		</DialogContent>
-	</DialogPortal>
+    <DialogClose
+    class="absolute right-2 top-2 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:white"
+    @click="$.emit('close')"
+    >
+    <X class="w-4 h-4" />
+  </DialogClose>
+  <DialogDescription></DialogDescription>
+</DialogContent>
+</DialogPortal>
 </template>
