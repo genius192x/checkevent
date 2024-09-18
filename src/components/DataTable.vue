@@ -1,113 +1,188 @@
 <script setup lang="ts">
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/vue-table'
 
-
-import { ref, onMounted, watch, getCurrentInstance, computed, reactive, onBeforeUpdate, onBeforeUnmount  } from 'vue'
-
-import Search from '@/components/Search.vue'
+import { ref, onMounted, watch, getCurrentInstance, computed } from 'vue'
+import {
+  FlexRender,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useVueTable,
+} from '@tanstack/vue-table'
+import CaretSortIcon from '@radix-icons/vue/CaretSortIcon'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
+import { valueUpdater } from '@/lib/utils'
 import { useMedia } from "@/lib/useMedia";
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger,
-} from '@/components/ui/context-menu'
-
-import DataTableRowActions from './DataTableRowActions.vue'
+import UploadFile from '@/components/UploadFile.vue'
 import { useListStore } from '@/store/ListsStore'
-
-
-interface DataTableProps {
-  data: Task[]
-  id: number
-}
-const props = defineProps<DataTableProps>()
-
-const rowSelection = ref({})
-
-import DetailTask from '@/components/DetailTask.vue'
-import CardChat from '@/components/CardChat.vue'
-import TeamMembers from '@/components/TeamMembers.vue'
-import { useGlobalStore } from '@/store/GlobalStore'
-import { useUserStore } from '@/store/UserStore'
-const userStore = useUserStore()
-const globalStore = useGlobalStore()
 const listStore = useListStore()
 
 
-const isMobile = useMedia("(max-width: 768px)")
+interface DataTableProps {
+  columns: ColumnDef<Task, any>[]
+  data: Task[]
+  id: string
+}
+const props = defineProps<DataTableProps>()
 
-const classPriority = reactive({
-  "bg-green": 'low',
-  'bg-red': 'high'
+const sorting = ref<SortingState>([])
+const columnFilters = ref<ColumnFiltersState>([])
+const columnVisibility = ref<VisibilityState>({})
+const rowSelection = ref({})
+
+const tableData = ref(props.data)
+
+const table = useVueTable({
+  data: tableData.value,
+  get columns() { return props.columns },
+  state: {
+    get sorting() { return sorting.value },
+    get columnFilters() { return columnFilters.value },
+    get columnVisibility() { return columnVisibility.value },
+    get rowSelection() { return rowSelection.value },
+  },
+  enableRowSelection: true,
+  onStateChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
+  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, rowSelection),
+  getCoreRowModel: getCoreRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFacetedRowModel: getFacetedRowModel(),
+  getFacetedUniqueValues: getFacetedUniqueValues(),
+})
+import { Button } from '@/components/ui/button'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+import CardChat from '@/components/CardChat.vue'
+import TeamMembers from '@/components/TeamMembers.vue'
+import { log } from 'console'
+
+const clickedRow = ref(null)
+
+
+function isMobileHidden(data) {
+  return data == 'id' || data == 'status' || data == 'priority' || data == 'actions'
+}
+console.log(props.data);
+const selectedRows = computed(() => {
+
+
+  return table.getSelectedRowModel().rows
 })
 
-const tasks = ref(props.data)
+watch(selectedRows, () => {
+  clickedRow.value = selectedRows;
+  // console.log(clickedRow.value.value.at(-1));
+  // console.log(table.getState().rowSelection);
 
-const searchValue= ref('')
+  // console.log(table.getRowModel().rows[4].toggleSelected(true));
 
-const filters = ref(listStore.filters[0].checked)
+})
 
-const isCheckable = ref(false)
-
-const checkedLabels = ref(listStore.filters[0].checked.map(item => item.value));
-
-// console.log(checkedLabels);
-// console.log(tasks.value);
-
-const filteredList = function(searchValue, filterValue) {
-  if (filters.value.length) {
-    return tasks.value.filter((task) =>
-    task.title.toLowerCase().includes(searchValue.toLowerCase()) && filterValue.includes(task.priority)
-    );
-  } else {
-    return tasks.value.filter((task) =>
-    task.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }
+let previewImage = ref(null);
+function uploadImage(e) {
+  const image = e.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(image);
+  reader.onload = e => {
+    previewImage.value = e.target.result;
+    console.log(e);
+  };
 }
 
-const selectedItems = ref([])
+const isMobile = useMedia("(max-width: 768px)")
 
-watch(listStore.filters[0].checked, (newValue, oldValue) => {
-  filters.value = listStore.filters[0].checked
-  checkedLabels.value = listStore.filters[0].checked.map(item => item.value)
-})
 
 </script>
 
 <template>
-  <DataTableToolbar @changeQuery="(value) => searchValue = value" @toggleCheck="isCheckable = !isCheckable"
-    :filters="listStore.filters" />
-    <div class="text-center" v-if="!tasks.length">Задач пока нет</div>
-    <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3 transition select-none md:select-auto items-stretch "
-    :class="{'md:gap-y-10':isCheckable}" v-else>
-    <div v-for="(item, key) in filteredList(searchValue, checkedLabels)" :key="key"  class="relative">
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <DetailTask :item="item" :id="item.id" :isCheckable="isCheckable" class=" h-full flex flex-col"/>
-        </ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuItem inset @click="listStore.changeStatus(props.id, item.id)">
-            {{ !item.isDone ? "Отметить как выполнено" : "Вернуть в работу" }}
-          </ContextMenuItem>
-          <ContextMenuItem inset disabled class="text-red-600">
-            Удалить
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+  <!-- {{ selectedRows }} -->
+  <div class="space-y-4">
+    <DataTableToolbar :table="table" />
+    <div class="rounded-md border">
+      <div>
+        <div class="border-b">
+          <div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
+            class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
+            <div v-for="header in headerGroup.headers" :key="header.id" class="p-4 py-3"
+              :class="{ 'hidden md:block': isMobileHidden(header.id) }">
+              <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+                :props="header.getContext()" />
+            </div>
+          </div>
+        </div>
+        <div class=" flex flex-col gap-1">
+          <Collapsible v-if="table.getRowModel().rows?.length" :key="row.id" v-for="row in table.getRowModel().rows"
+            :data-state="row.getIsSelected() || 'выбрано'" class="border-b">
+            <div
+              class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative">
+              <CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
+              <div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3 "
+                :class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+              </div>
+            </div>
+            <CollapsibleContent class="flex flex-col">
+              <div class="flex flex-col flex-wrap lg:flex-row">
+                <div class="max-w-full flex-1 p-2 md:p-4" v-if="!isMobile">
+                  <CardChat />
+                </div>
+                <div class="align-top p-2 md:p-4">
+                  <TeamMembers />
+                </div>
+              </div>
+              <div class="px-6">
+                <UploadFile />
+              </div>
+              <Collapsible class="w-full space-y-2 p-2" v-if="isMobile">
 
+                <CollapsibleTrigger as-child="" class="w-full">
+                  <Button variant="ghost" class="p-2 flex items-center justify-between space-x-4 px-4 w-full">
+                    <span>Показать содержимое чата</span>
+                    <CaretSortIcon class="h-4 w-4" />
+                    <!-- <span class="sr-only">Toggle</span> -->
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent class="space-y-2">
+                  <CardChat />
+                </CollapsibleContent>
+              </Collapsible>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+      </div>
     </div>
+
+    <DataTablePagination :table="table" />
   </div>
+  <!-- <div class=""></div>
+  <div class="flex flex-col gap-4">
+    <div class="space-y-2 bg-primary-foreground p-4 rounded-sm" v-for="(item, key) in props.data" :key="key">
+      <div class="flex justify-between">
+        <div class="p-2 border rounded-md text-xs">
+          {{ item.priority }}
+        </div>
+      </div>
+      <div class="text-xl">
+        {{ item.title }}
+      </div>
+    </div>
+  </div> -->
 </template>

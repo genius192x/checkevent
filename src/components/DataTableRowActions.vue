@@ -1,39 +1,36 @@
 <script setup lang="ts">
 import type { Row } from '@tanstack/vue-table'
 import { computed } from 'vue'
-import { priorities } from '@/lib/data'
+import { labels } from '@/lib/data'
 import { taskSchema } from '@/lib/schema'
 import type { Task } from '@/lib/schema'
-import {DotsHorizontalIcon} from '@radix-icons/vue'
+import { DotsHorizontalIcon } from '@radix-icons/vue'
 
 import { Button } from '@/components/ui/button'
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuSeparator,
-	DropdownMenuShortcut,
-	DropdownMenuSub,
-	DropdownMenuSubContent,
-	DropdownMenuSubTrigger,
-	DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
 interface DataTableRowActionsProps {
-	row: Row<Task>
+  row: Row<Task>
 }
 const props = defineProps<DataTableRowActionsProps>()
 
 const task = computed(() => taskSchema.parse(props.row.original))
-
-
-
 </script>
 
 <template>
-	<DropdownMenu>
+  <DropdownMenu>
 		<DropdownMenuTrigger as-child>
 		<Button
 			variant="ghost"
@@ -44,24 +41,24 @@ const task = computed(() => taskSchema.parse(props.row.original))
 		</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end" class="w-[160px]">
-		<DropdownMenuItem>Изменить</DropdownMenuItem>
-		<DropdownMenuItem>Сделать копию</DropdownMenuItem>
-		<DropdownMenuItem>Избранное</DropdownMenuItem>
+		<DropdownMenuItem>Edit</DropdownMenuItem>
+		<DropdownMenuItem>Make a copy</DropdownMenuItem>
+		<DropdownMenuItem>Favorite</DropdownMenuItem>
 		<DropdownMenuSeparator />
-		<!-- TODO Сделать смену приоритета для админов -->
 		<DropdownMenuSub>
-			<DropdownMenuSubTrigger>Приоритет</DropdownMenuSubTrigger>
+			<DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
 			<DropdownMenuSubContent>
-			<DropdownMenuRadioGroup :value="props.row.priority">
-				<DropdownMenuRadioItem v-for="priority in priorities" :key="priority.value" :value="priority.value">
-					{{ priority.label }}
+			<DropdownMenuRadioGroup :value="task.label">
+				<DropdownMenuRadioItem v-for="label in labels" :key="label.value" :value="label.value">
+				{{ label.label }}
 				</DropdownMenuRadioItem>
 			</DropdownMenuRadioGroup>
 			</DropdownMenuSubContent>
 		</DropdownMenuSub>
 		<DropdownMenuSeparator />
 		<DropdownMenuItem>
-			Удалить
+			Delete
+			<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
 		</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>
