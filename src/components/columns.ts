@@ -11,14 +11,14 @@ import { Badge } from '@/components/ui/badge'
 export const columns: ColumnDef<Task>[] = [
   {
     id: 'select',
-    header: ({ table }) => h(Checkbox, {
-      'checked': table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate'),
-      'onUpdate:checked': value => table.toggleAllPageRowsSelected(!!value),
-      'ariaLabel': 'Select all',
-      'class': 'translate-y-0.5',
-    }),
+    // header: ({ table }) => h(Checkbox, {
+    //   'checked': table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate'),
+    //   'onUpdate:checked': value => table.toggleAllPageRowsSelected(!!value),
+    //   'ariaLabel': 'Select all',
+    //   'class': 'translate-y-0.5',
+    // }),
     cell: ({ row }) => h(Checkbox, {
-      'checked': row.getIsSelected(),
+      'checked': row.original.isDone,
       'onUpdate:checked': value => value ? row.original.isDone = true : row.original.isDone = false,
       'ariaLabel': 'Select row', 'class': 'translate-y-0.5'
     }),
@@ -34,16 +34,13 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: 'title',
     header: ({ column }) => h(DataTableColumnHeader, { column, title: 'Название, тэг', className: '' }),
     cell: ({ row }) => {
-      console.log(row.original.status);
 
       const label = labels.find(label => label.value === row.original.label)
-      let isDone = function () { return row.original.status === 'done' ? 'line-through' : '' }
-      console.log(isDone());
 
       return h('div', { class: 'flex space-x-2 min-w-20 items-start' },
       [
         label ? h(Badge, { variant: 'outline' }, () => label.label) : null,
-        h('p', { class: `line-clamp-1  font-medium ${isDone()}` }, row.getValue('title'),),
+        h('p', { class: `line-clamp-1  font-medium ${row.original.isDone ? 'line-through' : ''}` }, row.getValue('title'),),
       ])
     },
     enableHiding: false,
@@ -60,8 +57,9 @@ export const columns: ColumnDef<Task>[] = [
       if (!status)
         return null
 
+
       return h('div', { class: 'flex w-[110px] items-center hidden md:flex' }, [
-        status.icon && h(status.icon, { class: 'mr-2 h-4 min-w-4 text-muted-foreground' }),
+        status.icon && h(status.icon, { class: `mr-2 h-4 min-w-4 text-muted-foreground` }),
         h('span', status.label),
       ])
     },
@@ -80,9 +78,27 @@ export const columns: ColumnDef<Task>[] = [
       if (!priority)
         return null
 
+      function getClass(property) {
+        switch (property) {
+          case 'high':
+            return 'bg-red-300 text-red-900'
+            break;
+          case 'medium':
+            return 'bg-amber-200 text-yellow-700'
+            break;
+          case 'low':
+            return 'bg-green-300 text-green-800'
+            break;
+          default:
+            break;
+        }
+      }
+
       return h('div', { class: 'flex items-center hidden md:flex' }, [
-        priority.icon && h(priority.icon, { class: 'mr-2 h-4 w-4 text-muted-foreground ' }),
-        h('span', {}, priority.label),
+        h('div', { class: `flex items-center p-1 rounded-sm ${getClass(row.original.priority)}` }, [
+          priority.icon && h(priority.icon, { class: `mr-2 h-4 w-4 text-muted-foreground ${getClass(row.original.priority)}` }),
+          h('span', {}, priority.label),
+        ]),
       ])
     },
     filterFn: (row, id, value) => {

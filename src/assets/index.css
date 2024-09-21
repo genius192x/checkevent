@@ -33,7 +33,7 @@
 
     --ring: 222.2 84% 4.9%;
 
-    --radius: 1rem;
+    --radius: 0.5rem;
 
     --vis-primary-color: var(--primary);
     /* change to any hsl value you want */

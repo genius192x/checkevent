@@ -36,7 +36,7 @@ interface DataTableToolbarProps {
   if (window.innerWidth > 768) {
     side = 'right'
   }
-  const inFormOpen = ref(false)
+  const isFormOpen = ref(false)
 </script>
 
 <template>
@@ -57,15 +57,15 @@ interface DataTableToolbarProps {
       </Button>
     </div>
     <DataTableViewOptions :table="table" />
-    <Sheet :open="inFormOpen">
+    <Sheet :open="isFormOpen">
       <SheetTrigger>
-        <Button variant="outline" size="sm" class="flex h-8 md:ml-auto" @click="inFormOpen = true">
+        <Button variant="outline" size="sm" class="flex h-8 md:ml-auto" @click="isFormOpen = true">
           <PlusIcon class="mr-2 h-4 w-4" />
           Новая задача
         </Button>
       </SheetTrigger>
       <SheetContent
-        @close="inFormOpen = !inFormOpen"
+        @close="isFormOpen = !isFormOpen"
         :side=side
         class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
       <SheetHeader>

@@ -21,19 +21,18 @@ import CaretSortIcon from '@radix-icons/vue/CaretSortIcon'
 import type { Task } from '@/lib/schema'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
+import DetailTask from '@/components/DetailTask.vue'
 import { valueUpdater } from '@/lib/utils'
 import { useMedia } from "@/lib/useMedia";
 import UploadFile from '@/components/UploadFile.vue'
 import { useListStore } from '@/store/ListsStore'
 const listStore = useListStore()
-
-
-interface DataTableProps {
+const props = defineProps<{
   columns: ColumnDef<Task, any>[]
   data: Task[]
-  id: string
-}
-const props = defineProps<DataTableProps>()
+  id: number,
+  isCheckable: boolean
+}>()
 
 const sorting = ref<SortingState>([])
 const columnFilters = ref<ColumnFiltersState>([])
@@ -76,11 +75,10 @@ import { log } from 'console'
 
 const clickedRow = ref(null)
 
-
 function isMobileHidden(data) {
   return data == 'id' || data == 'status' || data == 'priority' || data == 'actions'
 }
-console.log(props.data);
+// console.log(props.data);
 const selectedRows = computed(() => {
 
 
@@ -95,17 +93,18 @@ watch(selectedRows, () => {
   // console.log(table.getRowModel().rows[4].toggleSelected(true));
 
 })
+const openImages = ref(false)
 
-let previewImage = ref(null);
-function uploadImage(e) {
-  const image = e.target.files[0];
-  const reader = new FileReader();
-  reader.readAsDataURL(image);
-  reader.onload = e => {
-    previewImage.value = e.target.result;
-    console.log(e);
-  };
-}
+// let previewImage = ref(null);
+// function uploadImage(e) {
+//   const image = e.target.files[0];
+//   const reader = new FileReader();
+//   reader.readAsDataURL(image);
+//   reader.onload = e => {
+//     previewImage.value = e.target.result;
+//     console.log(e);
+//   };
+// }
 
 const isMobile = useMedia("(max-width: 768px)")
 
@@ -140,30 +139,7 @@ const isMobile = useMedia("(max-width: 768px)")
               </div>
             </div>
             <CollapsibleContent class="flex flex-col">
-              <div class="flex flex-col flex-wrap lg:flex-row">
-                <div class="max-w-full flex-1 p-2 md:p-4" v-if="!isMobile">
-                  <CardChat />
-                </div>
-                <div class="align-top p-2 md:p-4">
-                  <TeamMembers />
-                </div>
-              </div>
-              <div class="px-6">
-                <UploadFile />
-              </div>
-              <Collapsible class="w-full space-y-2 p-2" v-if="isMobile">
-
-                <CollapsibleTrigger as-child="" class="w-full">
-                  <Button variant="ghost" class="p-2 flex items-center justify-between space-x-4 px-4 w-full">
-                    <span>Показать содержимое чата</span>
-                    <CaretSortIcon class="h-4 w-4" />
-                    <!-- <span class="sr-only">Toggle</span> -->
-                  </Button>
-                </CollapsibleTrigger>
-                <CollapsibleContent class="space-y-2">
-                  <CardChat />
-                </CollapsibleContent>
-              </Collapsible>
+              <DetailTask  :item="row.original"/>
             </CollapsibleContent>
           </Collapsible>
         </div>
@@ -172,17 +148,4 @@ const isMobile = useMedia("(max-width: 768px)")
 
     <DataTablePagination :table="table" />
   </div>
-  <!-- <div class=""></div>
-  <div class="flex flex-col gap-4">
-    <div class="space-y-2 bg-primary-foreground p-4 rounded-sm" v-for="(item, key) in props.data" :key="key">
-      <div class="flex justify-between">
-        <div class="p-2 border rounded-md text-xs">
-          {{ item.priority }}
-        </div>
-      </div>
-      <div class="text-xl">
-        {{ item.title }}
-      </div>
-    </div>
-  </div> -->
 </template>
