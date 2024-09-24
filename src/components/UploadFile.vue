@@ -53,17 +53,17 @@ function onSubmit() {
 </script>
 
 <template>
-  <form class="space-y-6 pt-6" @submit.prevent="onSubmit">
+  <form class="space-y-2 pt-6" @submit.prevent="onSubmit">
     <FormField name="file">
-      <FormItem class="relative flex items-center space-y-0">
-        <FormLabel>Файлы с результатом</FormLabel>
-        <FormControl class="relative mt-0">
-          <Button class="bg-transparent border text-current w-full mt-0">
+      <FormItem class="relative flex flex-col gap-2">
+        <FormLabel class="w-fit">Прикрепленные файлы</FormLabel>
+        <FormControl class="relative mt-0 ">
+          <Button class="bg-transparent border text-current w-16 mt-0 cursor-pointer">
             <PlusIcon />
           </Button>
 
           <Input id="picture" type="file" @change="handleFileUpload" multiple
-            class="opacity-0 absolute top-0 left-0 w-full h-full" />
+            class="opacity-0 absolute top-0 left-0 w-16 h-full" />
         </FormControl>
       </FormItem>
     </FormField>
@@ -78,8 +78,8 @@ function onSubmit() {
         </button>
       </div>
     </div>
-    <Button type="submit" class="w-full" v-if="images.length">
-      Отправить
+    <Button type="submit" class="w-fit" v-if="images.length">
+      Прикрепить
     </Button>
   </form>
 </template>

@@ -72,6 +72,7 @@ import {
 import CardChat from '@/components/CardChat.vue'
 import TeamMembers from '@/components/TeamMembers.vue'
 import { log } from 'console'
+import { setInterval } from 'timers'
 
 const clickedRow = ref(null)
 
@@ -107,6 +108,8 @@ const openImages = ref(false)
 // }
 
 const isMobile = useMedia("(max-width: 768px)")
+
+const currRows = computed(() => tableData.value)
 
 
 </script>

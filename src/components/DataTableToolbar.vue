@@ -71,7 +71,7 @@ interface DataTableToolbarProps {
       <SheetHeader>
         <SheetTitle>Создание новой задачи</SheetTitle>
       </SheetHeader>
-      <CreateTask :list-id="$route.params.id" />
+      <CreateTask :list-id="$route.params.id" @close="isFormOpen = false"/>
     </SheetContent>
   </Sheet>
 

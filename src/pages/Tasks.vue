@@ -53,11 +53,13 @@ onBeforeMount(() => {
   }
 })
 let updateCount = ref(0)
-watch(listStore.list, () => {
+const counterTasks = ref(listStore.list.length)
+
+
+watch(counterTasks, () => {
   console.log(taskList.value);
   updateCount.value++
   console.log(updateCount);
-
 })
 
 </script>

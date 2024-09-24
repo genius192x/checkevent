@@ -152,16 +152,10 @@ function initialsPersonal(name, surname) {
 	return (`${firstLetter}${secondLetter}`)
 }
 // console.log(props.item);
-setInterval(() => {
-  console.log(props.item);
-
-}, 500)
 </script>
 
 <template>
 	<div class="transition-all duration-300" :class="{'translate-x-10 md:translate-y-5 md:translate-x-0': isCheckable}">
-		<Checkbox class="absolute top-1/2 left-2 transition-all md:left-0 md:top-1"
-			:class="{'-left-8 md:-left-0 md:-top-5' : isCheckable}" :id="`${props.item.id}`" />
 			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
 				<div class="flex justify-between items-center">
 					<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
@@ -171,9 +165,12 @@ setInterval(() => {
 					<!-- TODO после mvp нужно добавить действия с задачей -->
 					<!-- <DataTableRowActions :row="item" /> -->
 				</div>
-				<div class="text-xl" :class="{'line-through':props.item.isDone}">
+				<div class="text-xl">
 					{{ props.item.title }}
 				</div>
+        <div class="">
+          {{ props.item.description }}
+        </div>
 				<div class="flex items-center gap-7 mt-auto">
 					<div class="flex items-center gap-2">
 						<CalendarIcon />
@@ -190,47 +187,38 @@ setInterval(() => {
 						</Avatar>
 					</div>
 				</div>
-					<div class="flex justify-between pr-10">
-						<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-							:class="getClass(props.item.priority)">
-							{{ props.item.priority }}
-						</div>
-						<div class="flex items-center gap-7 mt-auto">
-							<div class="flex items-center gap-2">
-								<CalendarIcon />
-								<span>{{ props.item.deadLine }}</span>
-							</div>
-							<div class="flex items-center gap-2">
-								<ChatBubbleIcon />
-								<span>{{ messagesLength }}</span>
-							</div>
-						</div>
-					</div>
-					<div class="align-top">
-						<TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
-					</div>
-					<div class="flex w-full justify-between gap-3">
-						<Button @click="openChat = !openChat" class="bg-muted text-primary flex-1">
-							Чат
-						</Button>
-						<Button @click="openImages = !openImages" class="bg-muted text-primary flex-1">
-							Изображения
-						</Button>
-					</div>
-					<!-- <div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
-						<div class="px-6 pt-6 cursor-pointer" @click="openChat = !openChat">Назад</div>
-						<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class=""/>
-					</div> -->
-					<Collapsible v-model:open="openChat">
-						<CollapsibleContent>
-							<CardChat :messages="messages" @change-message="(message)=>{ updateMessages(message) }"/>
-						</CollapsibleContent>
-					</Collapsible>
-					<Collapsible v-model:open="openImages">
-						<CollapsibleContent>
-							<UploadFile @submit="saveImages" :images="props.item.images"/>
-						</CollapsibleContent>
-					</Collapsible>
+        <div class="flex gap-10">
+          <div class="flex-1 md:pr-10 md:border-r flex flex-col gap-4">
+            <UploadFile @submit="saveImages" :images="props.item.images"/>
+            <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }"/>
+          </div>
+          <TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
+        </div>
+        <!-- <div class="align-top">
+          <TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
+        </div>
+        <div class="flex w-full justify-between gap-3">
+          <Button @click="openChat = !openChat" class="bg-muted text-primary flex-1">
+            Чат
+          </Button>
+          <Button @click="openImages = !openImages" class="bg-muted text-primary flex-1">
+            Изображения
+          </Button>
+        </div> -->
+        <!-- <div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
+          <div class="px-6 pt-6 cursor-pointer" @click="openChat = !openChat">Назад</div>
+          <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class=""/>
+        </div> -->
+        <!-- <Collapsible v-model:open="openChat">
+          <CollapsibleContent>
+            <CardChat :messages="messages" @change-message="(message)=>{ updateMessages(message) }"/>
+          </CollapsibleContent>
+        </Collapsible>
+        <Collapsible v-model:open="openImages">
+          <CollapsibleContent>
+            <UploadFile @submit="saveImages" :images="props.item.images"/>
+          </CollapsibleContent>
+        </Collapsible> -->
 			</div>
 
 	</div>

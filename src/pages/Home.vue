@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {computed, ref} from 'vue'
+import {computed, ref, onMounted } from 'vue'
 import DateRangePicker from '@/components/DateRangePicker.vue'
 import CreateList from "@/components/form/CreateList.vue"
 import { PlusIcon, ArrowDownIcon, ArrowUpIcon, CaretSortIcon, RowsIcon, DragHandleDots2Icon } from '@radix-icons/vue'
 import ListCards from '@/components/ListCards.vue'
-import {useListStore} from '@/store/ListsStore'
+import { useListStore } from '@/store/ListsStore'
 
 import {
   Sheet,
@@ -35,6 +35,8 @@ import DataTablePagination from '@/components/DataTablePagination.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
 import {useUserStore} from '@/store/UserStore'
 import axios from 'axios'
+import { Vue3Lottie } from 'vue3-lottie'
+import EmptyListJSON  from '../assets/animationEmptyList.json'
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
@@ -53,6 +55,7 @@ const archivedList = computed(() => {
   return listStore.list.filter(item => item.isArchived === true)
 })
 
+const isFormOpen = ref(false)
 
 const sortDirection = ref('');
 const styleState = ref('row');
@@ -120,14 +123,14 @@ const styleState = ref('row');
         </div>
 
       </div>
-      <Sheet :open="globalStore.isSheetOpen">
+      <Sheet :open="isFormOpen">
         <!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
         <SheetTrigger as-child>
-          <Button @click="globalStore.isSheetOpen = true" class="w-full md:w-fit">
+          <Button @click="isFormOpen = true" class="w-full md:w-fit">
             <PlusIcon class="w-4 h-4 mr-2" /> Новый лист
           </Button>
         </SheetTrigger>
-        <SheetContent :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+        <SheetContent @close="isFormOpen = !isFormOpen" :side=side class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
           <SheetHeader>
             <SheetTitle>Создание нового листа</SheetTitle>
           </SheetHeader>
@@ -140,7 +143,12 @@ const styleState = ref('row');
       :items="activeList"
       :sorted="sortDirection"
       :style="styleState"
+      v-if="activeList.length"
       />
+      <div class="" v-else>
+        <Vue3Lottie class="cursor-pointer" :animationData="EmptyListJSON" :height="200" :width="200" :loop="false" @click="isFormOpen = true"/>
+        <div class="text-center">Список активных листов пока пуст</div>
+      </div>
     </TabsContent>
     <TabsContent value="archive" class="space-y-4">
       <ListCards

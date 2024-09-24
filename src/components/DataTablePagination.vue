@@ -18,14 +18,21 @@ import {
 interface DataTablePaginationProps {
   table: Table<Task>
 }
-defineProps<DataTablePaginationProps>()
+const props = defineProps<DataTablePaginationProps>()
+
+let isDoneCount = 0
+props.table.getRowModel().rows.forEach(row => {
+  row.original.isDone ? isDoneCount++ : null
+})
+console.log(props.table.getRowModel());
+
 </script>
 
 <template>
   <div class="flex flex-col gap-4 justify-between md:flex-row md:items-center md:px-2">
     <div class="flex-1 text-sm text-muted-foreground">
-      {{ table.getFilteredSelectedRowModel().rows.length }} из
-      {{ table.getFilteredRowModel().rows.length }} строк(и) выбрано.
+      {{ isDoneCount }} из
+      {{ table.getFilteredRowModel().rows.length }} строк(и) выполнено.
     </div>
     <div class="flex flex-col flex-wrap gap-2 lg:space-x-8 md:flex-row md:items-center md:space-x-6">
       <div class="flex items-center space-x-2 md:items-center">

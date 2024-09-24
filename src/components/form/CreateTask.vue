@@ -48,6 +48,7 @@ import { Calendar } from '@/components/ui/calendar'
 import {useListStore} from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
+import { emit } from 'process'
 
 
 interface Props {
@@ -134,10 +135,10 @@ const options = {
 	month: 'long',
 };
 
-
+const emit = defineEmits(['close'])
 function onSubmit(values) {
-	listStore.addTask(formResult, lastParam)
-//
+  listStore.addTask(formResult, lastParam)
+  emit('close')
 	globalStore.isSheetOpen = false
 	toast("Лист успешно создан");
 }

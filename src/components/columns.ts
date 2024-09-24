@@ -37,10 +37,10 @@ export const columns: ColumnDef<Task>[] = [
 
       const label = labels.find(label => label.value === row.original.label)
 
-      return h('div', { class: 'flex space-x-2 min-w-20 items-start' },
+      return h('div', { class: 'flex flex-col-reverse gap-4 space-x-2 min-w-20 items-start md:flex-row md:gap-0' },
       [
         label ? h(Badge, { variant: 'outline' }, () => label.label) : null,
-        h('p', { class: `line-clamp-1  font-medium ${row.original.isDone ? 'line-through' : ''}` }, row.getValue('title'),),
+        h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none md:font-medium md:text-base ${row.original.isDone ? 'line-through' : ''}` }, row.getValue('title'),),
       ])
     },
     enableHiding: false,
@@ -95,7 +95,7 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return h('div', { class: 'flex items-center hidden md:flex' }, [
-        h('div', { class: `flex items-center p-1 rounded-sm ${getClass(row.original.priority)}` }, [
+        h('div', { class: `flex items-center p-1 px-2 rounded-lg ${getClass(row.original.priority)}` }, [
           priority.icon && h(priority.icon, { class: `mr-2 h-4 w-4 text-muted-foreground ${getClass(row.original.priority)}` }),
           h('span', {}, priority.label),
         ]),
