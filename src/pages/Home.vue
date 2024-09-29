@@ -114,10 +114,10 @@ const styleState = ref('row');
           console.log(`${url}/api/user`);
         })">get user</Button> -->
         <div class="flex border rounded-md overflow-hidden">
-          <Button class="h-8 w-10 p-0 rounded-none" :class="{'bg-muted' : styleState === 'column'}" variant="ghost" @click="styleState = 'column'">
+          <Button class="h-8 w-10 p-0 rounded-none" :class="{'bg-muted' : styleState === 'row'}" variant="ghost" @click="styleState = 'column'">
             <RowsIcon/>
           </Button>
-          <Button class="h-8 w-10 p-0 rounded-none" :class="{ 'bg-muted': styleState === 'row' }" variant="ghost" @click="styleState = 'row'">
+          <Button class="h-8 w-10 p-0 rounded-none" :class="{ 'bg-muted': styleState === 'column' }" variant="ghost" @click="styleState = 'row'">
             <DragHandleDots2Icon/>
           </Button>
         </div>

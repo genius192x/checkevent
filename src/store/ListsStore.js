@@ -38,10 +38,13 @@ export const useListStore = defineStore('listStore', () => {
 
 
   function addList(item) {
+    let curDate = new Date(item.date)
+    item.date = curDate.toLocaleDateString('ru-RU')
+    console.log(item);
     item.isArchived = false;
-    list.value.unshift(item)
-    console.log(list.value);
-    setListToStore()
+    // list.value.unshift(item)
+    // console.log(list.value);
+    // setListToStore()
   }
 
   function addTask(item, listId) {
