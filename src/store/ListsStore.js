@@ -7,7 +7,8 @@ import {
 } from 'vue-sonner'
 
 import tasks from '@/lib/tasks.json'
-import {priorities} from '@/lib/data.ts'
+import { priorities } from '@/lib/data.ts'
+import { useGlobalStore } from './GlobalStore';
 const myTasks = tasks
 
 export const useListStore = defineStore('listStore', () => {
@@ -36,15 +37,40 @@ export const useListStore = defineStore('listStore', () => {
     setListToStore()
   };
 
+  function getFullParticipants(participants) {
+    const result = ref([])
+    const globalStore = useGlobalStore()
+    participants.forEach(participant => {
+      globalStore.defaultUsers.filter(user => {
+        if (user.email == participant) {
+          result.value.push(user)
+        }
+      })
+    })
+    return result
+  }
+
+  function updateLisItem(values, id) {
+    let changedItem = list.value.filter(item => item.id == id)
+    console.log(changedItem[0]);
+    let emails = ref([])
+    changedItem.participants = getFullParticipants(emails)
+    changedItem.title = values.title
+    changedItem.description = values.description
+    changedItem.lastUpdate = values.lastUpdate
+
+    console.log('emails', emails);
+  }
 
   function addList(item) {
-    let curDate = new Date(item.date)
-    item.date = curDate.toLocaleDateString('ru-RU')
-    console.log(item);
+    item.id = list.value.length + 1;
     item.isArchived = false;
-    // list.value.unshift(item)
-    // console.log(list.value);
-    // setListToStore()
+    item.tasks = [];
+    console.log(item);
+    item.participants = getFullParticipants(item.participants)
+    console.log('item', item);
+    list.value.unshift(item)
+    setListToStore()
   }
 
   function addTask(item, listId) {
@@ -157,6 +183,7 @@ export const useListStore = defineStore('listStore', () => {
     getItemById,
     deleteList,
     addTask,
+    updateLisItem,
     filters,
     changeStatus,
     updateMessage,

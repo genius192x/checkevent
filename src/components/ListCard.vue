@@ -64,7 +64,7 @@ const globalStore = useGlobalStore()
 
 interface Item {
   id: number,
-  lastApdate: any,
+  lastUpdate: any,
   title: string,
   type: string,
   description: string,
@@ -167,7 +167,7 @@ const isChangeOpen = ref(false)
             <CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
             {{ props.item.type }}
           </div>
-          <div class=" md:mt-0">Крайний срок {{ props.item.lastApdate.toLocaleDateString('ru-RU') }}</div>
+          <div class=" md:mt-0">Крайний срок {{ props.item.lastUpdate.toLocaleDateString('ru-RU') }}</div>
         </div>
         <div class="block">
           <!-- {{ props.item.participants }} -->

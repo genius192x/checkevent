@@ -1,58 +1,43 @@
 <script setup lang="ts">
-import { h, ref, onMounted, computed  } from 'vue'
-import * as z from 'zod'
+import { computed, h, onMounted, ref } from 'vue'
+import { FieldArray, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Check, ChevronsUpDown, Plus } from 'lucide-vue-next'
-import { CalendarDate, DateFormatter, getLocalTimeZone, today, type DateValue } from '@internationalized/date'
+import * as z from 'zod'
+import { Cross1Icon } from '@radix-icons/vue'
 import { cn } from '@/lib/utils'
-import {
-  toast
-} from 'vue-sonner'
 
-import RadixIconsCalendar from '@radix-icons/vue/CalendarIcon'
-import {
-  toDate
-} from 'radix-vue/date'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { CalendarDate, DateFormatter, getLocalTimeZone, today, type DateValue } from '@internationalized/date'
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
-import { Button } from '@/components/ui/button'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { Calendar } from '@/components/ui/calendar'
-import { useForm } from 'vee-validate'
-
+import RadixIconsCalendar from '@radix-icons/vue/CalendarIcon'
 
 import { useListStore } from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
+
+const globalStore = useGlobalStore()
+const userStore = useUserStore()
+const listStore = useListStore()
+
+import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxPortal, ComboboxRoot } from 'radix-vue'
+import { CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
+import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input'
+
+const frameworks = [
+  { value: 'zimin@mail.ru', label: 'Антон Зимин' },
+  { value: 'levchenko@mail.ru', label: 'Михаил Левченко' },
+  { value: 'moiseev@mail.ru', label: 'Сергей Моисеев' },
+  { value: 'kurbatova@mail.ru', label: 'Настя Курбатова' },
+]
+
+const modelValue = ref<string[]>([])
+const open = ref(false)
+const searchTerm = ref('')
+
+const filteredFrameworks = computed(() => frameworks.filter(i => !modelValue.value.includes(i.value)))
+
 
 interface Responsible {
   avatar: string,
@@ -65,7 +50,7 @@ interface Responsible {
 
 interface Item {
   id: number,
-  lastApdate: any,
+  lastUpdate: any,
   title: string,
   type: string,
   description: string,
@@ -78,346 +63,265 @@ const props = defineProps<{
   item: Item
 }>()
 
-const emit = defineEmits(['close'])
-// const props = defineProps<{
-  //   text: string,
-  // }>()
-  const globalStore = useGlobalStore()
-  const userStore = useUserStore()
-  const listStore = useListStore()
 
-  const open = ref(false)
-  const openDate = ref(false)
-  const dateValue = ref()
-  const placeholder = ref()
 
-  type User = (typeof users.value)[number]
-  const openUserSelect = ref(false)
-  const selectedUsers = ref<User[]>([])
-  const list = ref(listStore.list)
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { toast } from '@/components/ui/toast'
+import {
+  toDate
+} from 'radix-vue/date'
 
-  const types = [
-  { label: 'Гандбол Мужской', value: 'Гандбол Мужской' },
-  { label: 'Гандбол Женский', value: 'Гандбол Женский' },
-  ] as const
 
-  const df = new DateFormatter('ru-RU', {
-    dateStyle: 'long',
-  })
-  const formResult = {
-    title: '',
-    id: `${list.value.length + 1}`,
-    description: '',
-    lastApdate: dateValue,
-    type: null,
-    participants: [],
-    tasks: []
-  }
+const dateValue = ref()
+const placeholder = ref()
+const openDate = ref(false)
 
-  const accountFormSchema = toTypedSchema(z.object({
-    name: z
-    .string({
-      required_error: 'Обязательное поле.',
-    }),
-    description: z
-    .string({
-      required_error: 'Обязательное поле.',
-    }),
-    date: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
-    type: z
-    .string({
-      required_error: 'Обязательное поле.',
-    })
-    .min(1, 'Необходимо выбрать тип.'),
-  }))
 
-  function getImageUrl(name) {
-    return new URL(`../../assets/avatars/${name}`, import.meta.url).href
-  }
 
-  onMounted(() => {
 
-    console.log(props.item);
+const df = new DateFormatter('ru-RU', {
+  dateStyle: 'long',
+})
 
-    if (props.item) {
-      formResult.title = props.item.title
-      formResult.description = props.item.description
-      formResult.lastApdate = props.item.lastApdate
-      formResult.type = publishedBooksMessage
-      formResult.participants = props.item.participants
-    }
-  })
-
-  const publishedBooksMessage = computed(() => {
-    let result
-    types.forEach(type => {
-      if (type.value === props.item.type) {
-        result = type
+const profileFormSchema = toTypedSchema(z.object({
+  title: z
+    .string(
+      {
+        message: 'Обязательное поле',
       }
-
+    )
+    .min(2, {
+      message: 'Минимум 2 символа',
     })
-    return result
-  })
+    .max(30, {
+      message: 'Username must not be longer than 30 characters.',
+    }),
+  description: z.string({
+    message: 'Обязательное поле',
+  }).max(200, { message: 'Максимум 200 символов' }).min(4, { message: 'Минимум 2 символа.' }),
+  lastUpdate: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
+  participants: z.array(z.string({ message: 'Обязательно кого-то выбрать' })).min(1, { message: 'Обязательно кого-то выбрать' }),
+}))
 
-  const { handleSubmit, resetForm } = useForm({
-    validationSchema: accountFormSchema,
+const { handleSubmit, setFieldValue, resetForm } = useForm({
+  validationSchema: profileFormSchema,
+  initialValues: {
+    title: props.item.title,
+    description: props.item.description,
+    lastUpdate: props.item.lastUpdate.toISOString(),
+  },
+})
 
-  })
+onMounted(() => {
 
-  // const onSubmit = handleSubmit((values) => {
-  //   // listStore.addList(formResult)
-  //   // globalStore.isChangeOpen = false
-  //   emit('close')
-  //   toast('Почти сохранили');
-  // })
-  function onSubmit(values: any) {
-  emit('close')
-  toast('Почти сохранили');
+  console.log(props.item);
+
+  if (props.item) {
+    const result = []
+    props.item.participants.forEach(participant => {
+      result.push(participant.email)
+    })
+    modelValue.value = result,
+    setFieldValue('participants', modelValue.value)
+  }
+})
+
+const reset = () => {
+  resetForm()
+  modelValue.value = []
 }
-  // function onSubmit(values: any) {
-    //   listStore.addList(formResult)
-    //   globalStore.isChangeOpen = false
-    //   toast('Лист успешно создан');
-    // }
-  </script>
+const onSubmit = handleSubmit((values) => {
+  listStore.updateLisItem(values, props.item.id);
+  console.log('trash');
 
-  <template>
-    <Form v-slot="{ setFieldValue }" :validation-schema="accountFormSchema" class="space-y-6 mt-3 flex flex-col max-h-[95%]"
-    @submit="onSubmit">
-    <div
-    class="form__fields max-h-[350px] overflow-y-auto overflow-x-visible md:overflow-auto space-y-4 md:space-y-6 md:max-h-none">
-    <FormField v-slot="{ componentField }" name="name">
+  console.log(values);
+})
+</script>
+
+<template>
+  <form class="space-y-8 mt-4" @submit="onSubmit">
+    <FormField v-slot="{ componentField }" name="title">
       <FormItem>
-        <FormLabel>Название листа</FormLabel>
+        <FormLabel>Название</FormLabel>
         <FormControl>
-          <Input type="text" placeholder="Введите название" v-bind="componentField" v-model="formResult.title" />
+          <Input type="text" placeholder="Новый лист" v-bind="componentField" />
         </FormControl>
-
-        <FormDescription>
-          Название будет отображаться в спике листов жирным шрифтом
-        </FormDescription>
+        <FormMessage />
       </FormItem>
     </FormField>
+
     <FormField v-slot="{ componentField }" name="description">
       <FormItem>
         <FormLabel>Описание листа</FormLabel>
         <FormControl>
-          <Textarea placeholder="Введите описание" v-bind="componentField" v-model="formResult.description" />
+          <Textarea placeholder="Краткое (или нет) описание листа" v-bind="componentField" />
         </FormControl>
-
-        <FormDescription>
-          Описание будет распологаться под названием и должно содержать краткую информацию о листе
-        </FormDescription>
+        <FormMessage />
       </FormItem>
     </FormField>
-    <FormField v-slot="{ field, value }" name="date">
+
+    <FormField v-slot="{ field, value }" name="lastUpdate">
       <FormItem class="flex flex-col">
         <FormLabel>Дата окончания</FormLabel>
         <Popover v-model:open="openDate">
           <PopoverTrigger as-child>
             <FormControl>
               <Button variant="outline" :class="cn(
-              'w-[240px] justify-start text-left font-normal',
-              !value && 'text-muted-foreground',
+                'w-[240px] justify-start text-left font-normal',
+                !value && 'text-muted-foreground',
               )">
-              <RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
-              <span>{{ value ? df.format(toDate(dateValue, getLocalTimeZone())) : "Выберите день"
-              }}</span>
-            </Button>
-          </FormControl>
-        </PopoverTrigger>
-        <PopoverContent class="p-0">
-          <Calendar v-model:placeholder="placeholder" v-model="dateValue" calendar-label="День окончания"
-          initial-focus :min-value="today(getLocalTimeZone())" @update:model-value="(v) => {
-            if (v) {
-              dateValue = v
-              openDate = false
-              formResult.lastApdate = toDate(v).toLocaleDateString()
-              setFieldValue('date', toDate(v).toISOString())
-            }
-            else {
-              dateValue = undefined
-              setFieldValue('date', undefined)
-            }
-          }" />
-        </PopoverContent>
-      </Popover>
-      <FormDescription>
-        Your date of birth is used to calculate your age.
-      </FormDescription>
-    </FormItem>
-    <input type="hidden" v-bind="field">
-  </FormField>
-  <FormField v-slot="{ value }" name="type">
-    <FormItem class="flex flex-col">
-      <FormLabel>Тип мероприятия</FormLabel>
-
-      <Popover v-model:open="open">
-        <PopoverTrigger as-child>
-          <FormControl>
-            <Button variant="outline" role="combobox" :aria-expanded="open" :class="cn(
-            'w-[200px] justify-between',
-            !value && 'text-muted-foreground',
-            )">
-            {{ value ? types.find(
-              (type) => type.value === value,
-              )?.label : 'Выберите тип...' }}
-
-              <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </FormControl>
-        </PopoverTrigger>
-        <PopoverContent class="w-[200px] p-0">
-          <Command>
-            <CommandList>
-              <CommandGroup>
-                <CommandItem v-for="type in types" :key="type.value" :value="type.label" @select="() => {
-                  formResult.type = type.value
-                  setFieldValue('type', type.value)
-                  open = false
-                }">
-                <Check :class="cn(
-                'mr-2 h-4 w-4',
-                value === type.value ? 'opacity-100' : 'opacity-0',
-                )" />
-                {{ type.label }}
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-
-
-    <FormDescription>
-      Тип будет отображаться под описанием лита для удобства
-    </FormDescription>
-  </FormItem>
-</FormField>
-<FormField v-slot="{ value }" name="participants">
-  <FormItem class="flex flex-col">
-    <FormLabel>Выбрать участников</FormLabel>
-
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger as-child>
-          <div variant="outline"
-          class="rounded-full p-2.5 flex items-center justify-center cursor-pointer hover:bg-muted"
-          @click="openUserSelect = true">
-          <Plus class="w-4 h-4" />
-        </div>
-        <Command class="overflow-hidden rounded-t-none border-t">
-          <CommandList>
-            <CommandEmpty>Нет участников.</CommandEmpty>
-            <CommandGroup class="p-2 max-h-[180px] overflow-y-scroll">
-              <CommandItem v-for="user in selectedUsers" :key="user.email" :value="user"
-              class="flex items-center px-2" @select="() => {
-                const index = selectedUsers.findIndex(u => u === user)
-                if (index !== -1) {
-                  formResult.participants.splice(index, 1)
-                  selectedUsers.splice(index, 1)
+                <RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
+                <span>{{ value ? props.item.lastUpdate.toLocaleDateString('ru-RU') : "Выберите день"
+                }}</span>
+              </Button>
+            </FormControl>
+          </PopoverTrigger>
+          <PopoverContent class="p-0">
+            <Calendar v-model:placeholder="placeholder" v-model="dateValue" calendar-label="День окончания" initial-focus
+              :min-value="today(getLocalTimeZone())" @update:model-value="(v) => {
+                if (v) {
+                  dateValue = v
+                  openDate = false
+                  setFieldValue('lastUpdate', toDate(v).toISOString())
                 }
                 else {
-                  formResult.participants.push(user)
-                  selectedUsers.push(user)
+                  dateValue = undefined
+                  setFieldValue('lastUpdate', undefined)
                 }
-              }">
-              <Avatar>
-                <AvatarImage :src="getImageUrl(user.avatar)" alt="Image" />
-                <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-              </Avatar>
-              <div class="ml-2">
-                <p class="text-sm font-medium leading-none">
-                  {{ user.name }}
-                </p>
-                <p class="text-sm text-muted-foreground">
-                  {{ user.email }}
-                </p>
-              </div>
-              <Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </Command>
-    </TooltipTrigger>
-  </Tooltip>
-</TooltipProvider>
+              }" />
+          </PopoverContent>
+        </Popover>
+        <FormDescription>
+          День окончания всех внутренних задач
+        </FormDescription>
+      </FormItem>
+      <input type="hidden" v-bind="field">
+    </FormField>
+    <FormField v-slot="{ value }" name="participants">
+      <FormItem>
+        <FormLabel>Участники</FormLabel>
+        <FormControl>
+          <TagsInput class="px-0 gap-0 w-80" :model-value="modelValue" @update:modelValue="value => {
+            setFieldValue('participants', value);
+          }">
+            <div class="flex gap-2 flex-wrap items-center px-3">
+              <TagsInputItem v-for="item in modelValue" :key="item" :value="item">
+                <TagsInputItemText />
+                <TagsInputItemDelete />
+              </TagsInputItem>
+            </div>
+
+            <ComboboxRoot v-model="modelValue" v-model:open="open" v-model:searchTerm="searchTerm" class="w-full z-100">
+              <ComboboxAnchor as-child>
+                <ComboboxInput placeholder="Участники..." as-child>
+                  <TagsInputInput class="w-full px-3" :class="modelValue.length > 0 ? 'mt-2' : ''"
+                    @keydown.enter.prevent />
+                </ComboboxInput>
+              </ComboboxAnchor>
+
+              <ComboboxPortal>
+                <ComboboxContent>
+                  <CommandList position="popper"
+                    class="z-50 w-[--radix-popper-anchor-width] rounded-md mt-2 border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+                    <CommandEmpty />
+                    <CommandGroup>
+                      <CommandItem v-for="framework in filteredFrameworks" :key="framework.value" :value="framework.label"
+                        @select.prevent="(ev) => {
+                          if (typeof ev.detail.value === 'string') {
+                            searchTerm = ''
+                            modelValue.push(framework.value)
+                            setFieldValue('participants', modelValue)
+                          }
+
+                          if (filteredFrameworks.length === 0) {
+                            setFieldValue('participants', modelValue)
+                          }
+                        }">
+                        {{ framework.label }}
+                      </CommandItem>
+                    </CommandGroup>
+                  </CommandList>
+                </ComboboxContent>
+              </ComboboxPortal>
+            </ComboboxRoot>
+          </TagsInput>
+        </FormControl>
+        <FormDescription>
+          Выберите людей, которые будут участвовать в проекте
+        </FormDescription>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <!-- <FormField v-slot="{ componentField }" name="email">
+  <FormItem>
+    <FormLabel>Email</FormLabel>
+
+    <Select v-bind="componentField">
+      <FormControl>
+        <SelectTrigger>
+          <SelectValue placeholder="Select an email" />
+        </SelectTrigger>
+      </FormControl>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem v-for="email in verifiedEmails" :key="email" :value="email">
+            {{ email }}
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+    <FormDescription>
+      You can manage verified email addresses in your email settings.
+    </FormDescription>
+    <FormMessage />
+  </FormItem>
+</FormField> -->
 
 
-<FormDescription>
-  Тут будет список участников листа
-</FormDescription>
-</FormItem>
-</FormField>
-</div>
-<div class="flex justify-start gap-2 mt-auto">
-  <Button type="submit" class="outline-0 flex-auto md:flex-none">
-    Сохранить
-  </Button>
-  <!-- <Button class="bg-transparent text-primary border hover:bg-primary-foreground outline-0">
-    Сбросить значение полей
-  </Button> -->
-</div>
-<Dialog v-model:open="openUserSelect">
-  <DialogContent class="gap-0 p-0 outline-none">
-    <DialogHeader class="px-4 pb-4 pt-5">
-      <DialogTitle>Список пользователей</DialogTitle>
-      <DialogDescription>
-        Вы можете добавить людей, которые будут заниматься задачами по новому листу
-      </DialogDescription>
-    </DialogHeader>
-    <Command class="overflow-hidden rounded-t-none border-t"
-    :filter-function="(list: User[], search) => list.filter(l => l.name.toLowerCase().includes(search.toLowerCase()))">
-    <CommandInput placeholder="Найти пользователя..." />
-    <CommandList>
-      <CommandEmpty>Нет пользователей.</CommandEmpty>
-      <CommandGroup class="p-2">
-        <CommandItem v-for="user in globalStore.defaultUsers" :key="user.email" :value="user"
-        class="flex items-center px-2" @select="() => {
-          const index = selectedUsers.findIndex(u => u === user)
-          if (index !== -1) {
-            formResult.participants.splice(index, 1)
-            selectedUsers.splice(index, 1)
-          }
-          else {
-            formResult.participants.push(user)
-            selectedUsers.push(user)
-          }
-        }">
-        <Avatar>
-          <AvatarImage :src="getImageUrl(user.avatar)" alt="Image" />
-          <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-        </Avatar>
-        <div class="ml-2">
-          <p class="text-sm font-medium leading-none">
-            {{ user.name }}
-          </p>
-          <p class="text-sm text-muted-foreground">
-            {{ user.email }}
-          </p>
-        </div>
-        <Check v-if="selectedUsers.includes(user)" class="ml-auto flex h-5 w-5 text-primary" />
-      </CommandItem>
-    </CommandGroup>
-  </CommandList>
-</Command>
-<DialogFooter class="flex items-center border-t p-4 sm:justify-between">
-  <div v-if="selectedUsers.length > 0" class="flex -space-x-2 overflow-hidden">
-    <Avatar v-for="user in selectedUsers" :key="user.email" class="inline-block border-2 border-background">
-      <AvatarImage :src="getImageUrl(user.avatar)" />
-      <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
-    </Avatar>
-  </div>
+    <!-- <div>
+  <FieldArray v-slot="{ fields, push, remove }" name="urls">
+    <div v-for="(field, index) in fields" :key="`urls-${field.key}`">
+      <FormField v-slot="{ componentField }" :name="`urls[${index}].value`">
+        <FormItem>
+          <FormLabel :class="cn(index !== 0 && 'sr-only')">
+            URLs
+          </FormLabel>
+          <FormDescription :class="cn(index !== 0 && 'sr-only')">
+            Add links to your website, blog, or social media profiles.
+          </FormDescription>
+          <div class="relative flex items-center">
+            <FormControl>
+              <Input type="url" v-bind="componentField" />
+            </FormControl>
+            <button type="button" class="absolute py-2 pe-3 end-0 text-muted-foreground" @click="remove(index)">
+              <Cross1Icon class="w-3" />
+            </button>
+          </div>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+    </div>
 
-  <p v-else class="text-sm text-muted-foreground">
-    Нужно выбрать минимум 1 человека
-  </p>
+    <Button type="button" variant="outline" size="sm" class="text-xs w-20 mt-2" @click="push({ value: '' })">
+      Add URL
+    </Button>
+  </FieldArray>
+</div> -->
 
-  <Button :disabled="selectedUsers.length < 1" @click="openUserSelect = false">
-    Продолжить
-  </Button>
-</DialogFooter>
-</DialogContent>
-</Dialog>
-</Form>
+    <div class="flex gap-2 justify-start">
+      <Button type="submit">
+        Создать лист
+      </Button>
+
+      <Button type="button" variant="outline" @click="reset">
+        Сбросить значения
+      </Button>
+    </div>
+  </form>
 </template>

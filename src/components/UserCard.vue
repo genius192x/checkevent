@@ -229,7 +229,7 @@ function getImageUrl(name) {
 						<CircleIcon class="mr-1 h-3 w-3 fill-sky-400 text-red-500" />
 						{{ item.email }}
 					</div>
-					<div class=" md:mt-0">Зарегистрирован - {{ item.lastApdate }}</div>
+					<div class=" md:mt-0">Зарегистрирован - {{ item.lastUpdate }}</div>
 				</div>
 			</div>
 		</CardContent>

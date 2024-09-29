@@ -28,7 +28,7 @@ const globalStore = useGlobalStore()
 
 interface Item {
   id: number,
-  lastApdate: any,
+  lastUpdate: any,
   title: string,
   type: string,
   description: string,
@@ -61,16 +61,16 @@ const displayedItems = computed(() => {
   const sortedItems = ref(slicedItems.value.map(value => value));
 
   sortedItems.value.forEach(item => {
-    item.lastApdate = new Date(item.lastApdate);
+    item.lastUpdate = new Date(item.lastUpdate);
   })
 
   if (props.sorted === 'asc') {
-    sortedItems.value.sort((a, b) => a.lastApdate - b.lastApdate)
+    sortedItems.value.sort((a, b) => a.lastUpdate - b.lastUpdate)
 
     console.log();
 
   } else if (props.sorted === 'desc') {
-    sortedItems.value.sort((a, b) => b.lastApdate - a.lastApdate)
+    sortedItems.value.sort((a, b) => b.lastUpdate - a.lastUpdate)
   }
 
   return sortedItems.value

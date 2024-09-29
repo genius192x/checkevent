@@ -81,7 +81,7 @@ const styleState = ref('row');
             </TabsTrigger>
           </TabsList>
           <div class="order-2 md:order-1">
-            <DropdownMenu class="">
+            <DropdownMenu>
               <DropdownMenuTrigger as-child>
                 <Button
                 variant="ghost"
