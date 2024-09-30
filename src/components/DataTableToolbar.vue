@@ -23,6 +23,7 @@ import {
   SheetTitle,
   SheetDescription
 } from '@/components/ui/sheet'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 const userStore = useUserStore()
 const globalStore = useGlobalStore()
 interface DataTableToolbarProps {
@@ -36,7 +37,8 @@ interface DataTableToolbarProps {
   if (window.innerWidth > 768) {
     side = 'right'
   }
-  const isFormOpen = ref(false)
+const isFormOpen = ref(false)
+  const open = ref(false)
 </script>
 
 <template>
@@ -57,9 +59,28 @@ interface DataTableToolbarProps {
       </Button>
     </div>
     <DataTableViewOptions :table="table" />
+    <Button size="sm" class="flex h-8 md:ml-auto" @click="open = true">
+      <!-- <PlusIcon class="mr-2 h-4 w-4" /> -->
+      XLS
+    </Button>
+    <Dialog v-model:open="open">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Импорт / Экспорт XLS файлов</DialogTitle>
+          <DialogDescription>
+            Вы можете экспортировать список задач из данного листа в формате XLS файла. Если у вас есть файл, который соответсвует <a href="#"> шаблону </a>, вы можете импортировать его.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="secondary" @click="open = false">
+            Закрыть
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
     <Sheet :open="isFormOpen">
       <SheetTrigger>
-        <Button variant="outline" size="sm" class="flex h-8 md:ml-auto" @click="isFormOpen = true">
+        <Button size="sm" class="flex h-8 md:ml-auto" @click="isFormOpen = true">
           <PlusIcon class="mr-2 h-4 w-4" />
           Новая задача
         </Button>

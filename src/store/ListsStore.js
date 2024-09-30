@@ -25,7 +25,6 @@ export const useListStore = defineStore('listStore', () => {
   ]);
   list.value = myTasks
 
-  console.log(currData.value);
   updateList()
 
 
@@ -50,25 +49,28 @@ export const useListStore = defineStore('listStore', () => {
     return result
   }
 
-  function updateLisItem(values, id) {
-    let changedItem = list.value.filter(item => item.id == id)
-    console.log(changedItem[0]);
+  function updateListItem(values, id) {
+    console.log(list.value);
+    console.log(values);
+    let index = list.value.findIndex(item => item.id === values.id)
+    console.log(index);
+    // let changedItem = list.value.filter(item => item.id == id)
     let emails = ref([])
-    changedItem.participants = getFullParticipants(emails)
-    changedItem.title = values.title
-    changedItem.description = values.description
-    changedItem.lastUpdate = values.lastUpdate
-
-    console.log('emails', emails);
+    values.participants.forEach(participant => {
+      emails.value.push(participant)
+    })
+    list.value[index].participants = getFullParticipants(emails.value).value
+    list.value[index].title = values.title
+    list.value[index].description = values.description
+    list.value[index].lastUpdate = values.lastUpdate
+    setListToStore()
   }
 
   function addList(item) {
     item.id = list.value.length + 1;
     item.isArchived = false;
     item.tasks = [];
-    console.log(item);
     item.participants = getFullParticipants(item.participants)
-    console.log('item', item);
     list.value.unshift(item)
     setListToStore()
   }
@@ -76,7 +78,6 @@ export const useListStore = defineStore('listStore', () => {
   function addTask(item, listId) {
     let curList = list.value.find(({ id }) => id == listId);
     curList.tasks.unshift(item)
-    console.log(item);
     setListToStore()
   }
 
@@ -183,7 +184,7 @@ export const useListStore = defineStore('listStore', () => {
     getItemById,
     deleteList,
     addTask,
-    updateLisItem,
+    updateListItem,
     filters,
     changeStatus,
     updateMessage,
