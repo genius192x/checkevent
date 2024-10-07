@@ -3,7 +3,6 @@
     "title": "Матч ЦСКА-Ростов",
     "isArchived": false,
     "description": "Список задач по организации/проведению матча",
-    "type": "Гандбол Мужской",
     "lastUpdate": "2026-09-24",
 		"participants":[
 			{
@@ -42,15 +41,14 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
-        "label": "documents",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
-					"name": "Настя",
-					"surname": "Курбатова",
-					"email": "kurbatova@mail.ru",
+					"name": "Антон",
+					"surname": "Зимин",
+					"email": "zimin@mail.ru",
 					"password": "kur123",
-					"avatar": "01.png"
+					"avatar": "02.png"
 				},
 				"messages": [
 					{
@@ -81,7 +79,6 @@
         "id": 647456,
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
-        "label": "documents",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -99,7 +96,6 @@
         "id": 3466753,
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
-        "label": "sound",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -119,7 +115,6 @@
     "title": "Корпоратив мужской команды",
     "isArchived": false,
     "description": "Список задач по организации/проведению корпоратива",
-    "type": "Гандбол Женский",
     "lastUpdate": "2023-09-24",
     "participants":[
       {
@@ -144,7 +139,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
-        "label": "documents",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -163,7 +157,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -182,7 +175,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -201,7 +193,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -220,7 +211,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -239,7 +229,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -258,7 +247,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -277,7 +265,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -296,7 +283,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "done",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -314,7 +300,6 @@
         "id": 7347,
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
-        "label": "documents",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -332,7 +317,6 @@
         "id": 3457,
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
-        "label": "sound",
 				"isDone": false,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -352,7 +336,6 @@
     "title": "Корпоратив женской команды",
     "isArchived": true,
     "description": "Список задач по организации/проведению корпоратива",
-    "type": "Гандбол Женский",
     "lastUpdate": "2028-09-24",
     "participants":[
       {
@@ -377,7 +360,6 @@
         "title": "Необходиом подписать документы",
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -395,7 +377,6 @@
         "id": 7347,
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
-        "label": "documents",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {
@@ -413,7 +394,6 @@
         "id": 3457,
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
-        "label": "sound",
 				"isDone": true,
 				"deadLine":"30 августа",
 				"responsible": {

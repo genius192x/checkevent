@@ -25,7 +25,7 @@ interface DataTableRowActionsProps {
   row: Row<Task>
 }
 const props = defineProps<DataTableRowActionsProps>()
-
+defineEmits(['openEdit', 'delete'])
 const task = computed(() => taskSchema.parse(props.row.original))
 </script>
 
@@ -41,11 +41,11 @@ const task = computed(() => taskSchema.parse(props.row.original))
 		</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end" class="w-[160px]">
-		<DropdownMenuItem>Edit</DropdownMenuItem>
-		<DropdownMenuItem>Make a copy</DropdownMenuItem>
-		<DropdownMenuItem>Favorite</DropdownMenuItem>
-		<DropdownMenuSeparator />
-		<DropdownMenuSub>
+		<DropdownMenuItem @click="$emit('openEdit')">Изменить</DropdownMenuItem>
+		<!-- <DropdownMenuItem>Make a copy</DropdownMenuItem> -->
+		<!-- <DropdownMenuItem>Favorite</DropdownMenuItem> -->
+		<!-- <DropdownMenuSeparator /> -->
+		<!-- <DropdownMenuSub>
 			<DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
 			<DropdownMenuSubContent>
 			<DropdownMenuRadioGroup :value="task.label">
@@ -54,11 +54,11 @@ const task = computed(() => taskSchema.parse(props.row.original))
 				</DropdownMenuRadioItem>
 			</DropdownMenuRadioGroup>
 			</DropdownMenuSubContent>
-		</DropdownMenuSub>
+		</DropdownMenuSub> -->
 		<DropdownMenuSeparator />
 		<DropdownMenuItem>
 			Delete
-			<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+			<!-- <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut> -->
 		</DropdownMenuItem>
 		</DropdownMenuContent>
 	</DropdownMenu>

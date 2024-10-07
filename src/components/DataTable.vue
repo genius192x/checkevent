@@ -30,8 +30,7 @@ const listStore = useListStore()
 const props = defineProps<{
   columns: ColumnDef<Task, any>[]
   data: Task[]
-  id: number,
-  isCheckable: boolean
+  id: string,
 }>()
 
 const sorting = ref<SortingState>([])
@@ -70,6 +69,8 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import CardChat from '@/components/CardChat.vue'
+import { Vue3Lottie } from 'vue3-lottie'
+import EmptyListJSON from '../assets/animationEmptyList.json'
 import TeamMembers from '@/components/TeamMembers.vue'
 import { log } from 'console'
 import { setInterval } from 'timers'
@@ -136,19 +137,23 @@ const currRows = computed(() => tableData.value)
             <div
               class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative">
               <CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
-              <div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3 "
+              <div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
                 :class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
-                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" @some-event="console.log('text')"/>
               </div>
             </div>
             <CollapsibleContent class="flex flex-col">
               <DetailTask  :item="row.original"/>
             </CollapsibleContent>
           </Collapsible>
+					<div class="" v-else>
+						<Vue3Lottie class="cursor-pointer" :animationData="EmptyListJSON" :height="200" :width="200" :loop="false" @click="isFormOpen = true"/>
+						<div class="text-center">Задач пока нет</div>
+					</div>
         </div>
       </div>
     </div>
 
-    <DataTablePagination :table="table" />
+    <DataTablePagination :table="table" v-if="table.getRowModel().rows?.length" />
   </div>
 </template>

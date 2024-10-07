@@ -14,6 +14,8 @@ import CreateTask from './form/CreateTask.vue'
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 import { PlusIcon } from '@radix-icons/vue'
+import { Download } from 'lucide-vue-next'
+import { Upload } from 'lucide-vue-next'
 import {
   Sheet,
   SheetContent,
@@ -60,7 +62,8 @@ const isFormOpen = ref(false)
     </div>
     <DataTableViewOptions :table="table" />
     <Button size="sm" class="flex h-8 md:ml-auto" @click="open = true">
-      <!-- <PlusIcon class="mr-2 h-4 w-4" /> -->
+      <Download class="mr-2 h-4 w-4" />
+			<!-- <Upload class="mr-2 h-4 w-4" /> -->
       XLS
     </Button>
     <Dialog v-model:open="open">

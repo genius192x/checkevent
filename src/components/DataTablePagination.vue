@@ -24,7 +24,6 @@ let isDoneCount = 0
 props.table.getRowModel().rows.forEach(row => {
   row.original.isDone ? isDoneCount++ : null
 })
-console.log(props.table.getRowModel());
 
 </script>
 

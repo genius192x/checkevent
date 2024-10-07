@@ -86,7 +86,6 @@ interface Item {
 const props = defineProps<{
   item: Item,
   id: number,
-  isCheckable: boolean
 }>()
 
 function getClass(property) {
@@ -109,7 +108,6 @@ const openImages = ref(false)
 
 const isMobile = useMedia("(max-width: 768px)")
 
-const isChangeable = ref(false)
 
 function saveImages(images) {
 	console.log('save');
@@ -136,9 +134,8 @@ const messages = computed(() => {
 })
 
 function updateMessages(value) {
-	listStore.updateMessage(props.id, value)
-	console.log('update message');
-	console.log(messages.value);
+	listStore.updateMessage(props.item.id, value);
+
 
 }
 
@@ -155,7 +152,7 @@ function initialsPersonal(name, surname) {
 </script>
 
 <template>
-	<div class="transition-all duration-300" :class="{'translate-x-10 md:translate-y-5 md:translate-x-0': isCheckable}">
+	<div class="transition-all duration-300">
 			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
 				<div class="flex justify-between items-center">
 					<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
@@ -180,45 +177,14 @@ function initialsPersonal(name, surname) {
 						<ChatBubbleIcon />
 						<span>{{ messagesLength }}</span>
 					</div>
-					<div class="block ml-auto">
-						<Avatar class="h-8 w-8 border-2 border-background">
-							<AvatarImage :src="getImageUrl(props.item.responsible.avatar)" :alt="initialsPersonal(props.item.responsible.name, props.item.responsible.surname)" />
-							<AvatarFallback>{{ initialsPersonal(props.item.responsible.name, props.item.responsible.surname) }}</AvatarFallback>
-						</Avatar>
-					</div>
 				</div>
-        <div class="flex gap-10">
+        <div class="flex flex-col-reverse md:gap-10 md:flex-row">
           <div class="flex-1 md:pr-10 md:border-r flex flex-col gap-4">
             <UploadFile @submit="saveImages" :images="props.item.images"/>
-            <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }"/>
+            <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0"/>
           </div>
-          <TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
+          <TeamMembers :person="props.item.responsible" :is-changeable="false"/>
         </div>
-        <!-- <div class="align-top">
-          <TeamMembers :isChangeable="isCheckable" :person="props.item.responsible" />
-        </div>
-        <div class="flex w-full justify-between gap-3">
-          <Button @click="openChat = !openChat" class="bg-muted text-primary flex-1">
-            Чат
-          </Button>
-          <Button @click="openImages = !openImages" class="bg-muted text-primary flex-1">
-            Изображения
-          </Button>
-        </div> -->
-        <!-- <div class="absolute top-0 w-full left-0  h-full bg-card  transition-all duration-300  flex flex-col" :class="{ 'left-full': !openChat }">
-          <div class="px-6 pt-6 cursor-pointer" @click="openChat = !openChat">Назад</div>
-          <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class=""/>
-        </div> -->
-        <!-- <Collapsible v-model:open="openChat">
-          <CollapsibleContent>
-            <CardChat :messages="messages" @change-message="(message)=>{ updateMessages(message) }"/>
-          </CollapsibleContent>
-        </Collapsible>
-        <Collapsible v-model:open="openImages">
-          <CollapsibleContent>
-            <UploadFile @submit="saveImages" :images="props.item.images"/>
-          </CollapsibleContent>
-        </Collapsible> -->
 			</div>
 
 	</div>

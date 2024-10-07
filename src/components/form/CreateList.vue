@@ -52,7 +52,7 @@ import {
   toDate
 } from 'radix-vue/date'
 
-
+const emit = defineEmits(['close'])
 const dateValue = ref()
 const placeholder = ref()
 const openDate = ref(false)
@@ -90,7 +90,8 @@ const reset = () => {
   modelValue.value = []
 }
 const onSubmit = handleSubmit((values) => {
-  listStore.addList(values)
+	listStore.addList(values)
+	emit('close')
   toast('Лист успешно создан');
   console.log(values);
 })
