@@ -49,6 +49,17 @@ export const useListStore = defineStore('listStore', () => {
 		return result
 	}
 
+	function getFullUserData(email) {
+		const result = ref({})
+		const globalStore = useGlobalStore()
+		globalStore.defaultUsers.filter(user => {
+			if (user.email == email) {
+				result.value = user;
+			}
+		})
+		return result
+	}
+
 	function updateListItem(values, id) {
 		console.log(list.value);
 		console.log(values);
@@ -77,7 +88,12 @@ export const useListStore = defineStore('listStore', () => {
 
 	function addTask(item, listId) {
 		let curList = list.value.find(({ id }) => id == listId);
-		curList.tasks.unshift(item)
+		item.status = 'todo';
+		item.isDone = false;
+		item.messages = [];
+		curList.tasks.unshift(item);
+		item.respoinsible = getFullUserData(item.participant)
+		console.log(item);
 		setListToStore()
 	}
 
@@ -92,9 +108,20 @@ export const useListStore = defineStore('listStore', () => {
 				})
 			}
 		})
-		toast(`Лист ${deletingItem.title} перемещен в архив`);
+		toast(`Лист "${deletingItem.title}" перемещен в архив`);
 		setListToStore()
 		updateList()
+	}
+
+	function deleteTask(listId, task) {
+		let curList = list.value.find(({ id }) => id == listId);
+		console.log(curList);
+		let taskIndex = curList.tasks.findIndex(function (element) {
+			return element.id == task.id;
+		})
+		curList.tasks.splice(taskIndex, 1)
+		setListToStore()
+		toast(`Задача "${task.title}" удалена`);
 	}
 
 	function copyList(data) {
@@ -185,6 +212,7 @@ export const useListStore = defineStore('listStore', () => {
 		list,
 		getItemById,
 		deleteList,
+		deleteTask,
 		addTask,
 		updateListItem,
 		filters,

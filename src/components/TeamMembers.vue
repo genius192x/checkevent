@@ -53,7 +53,7 @@ function initialsPersonal(name, surname) {
 
 <template>
   <Card class="h-full flex flex-col border-none">
-    <CardContent class="p-4 grid gap-6 py-2">
+    <CardContent class="p-8	 grid gap-6 py-2">
       <div class="flex flex-col-reverse gap-4 justify-between sm:space-y-0">
         <div class="flex items-center space-x-4">
           <Avatar>

@@ -139,7 +139,7 @@ const currRows = computed(() => tableData.value)
               <CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
               <div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
                 :class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
-                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" @some-event="console.log('text')"/>
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"/>
               </div>
             </div>
             <CollapsibleContent class="flex flex-col">

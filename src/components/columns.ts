@@ -37,7 +37,7 @@ export const columns: ColumnDef<Task>[] = [
 
 			const label = labels.find(label => label.value === row.original.label)
 
-			const  avatart = getImageUrl(row.original.responsible.avatar)
+			const  avatart = getImageUrl(row.original?.responsible?.avatar)
 			function getImageUrl(name) {
 				return new URL(`../assets/avatars/${name}`, import.meta.url).href
 			}

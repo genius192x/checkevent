@@ -8,39 +8,46 @@ import { DotsHorizontalIcon } from '@radix-icons/vue'
 
 import { Button } from '@/components/ui/button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
+	DropdownMenuShortcut,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
+	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useListStore } from '@/store/ListsStore'
 
+
+const listStore=useListStore()
 interface DataTableRowActionsProps {
-  row: Row<Task>
+row: Row<Task>
 }
 const props = defineProps<DataTableRowActionsProps>()
 defineEmits(['openEdit', 'delete'])
-const task = computed(() => taskSchema.parse(props.row.original))
+
+const url = window.location.href;
+const lastParam = url.split("/").slice(-1)[0];
+
+const task = computed(() => props.row.original)
 </script>
 
 <template>
-  <DropdownMenu>
+	<DropdownMenu>
 		<DropdownMenuTrigger as-child>
-		<Button
+			<Button
 			variant="ghost"
 			class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-		>
+			>
 			<DotsHorizontalIcon class="h-4 w-4" />
 			<span class="sr-only">Open menu</span>
 		</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent align="end" class="w-[160px]">
+	</DropdownMenuTrigger>
+	<DropdownMenuContent align="end" class="w-[160px]">
 		<DropdownMenuItem @click="$emit('openEdit')">Изменить</DropdownMenuItem>
 		<!-- <DropdownMenuItem>Make a copy</DropdownMenuItem> -->
 		<!-- <DropdownMenuItem>Favorite</DropdownMenuItem> -->
@@ -48,18 +55,18 @@ const task = computed(() => taskSchema.parse(props.row.original))
 		<!-- <DropdownMenuSub>
 			<DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
 			<DropdownMenuSubContent>
-			<DropdownMenuRadioGroup :value="task.label">
-				<DropdownMenuRadioItem v-for="label in labels" :key="label.value" :value="label.value">
-				{{ label.label }}
-				</DropdownMenuRadioItem>
-			</DropdownMenuRadioGroup>
+				<DropdownMenuRadioGroup :value="task.label">
+					<DropdownMenuRadioItem v-for="label in labels" :key="label.value" :value="label.value">
+						{{ label.label }}
+					</DropdownMenuRadioItem>
+				</DropdownMenuRadioGroup>
 			</DropdownMenuSubContent>
 		</DropdownMenuSub> -->
 		<DropdownMenuSeparator />
-		<DropdownMenuItem>
-			Delete
+		<DropdownMenuItem @click="listStore.deleteTask(lastParam, task)" class="text-red-800">
+			Удалить
 			<!-- <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut> -->
 		</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
+	</DropdownMenuContent>
+</DropdownMenu>
 </template>

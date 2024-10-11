@@ -57,7 +57,7 @@ const counterTasks = ref(listStore.getItemById(props.id))
 
 console.log(counterTasks.value);
 
-watch(currList.value, () => {
+watch(listStore.list, () => {
 	console.log(taskList.value);
 	updateCount.value++
 	console.log(updateCount);
