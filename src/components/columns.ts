@@ -37,11 +37,10 @@ export const columns: ColumnDef<Task>[] = [
 
 			const label = labels.find(label => label.value === row.original.label)
 
-			const  avatart = getImageUrl(row.original?.responsible?.avatar)
+			const  avatart = getImageUrl(row.original?.participant?.avatar)
 			function getImageUrl(name) {
 				return new URL(`../assets/avatars/${name}`, import.meta.url).href
 			}
-			console.log(row.original);
 
 			return h('div', { class: 'flex flex-col-reverse gap-4 space-x-2 min-w-20 items-start md:flex-row md:gap-0 md:items-center' },
 			[
@@ -93,9 +92,5 @@ export const columns: ColumnDef<Task>[] = [
 		filterFn: (row, id, value) => {
 			return value.includes(row.getValue(id))
 		},
-	},
-	{
-		id: 'actions',
-		cell: ({ row }) => h(DataTableRowActions, { row }),
-	},
+	}
 ]

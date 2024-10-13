@@ -42,8 +42,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 28 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Антон",
 					"surname": "Зимин",
 					"email": "zimin@mail.ru",
@@ -80,8 +80,8 @@
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -97,8 +97,8 @@
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -140,8 +140,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -158,8 +158,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -176,8 +176,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -194,8 +194,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -212,8 +212,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -230,8 +230,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -248,8 +248,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -266,8 +266,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "check",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -284,8 +284,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "done",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -301,8 +301,8 @@
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -318,8 +318,8 @@
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
 				"isDone": false,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -361,8 +361,8 @@
 				"description": "Тут будет текст описания задачи, что нужно сделать, каким должен быть результат, в каком формате и т.д",
         "status": "in progress",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -378,8 +378,8 @@
         "title": "Оформить отчет про прошедшему мероприятию",
         "status": "todo",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -395,8 +395,8 @@
         "title": "Необходимо докупить 2 колонки",
         "status": "todo",
 				"isDone": true,
-				"deadLine":"30 августа",
-				"responsible": {
+				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
+				"participant": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",

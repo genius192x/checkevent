@@ -25,6 +25,18 @@ import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxPortal, Combobo
 import { CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input'
 
+import { Calendar } from '@/components/ui/calendar'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { toast } from '@/components/ui/toast'
+import {
+	toDate
+} from 'radix-vue/date'
+
 const frameworks = [
 { value: 'zimin@mail.ru', label: 'Антон Зимин' },
 { value: 'levchenko@mail.ru', label: 'Михаил Левченко' },
@@ -65,17 +77,7 @@ const props = defineProps<{
 
 
 
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { toast } from '@/components/ui/toast'
-import {
-  toDate
-} from 'radix-vue/date'
+
 
 
 const dateValue = ref()
