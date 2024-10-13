@@ -148,65 +148,68 @@ const openImages = ref(false)
 		const lastParam = url.split("/").slice(-1)[0];
 		const isChangeOpen = ref({})
 
+function closeChangeForm() {
+	isChangeOpen.value = !isChangeOpen.value
+}
+</script>
 
-	</script>
-
-	<template>
-		<!-- {{ selectedRows }} -->
-		<div class="space-y-4">
-			<DataTableToolbar :table="table" />
-			<div class="rounded-md border">
-				<div>
-					<div class="border-b">
-						<div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
-						class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
+<template>
+	<!-- {{ selectedRows }} -->
+	<div class="space-y-4">
+		<DataTableToolbar :table="table" />
+		<div class="rounded-md border">
+			<div>
+				<div class="border-b">
+					<div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
+					class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
 						<div v-for="header in headerGroup.headers" :key="header.id" class="p-4 py-3"
 						:class="{ 'hidden md:block': isMobileHidden(header.id) }">
-						<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-						:props="header.getContext()" />
+							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+							:props="header.getContext()"/>
 					</div>
 				</div>
 			</div>
 			<div class=" flex flex-col gap-1">
 				<Collapsible v-if="table.getRowModel().rows?.length" :key="row.id" v-for="row in table.getRowModel().rows"
-				:data-state="row.getIsSelected() || 'выбрано'" class="border-b">
-				<ContextMenu>
-					<ContextMenuTrigger>
-						<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative">
-							<CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
-							<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
-							:class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
-							<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"/>
-						</div>
-					</div>
-					<CollapsibleContent class="flex flex-col">
-						<DetailTask  :item="row.original"/>
-					</CollapsibleContent>
-				</ContextMenuTrigger>
-				<ContextMenuContent>
-					<ContextMenuItem @click="isChangeOpen[row.original.id] = true">Изменить</ContextMenuItem>
-					<ContextMenuItem @click="listStore.deleteTask(lastParam, row.original)" class="text-red-800">Удалить</ContextMenuItem>
-				</ContextMenuContent>
-			</ContextMenu>
-			<Sheet :open="isChangeOpen[row.original.id]">
-				<!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
-				<SheetContent @close="isChangeOpen = !isChangeOpen" :side=side
-				class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-				<SheetHeader>
-					<SheetTitle>Редактирование задачи</SheetTitle>
-				</SheetHeader>
-				<ChangeTask :item="row.original" @close="isChangeOpen = !isChangeOpen"/>
-			</SheetContent>
-		</Sheet>
-	</Collapsible>
-	<div class="" v-else>
-		<Vue3Lottie class="cursor-pointer" :animationData="EmptyListJSON" :height="200" :width="200" :loop="false" @click="isFormOpen = true"/>
-		<div class="text-center">Задач пока нет</div>
+					:data-state="row.getIsSelected() || 'выбрано'" class="border-b">
+							<ContextMenu>
+								<ContextMenuTrigger>
+										<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative select-none">
+											<CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
+											<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
+												:class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">
+												<FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()"/>
+										</div>
+									</div>
+									<CollapsibleContent class="flex flex-col">
+										<DetailTask  :item="row.original"/>
+									</CollapsibleContent>
+								</ContextMenuTrigger>
+								<ContextMenuContent>
+									<ContextMenuItem @click="isChangeOpen[row.original.id] = true">Изменить</ContextMenuItem>
+									<ContextMenuSeparator/>
+									<ContextMenuItem @click="listStore.deleteTask(lastParam, row.original)" class="text-red-800">Удалить</ContextMenuItem>
+								</ContextMenuContent>
+							</ContextMenu>
+							<Sheet :open="isChangeOpen[row.original.id]">
+								<!-- TODO v-if="userStore.userData.admin" верни на кнопку -->
+								<SheetContent @close="isChangeOpen = {}" :side=side
+									class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+									<SheetHeader>
+										<SheetTitle>Редактирование задачи</SheetTitle>
+									</SheetHeader>
+									<ChangeTask :item="row.original" @close="isChangeOpen = {}"/>
+								</SheetContent>
+							</Sheet>
+				</Collapsible>
+				<div class="" v-else>
+					<Vue3Lottie class="cursor-pointer" :animationData="EmptyListJSON" :height="200" :width="200" :loop="false" @click="isFormOpen = true"/>
+					<div class="text-center">Задач пока нет</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-</div>
-</div>
 
-<DataTablePagination :table="table" v-if="table.getRowModel().rows?.length" />
+	<DataTablePagination :table="table" v-if="table.getRowModel().rows?.length" />
 </div>
 </template>

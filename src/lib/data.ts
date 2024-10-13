@@ -26,7 +26,7 @@ export const labels = [
 export const statuses = [
 	{
 		value: 'todo',
-		label: 'Поставлена',
+		label: 'Не начато',
 		icon: h(CircleIcon),
 	},
 	{
@@ -36,7 +36,7 @@ export const statuses = [
 	},
 	{
 		value: 'check',
-		label: 'Ждет проверки',
+		label: 'Заблокировано',
 		icon: h(StopwatchIcon),
 	},
 	{

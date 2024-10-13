@@ -163,10 +163,17 @@ const emit = defineEmits(['close'])
 const reset = () => {
 	resetForm()
 }
+
+const url = window.location.href;
+const lastParam = url.split("/").slice(-1)[0];
+console.log(lastParam);
+
 const onSubmit = handleSubmit((values) => {
-	listStore.updateListItem(values, props.item.id);
+	listStore.updateTaskItem(values, lastParam, props.item.id);
 	emit('close');
 })
+
+
 </script>
 
 <template>
@@ -198,11 +205,11 @@ const onSubmit = handleSubmit((values) => {
 					<PopoverTrigger as-child>
 						<FormControl>
 							<Button variant="outline" :class="cn(
-							'w-[240px] justify-start text-left font-normal',
-							!value && 'text-muted-foreground',
+								'w-[240px] justify-start text-left font-normal',
+								!value && 'text-muted-foreground',
 							)">
 							<RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
-							<span>{{ value ? new Date(props.item.deadLine).toLocaleDateString('ru-RU') : "Выберите день"
+							<span>{{ value ?  new Date(value).toLocaleDateString('ru-RU') : "Выберите день"
 							}}</span>
 						</Button>
 					</FormControl>

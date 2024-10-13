@@ -79,7 +79,7 @@ interface Item {
 	deadLine: string,
 	images: object,
 	isDone: boolean,
-	responsible: Responsible,
+	participant: Responsible,
 	messages: [],
 }
 
@@ -171,7 +171,7 @@ function initialsPersonal(name, surname) {
 				<div class="flex items-center gap-7 mt-auto">
 					<div class="flex items-center gap-2">
 						<CalendarIcon />
-						<span>{{ props.item.deadLine }}</span>
+						<span>{{ new Date(props.item.deadLine).toLocaleDateString('ru-RU') }}</span>
 					</div>
 					<div class="flex items-center gap-2">
 						<ChatBubbleIcon />
@@ -183,7 +183,7 @@ function initialsPersonal(name, surname) {
             <UploadFile @submit="saveImages" :images="props.item.images"/>
             <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0"/>
           </div>
-          <TeamMembers :person="props.item.responsible" :is-changeable="false"/>
+          <TeamMembers :person="props.item.participant" :is-changeable="false"/>
         </div>
 			</div>
 

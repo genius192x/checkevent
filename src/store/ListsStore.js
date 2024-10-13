@@ -61,10 +61,7 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 	function updateListItem(values, id) {
-		console.log(list.value);
-		console.log(values);
 		let index = list.value.findIndex(item => item.id === values.id)
-		console.log(index);
 		// let changedItem = list.value.filter(item => item.id == id)
 		let emails = ref([])
 		values.participants.forEach(participant => {
@@ -75,6 +72,18 @@ export const useListStore = defineStore('listStore', () => {
 		list.value[index].description = values.description
 		list.value[index].lastUpdate = values.lastUpdate
 		setListToStore()
+	}
+
+	function updateTaskItem(values, listId, taskId) {
+		let taskIndex = list.value[listId - 1].tasks.findIndex(item => item.id === taskId)
+		list.value[listId - 1].tasks[taskIndex].title = values.title
+		list.value[listId - 1].tasks[taskIndex].description = values.description
+		list.value[listId - 1].tasks[taskIndex].deadLine = values.deadLine
+		list.value[listId - 1].tasks[taskIndex].priority = values.priority
+		list.value[listId - 1].tasks[taskIndex].participant = getFullUserData(values.participant)
+		console.log(values);
+		setListToStore()
+		console.log(list.value[listId - 1].tasks[taskIndex]);
 	}
 
 	function addList(item) {
@@ -92,7 +101,7 @@ export const useListStore = defineStore('listStore', () => {
 		item.isDone = false;
 		item.messages = [];
 		curList.tasks.unshift(item);
-		item.respoinsible = getFullUserData(item.participant)
+		item.participant = getFullUserData(item.participant)
 		console.log(item);
 		setListToStore()
 	}
@@ -215,6 +224,7 @@ export const useListStore = defineStore('listStore', () => {
 		deleteTask,
 		addTask,
 		updateListItem,
+		updateTaskItem,
 		filters,
 		changeStatus,
 		updateMessage,
