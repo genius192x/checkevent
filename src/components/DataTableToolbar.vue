@@ -15,6 +15,7 @@ import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 import { PlusIcon } from '@radix-icons/vue'
 import { Download } from 'lucide-vue-next'
+import UploadFile from '@/components/UploadFile.vue'
 import { Upload } from 'lucide-vue-next'
 import {
 	Sheet,
@@ -48,19 +49,23 @@ interface DataTableToolbarProps {
 		isFormOpen.value = true,
 		emit('open-form')
 	}
+
+function saveImages(images) {
+	console.log('save');
+}
 </script>
 
 <template>
 	<div class="flex flex-col gap-4 md:justify-between md:items-center md:flex-row">
 		<div class="flex gap-2 flex-1 flex-wrap md:space-x-2 md:items-center">
 			<Input placeholder="Поиск по названию..."
-			:model-value="(table.getColumn('title')?.getFilterValue() as string) ?? ''"
-			class="h-8 lg:w-[250px] w-full md:w-[150px]"
-			@input="table.getColumn('title')?.setFilterValue($event.target.value)" />
+				:model-value="(table.getColumn('title')?.getFilterValue() as string) ?? ''"
+				class="h-8 lg:w-[250px] w-full md:w-[150px]"
+				@input="table.getColumn('title')?.setFilterValue($event.target.value)" />
 			<DataTableFacetedFilter v-if="table.getColumn('status')" :column="table.getColumn('status')" title="Статус"
-			:options="statuses" />
+				:options="statuses" />
 			<DataTableFacetedFilter v-if="table.getColumn('priority')" :column="table.getColumn('priority')" title="Приоритет"
-			:options="priorities" />
+				:options="priorities" />
 
 			<Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click="table.resetColumnFilters()">
 				Сбросить
@@ -78,10 +83,15 @@ interface DataTableToolbarProps {
 				<DialogHeader>
 					<DialogTitle>Импорт / Экспорт XLS файлов</DialogTitle>
 					<DialogDescription>
-						Вы можете экспортировать список задач из данного листа в формате XLS файла. Если у вас есть файл, который соответсвует <a href="#"> шаблону </a>, вы можете импортировать его.
+						Вы можете экспортировать список задач из данного листа в формате XLS файла. Если у вас есть файл, который
+						соответсвует <a href="#"> шаблону </a>, вы можете импортировать его.
 					</DialogDescription>
 				</DialogHeader>
+				<UploadFile @submit="saveImages" />
 				<DialogFooter>
+					<Button href="/vite.svg" download>
+						Скачать шаблон
+					</Button>
 					<Button variant="secondary" @click="open = false">
 						Закрыть
 					</Button>
@@ -95,16 +105,14 @@ interface DataTableToolbarProps {
 					Новая задача
 				</Button>
 			</SheetTrigger>
-			<SheetContent
-			@close="isFormOpen = !isFormOpen"
-			:side=side
-			class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
-			<SheetHeader>
-				<SheetTitle>Создание новой задачи</SheetTitle>
-			</SheetHeader>
-			<CreateTask :list-id="$route.params.id" @close="isFormOpen = false"/>
-		</SheetContent>
-	</Sheet>
+			<SheetContent @close="isFormOpen = !isFormOpen" :side=side
+				class="w-[100%] max-h-[80%] p-4 pb-4 rounded-t-xl md:w-[440px] sm:max-w-none md:max-h-none md:rounded-xl md:p-3 outline-0 md:m-3 h-auto">
+				<SheetHeader>
+					<SheetTitle>Создание новой задачи</SheetTitle>
+				</SheetHeader>
+				<CreateTask :list-id="$route.params.id" @close="isFormOpen = false" />
+			</SheetContent>
+		</Sheet>
 
-</div>
+	</div>
 </template>
