@@ -79,7 +79,7 @@ interface Item {
 	deadLine: string,
 	images: object,
 	isDone: boolean,
-	participant: Responsible,
+	responsible: Responsible,
 	messages: [],
 }
 
@@ -153,39 +153,40 @@ function initialsPersonal(name, surname) {
 
 <template>
 	<div class="transition-all duration-300">
-			<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
-				<div class="flex justify-between items-center">
-					<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
-						:class="getClass(props.item.priority)">
-						{{ props.item.priority }}
-					</div>
-					<!-- TODO после mvp нужно добавить действия с задачей -->
-					<!-- <DataTableRowActions :row="item" /> -->
+		<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
+			<div class="flex justify-between items-center">
+				<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
+					:class="getClass(props.item.priority)">
+					{{ props.item.priority }}
 				</div>
-				<div class="text-xl">
-					{{ props.item.title }}
-				</div>
-        <div class="">
-          {{ props.item.description }}
-        </div>
-				<div class="flex items-center gap-7 mt-auto">
-					<div class="flex items-center gap-2">
-						<CalendarIcon />
-						<span>{{ new Date(props.item.deadLine).toLocaleDateString('ru-RU') }}</span>
-					</div>
-					<div class="flex items-center gap-2">
-						<ChatBubbleIcon />
-						<span>{{ messagesLength }}</span>
-					</div>
-				</div>
-        <div class="flex flex-col-reverse md:gap-10 md:flex-row">
-          <div class="flex-1 md:pr-10 md:border-r flex flex-col gap-4">
-            <UploadFile @submit="saveImages" :images="props.item.images"/>
-            <CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }" class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0"/>
-          </div>
-          <TeamMembers :person="props.item.participant" :is-changeable="false"/>
-        </div>
+				<!-- TODO после mvp нужно добавить действия с задачей -->
+				<!-- <DataTableRowActions :row="item" /> -->
 			</div>
+			<div class="text-xl">
+				{{ props.item.title }}
+			</div>
+			<div class="">
+				{{ props.item.description }}
+			</div>
+			<div class="flex items-center gap-7 mt-auto">
+				<div class="flex items-center gap-2">
+					<CalendarIcon />
+					<span>{{ new Date(props.item.deadLine).toLocaleDateString('ru-RU') }}</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<ChatBubbleIcon />
+					<span>{{ messagesLength }}</span>
+				</div>
+			</div>
+			<div class="flex flex-col-reverse md:gap-10 md:flex-row">
+				<div class="flex-1 md:pr-10 md:border-r flex flex-col gap-4">
+					<UploadFile @submit="saveImages" :images="props.item.images" />
+					<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }"
+						class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0" />
+				</div>
+				<TeamMembers :person="props.item.responsible" :is-changeable="false" />
+			</div>
+		</div>
 
 	</div>
 </template>

@@ -4,7 +4,7 @@
     "isArchived": false,
     "description": "Список задач по организации/проведению матча",
     "lastUpdate": "2026-09-24",
-		"participants":[
+		"responsibles":[
 			{
 				"name": "Михаил",
 				"surname": "Левченко",
@@ -43,7 +43,7 @@
         "status": "in progress",
 				"isDone": false,
 				"deadLine":"Thu Sep 28 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Антон",
 					"surname": "Зимин",
 					"email": "zimin@mail.ru",
@@ -81,7 +81,7 @@
         "status": "todo",
 				"isDone": false,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -98,7 +98,7 @@
         "status": "todo",
 				"isDone": false,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -116,7 +116,7 @@
     "isArchived": false,
     "description": "Список задач по организации/проведению корпоратива",
     "lastUpdate": "2023-09-24",
-    "participants":[
+    "responsibles":[
       {
         "name": "Сергей",
         "surname": "Моисеев",
@@ -141,7 +141,7 @@
         "status": "in progress",
 				"isDone": false,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -159,7 +159,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -177,7 +177,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -195,7 +195,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -213,7 +213,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -231,7 +231,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -249,7 +249,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -267,7 +267,7 @@
         "status": "check",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -285,7 +285,7 @@
         "status": "done",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -302,7 +302,7 @@
         "status": "todo",
 				"isDone": false,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -319,7 +319,7 @@
         "status": "todo",
 				"isDone": false,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -337,7 +337,7 @@
     "isArchived": true,
     "description": "Список задач по организации/проведению корпоратива",
     "lastUpdate": "2028-09-24",
-    "participants":[
+    "responsibles":[
       {
         "name": "Сергей",
         "surname": "Моисеев",
@@ -362,7 +362,7 @@
         "status": "in progress",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -379,7 +379,7 @@
         "status": "todo",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",
@@ -396,7 +396,7 @@
         "status": "todo",
 				"isDone": true,
 				"deadLine":"Thu Sep 24 2026 03:00:00 GMT+0300 (Москва, стандартное время)",
-				"participant": {
+				"responsible": {
 					"name": "Настя",
 					"surname": "Курбатова",
 					"email": "kurbatova@mail.ru",

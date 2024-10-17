@@ -37,16 +37,16 @@ export const columns: ColumnDef<Task>[] = [
 
 			const label = labels.find(label => label.value === row.original.label)
 
-			const  avatart = getImageUrl(row.original?.participant?.avatar)
+			const  avatart = getImageUrl(row.original?.responsible?.avatar)
 			function getImageUrl(name) {
 				return new URL(`../assets/avatars/${name}`, import.meta.url).href
 			}
 
-			return h('div', { class: 'flex flex-col-reverse gap-4 space-x-2 min-w-20 items-start md:flex-row md:gap-0 md:items-center' },
+			return h('div', { class: 'flex flex-col gap-4 space-x-2 min-w-20 items-start md:flex-row md:gap-0 md:items-center' },
 			[
-				avatart ? h('img', { src: `${avatart}`, class: 'w-8 rounded-full' }, () => '') : null,
 
 				h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none ${row.original.isDone ? 'line-through' : ''} md:underline md:font-medium md:text-base` }, row.getValue('title'),),
+				avatart ? h('img', { src: `${avatart}`, class: 'w-8 rounded-full' }, () => '') : null,
 			])
 		},
 		enableHiding: false,
