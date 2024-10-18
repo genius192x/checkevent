@@ -10,6 +10,7 @@ export const taskSchema = z.object({
 	isDone: z.boolean(),
 	label: z.string(),
 	priority: z.string(),
+	messages: z.array(z.string()),
 	responsible: z.object({ name: z.string(), avatar: z.string() }),
 })
 

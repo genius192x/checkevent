@@ -5,6 +5,8 @@ import { labels, priorities, statuses } from '@/lib/data'
 import type { Task } from '@/lib/schema'
 import DataTableColumnHeader from './DataTableColumnHeader.vue'
 import DataTableRowActions from './DataTableRowActions.vue'
+import { CalendarIcon, ChatBubbleIcon } from '@radix-icons/vue'
+
 import { Checkbox } from '@/components/ui/checkbox'
 import { Badge } from '@/components/ui/badge'
 
@@ -37,16 +39,27 @@ export const columns: ColumnDef<Task>[] = [
 
 			const label = labels.find(label => label.value === row.original.label)
 
-			const  avatart = getImageUrl(row.original?.responsible?.avatar)
+			const avatart = getImageUrl(row.original?.responsible?.avatar)
 			function getImageUrl(name) {
 				return new URL(`../assets/avatars/${name}`, import.meta.url).href
 			}
 
-			return h('div', { class: 'flex flex-col gap-4 space-x-2 min-w-20 items-start md:flex-row md:gap-0 md:items-center' },
-			[
+			return h('div', { class: 'flex flex-col gap-4 md:space-x-2 min-w-40 items-start md:flex-row md:gap-0 md:items-center' },
+				[
 
-				h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none ${row.original.isDone ? 'line-through' : ''} md:underline md:font-medium md:text-base` }, row.getValue('title'),),
-				avatart ? h('img', { src: `${avatart}`, class: 'w-8 rounded-full' }, () => '') : null,
+					h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none ${row.original.isDone ? 'line-through' : ''} md:underline md:font-medium md:text-base` }, row.getValue('title'),),
+					h('div', { class: 'flex gap-4' }, [
+						avatart ? h('img', { src: `${avatart}`, class: 'w-8 rounded-full' }, () => '') : null,
+						h('div', { class: 'flex items-center gap-2' }, [
+							h(CalendarIcon),
+							h('span', new Date(row.original.deadLine).toLocaleDateString('ru-RU'))
+						]),
+						h('div', { class: 'flex items-center gap-2' }, [
+							h(ChatBubbleIcon),
+							h('span', row.original.messages.length),
+						])
+					])
+
 			])
 		},
 		enableHiding: false,
