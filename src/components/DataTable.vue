@@ -174,7 +174,7 @@ function closeChangeForm() {
 					:data-state="row.getIsSelected() || 'выбрано'" class="border-b">
 							<ContextMenu>
 								<ContextMenuTrigger>
-										<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_4fr_1fr_1fr_71px] overflow-hidden relative select-none">
+										<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative select-none">
 											<CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
 											<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
 												:class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">

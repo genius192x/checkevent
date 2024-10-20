@@ -29,26 +29,27 @@ export const useUserStore = defineStore('userStore', () => {
 
   function setUserTokens(data) {
     console.log(data)
-    userToken.value = data.token
-    localStorage.setItem('curToken', userToken.value)
-    userTokenRefresh.value = data.token
+    userToken.value = data
+    localStorage.setItem('curToken', userToken.value.access)
+    userTokenRefresh.value = data.refresh
     getUserInfo(userToken.value)
-		//
   }
+
 
 
   function getUserInfo(token) {
     axios
-      .get('https://6bccdedf-dcf6-42bd-b1b6-ee13ec818593.mock.pstmn.io/profile', {
-        headers: {
-          'authorization': `Bearer ${token}`
-        }
+			.get('http://330729.simplecloud.ru:8080/api/me', {
+				headers: {
+					'Authorization': `Bearer ${token.access}`
+				},
       })
       .then((response) =>
-        setUser(response.data.User[0])
+        setUser(response.data)
     )
       .catch((error) => {
-      console.log(error);
+				console.log(error);
+				isLoaded.value = false
     })
   }
 
@@ -59,7 +60,7 @@ export const useUserStore = defineStore('userStore', () => {
 
     isLoaded.value = false
     useGlobalStore().isAuth = true
-
+		toast(`С возвращением!`);
     rudderAnalytics.identify(
       userToken.value, {
       firstName: userData.value.first_name,
@@ -74,19 +75,28 @@ export const useUserStore = defineStore('userStore', () => {
     router.push('/')
   }
 
-
   function createUser(data) {
-    isLoaded.value = true
-    axios
-      .post('https://6bccdedf-dcf6-42bd-b1b6-ee13ec818593.mock.pstmn.io/register', {
-        "first_name" : data.name,
-        "last_name" : data.surname,
-        "email": data.email,
-        "password": data.password,
-      })
-      .then((response) =>
-        setUserTokens(response.data)
-    );
+		isLoaded.value = true
+		axios
+			.post('http://330729.simplecloud.ru:8080/api/register', {
+				"first_name": data.name,
+				"last_name": data.surname,
+				"email": data.email,
+				"password": data.password
+			})
+				.then((response) =>
+					setUserTokens(response.data.tokens),
+					isLoaded.value = false,
+					toast(`Добро пожаловать!`)
+				)
+			.catch((error) => {
+					console.log(error);
+				if (error.response.data.email) {
+						toast(`Данный email уже используется`);
+						isLoaded.value = false
+						}
+					})
+
 	}
 
 
@@ -101,14 +111,20 @@ export const useUserStore = defineStore('userStore', () => {
   function authorization(email, password) {
     isLoaded.value = true
     axios
-      .post('https://6bccdedf-dcf6-42bd-b1b6-ee13ec818593.mock.pstmn.io/auth', {
-        email: email,
-        password: password,
-      })
-      .then((response) =>
-        setUserTokens(response.data)
-    );
-	}
+			.post('http://330729.simplecloud.ru:8080/api/token', {
+				"email": email,
+				"password": password
+			})
+				.then((response) =>
+					// console.log(response)
+					setUserTokens(response.data)
+				)
+				.catch((error) => {
+					console.log(error);
+					toast(`Проверьте правильность введенных данных`);
+					isLoaded.value = false
+				})
+			}
 
 
 	return {userData, createUser, logout, authorization, isLoaded}

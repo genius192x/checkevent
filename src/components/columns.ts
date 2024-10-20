@@ -44,7 +44,7 @@ export const columns: ColumnDef<Task>[] = [
 				return new URL(`../assets/avatars/${name}`, import.meta.url).href
 			}
 
-			return h('div', { class: 'flex flex-col gap-4 md:space-x-2 min-w-40 items-start md:flex-row md:gap-0 md:items-center' },
+			return h('div', { class: 'flex flex-col gap-4 flex-wrap md:space-x-2 min-w-40 items-start md:flex-row md:gap-0 md:justify-between md:items-center' },
 				[
 
 					h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none ${row.original.isDone ? 'line-through' : ''} md:underline md:font-medium md:text-base` }, row.getValue('title'),),

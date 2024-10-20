@@ -37,7 +37,7 @@ const accountFormSchema = toTypedSchema(z.object({
 			required_error: 'Обязательное поле.',
 		})
 		.trim()
-		.min(5, { message: 'Необходимо минимум 5 символов' })
+		.min(4, { message: 'Необходимо минимум 5 символов' })
 }))
 function onSubmit(data) {
 	userStore.authorization(data.email, data.password)
