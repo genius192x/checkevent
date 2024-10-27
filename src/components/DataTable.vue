@@ -97,8 +97,6 @@ import CardChat from '@/components/CardChat.vue'
 import { Vue3Lottie } from 'vue3-lottie'
 import EmptyListJSON from '../assets/animationEmptyList.json'
 import TeamMembers from '@/components/TeamMembers.vue'
-import { log } from 'console'
-import { setInterval } from 'timers'
 
 const clickedRow = ref(null)
 
@@ -107,31 +105,13 @@ function isMobileHidden(data) {
 }
 // console.log(props.data);
 const selectedRows = computed(() => {
-
-
 	return table.getSelectedRowModel().rows
 })
 
 watch(selectedRows, () => {
 	clickedRow.value = selectedRows;
-	// console.log(clickedRow.value.value.at(-1));
-	// console.log(table.getState().rowSelection);
-
-	// console.log(table.getRowModel().rows[4].toggleSelected(true));
-
 })
 const openImages = ref(false)
-
-// let previewImage = ref(null);
-// function uploadImage(e) {
-	//   const image = e.target.files[0];
-	//   const reader = new FileReader();
-	//   reader.readAsDataURL(image);
-	//   reader.onload = e => {
-		//     previewImage.value = e.target.result;
-		//     console.log(e);
-		//   };
-		// }
 
 		const isMobile = useMedia("(max-width: 768px)")
 
@@ -154,14 +134,13 @@ function closeChangeForm() {
 </script>
 
 <template>
-	<!-- {{ selectedRows }} -->
 	<div class="space-y-4">
 		<DataTableToolbar :table="table" />
 		<div class="rounded-md border">
 			<div>
 				<div class="border-b">
 					<div v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
-					class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px]">
+					class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_6fr_2fr_2fr]">
 						<div v-for="header in headerGroup.headers" :key="header.id" class="p-4 py-3"
 						:class="{ 'hidden md:block': isMobileHidden(header.id) }">
 							<FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
@@ -174,7 +153,7 @@ function closeChangeForm() {
 					:data-state="row.getIsSelected() || 'выбрано'" class="border-b">
 							<ContextMenu>
 								<ContextMenuTrigger>
-										<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_3fr_1fr_1fr_71px] overflow-hidden relative select-none">
+										<div class="grid grid-cols-[35px_1fr] align-middle md:grid-cols-[35px_1fr_6fr_2fr_2fr] overflow-hidden relative select-none">
 											<CollapsibleTrigger class="absolute w-[90%] h-full top-0 left-0 ml-8 mr-8"></CollapsibleTrigger>
 											<div v-for="cell in row.getVisibleCells()" :key="cell.id" class="p-4 py-3"
 												:class="{ 'md:col-start-6 hidden md:block': cell.id == '0_actions', 'hidden md:block': isMobileHidden(cell.column.id) }">

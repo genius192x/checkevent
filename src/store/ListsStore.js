@@ -80,7 +80,7 @@ export const useListStore = defineStore('listStore', () => {
 		list.value[listId - 1].tasks[taskIndex].description = values.description
 		list.value[listId - 1].tasks[taskIndex].deadLine = values.deadLine
 		list.value[listId - 1].tasks[taskIndex].priority = values.priority
-		list.value[listId - 1].tasks[taskIndex].participant = getFullUserData(values.participant)
+		list.value[listId - 1].tasks[taskIndex].responsible = getFullUserData(values.responsible)
 		console.log(values);
 		setListToStore()
 		console.log(list.value[listId - 1].tasks[taskIndex]);
@@ -101,8 +101,8 @@ export const useListStore = defineStore('listStore', () => {
 		item.isDone = false;
 		item.messages = [];
 		curList.tasks.unshift(item);
-		item.participant = getFullUserData(item.participant)
-		console.log(item);
+		item.responsible = getFullUserData(item.responsible)
+		console.log('item', item);
 		setListToStore()
 	}
 

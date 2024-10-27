@@ -107,7 +107,7 @@ function pushMessage() {
 		class="flex w-full items-center space-x-2"
 		@submit.stop.prevent="pushMessage"
 		>
-		<Input v-model="input" placeholder="Type a message..." class="flex-1" />
+		<Input v-model="input" placeholder="Сообщение" class="flex-1" />
 		<Button class="p-2.5 flex items-center justify-center" :disabled="inputLength === 0">
 			<Send class="w-4 h-4" />
 			<span class="sr-only">Send</span>

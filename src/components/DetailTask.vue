@@ -52,6 +52,7 @@ import CardChat from '@/components/CardChat.vue'
 import TeamMembers from '@/components/TeamMembers.vue'
 
 
+
 import { useGlobalStore } from '@/store/GlobalStore'
 import { useUserStore } from '@/store/UserStore'
 import { useListStore } from '@/store/ListsStore'
@@ -70,7 +71,7 @@ interface Responsible{
 }
 
 interface Item {
-  id: number,
+  id?: number,
   title: string,
   description: string,
   status: string,
@@ -85,7 +86,7 @@ interface Item {
 
 const props = defineProps<{
   item: Item,
-  id: number,
+  id?: number,
 }>()
 
 function getClass(property) {
@@ -143,6 +144,8 @@ function getImageUrl(name) {
 	return new URL(`../assets/avatars/${name}`, import.meta.url).href
 }
 
+const isChatOpen = ref(false)
+
 function initialsPersonal(name, surname) {
 	let firstLetter = name.slice(0, 1)
 	let secondLetter = surname.slice(0, 1)
@@ -153,7 +156,7 @@ function initialsPersonal(name, surname) {
 
 <template>
 	<div class="transition-all duration-300">
-		<div class="cursor-pointer bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
+		<div class=" bg-primary-foreground p-4 rounded-sm relative flex-1 flex flex-col gap-4 ">
 			<div class="flex justify-between items-center">
 				<div class="p-1 rounded-md text-xs min-w-16 text-center font-semibold shadow-muted-foreground"
 					:class="getClass(props.item.priority)">
@@ -168,23 +171,27 @@ function initialsPersonal(name, surname) {
 			<div class="">
 				{{ props.item.description }}
 			</div>
-			<div class="flex items-center gap-7 mt-auto">
+			<div class="flex items-center gap-7 mt-auto flex-wrap ">
 				<div class="flex items-center gap-2">
 					<CalendarIcon />
 					<span>{{ new Date(props.item.deadLine).toLocaleDateString('ru-RU') }}</span>
 				</div>
-				<div class="flex items-center gap-2">
+				<Button variant="ghost" class="flex items-center gap-2" @click="isChatOpen = !isChatOpen">
 					<ChatBubbleIcon />
 					<span>{{ messagesLength }}</span>
-				</div>
+				</Button>
+				<UploadFile @submit="saveImages" :images="props.item.images" />
 			</div>
-			<div class="flex flex-col-reverse md:gap-10 md:flex-row">
-				<div class="flex-1 md:pr-10 md:border-r flex flex-col gap-4">
-					<UploadFile @submit="saveImages" :images="props.item.images" />
-					<CardChat :messages="messages" @change-message="(message) => { updateMessages(message) }"
-						class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0" />
+			<div class="flex flex-col-reverse gap-4 md:gap-10 md:flex-row-reverse">
+				<div class="flex-1 md:pl-10 md:border-l flex flex-col gap-4">
+					<Collapsible :open="isChatOpen" >
+						<CollapsibleContent class="-mr-4 -ml-4 -mb-4 md:mr-0 md:ml-0 md:-mb-0">
+							<CardChat :open="isChatOpen" :messages="messages" @change-message="(message) => { updateMessages(message) }"
+								class="" />
+						</CollapsibleContent>
+					</Collapsible>
 				</div>
-				<TeamMembers :person="props.item.responsible" :is-changeable="false" />
+				<TeamMembers :person="props.item.responsible" :is-changeable="false"/>
 			</div>
 		</div>
 

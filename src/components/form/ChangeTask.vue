@@ -63,7 +63,7 @@ interface Item {
 	description: string,
 	status: string,
 	priority: string,
-	participant: {avatar: string, email: string, name: string, password: string, role: string, surname: string },
+	responsible: {avatar: string, email: string, name: string, password: string, role: string, surname: string },
 }
 
 const props = defineProps<{
@@ -132,7 +132,7 @@ const createTaskFormSchema = toTypedSchema(z.object({
 		required_error: 'Обязательное поле.',
 	})
 	.min(1, 'Необходимо выбрать тип.'),
-	participant: z
+	responsible: z
 	.string({
 		required_error: 'Обязательное поле.',
 	})
@@ -140,9 +140,9 @@ const createTaskFormSchema = toTypedSchema(z.object({
 }))
 const curUser = ref({ value: '', label: '' })
 
-if (props.item.participant) {
-	curUser.value.value = props.item.participant.email
-	curUser.value.label = `${props.item.participant.name} ${props.item.participant.surname}`
+if (props.item.responsible) {
+	curUser.value.value = props.item.responsible.email
+	curUser.value.label = `${props.item.responsible.name} ${props.item.responsible.surname}`
 }
 
 const { handleSubmit, setFieldValue, resetForm } = useForm({
@@ -152,7 +152,7 @@ const { handleSubmit, setFieldValue, resetForm } = useForm({
 		description: props.item.description,
 		deadLine: new Date(props.item.deadLine).toISOString(),
 		priority: props.item.priority,
-		participant: curUser.value.value,
+		responsible: curUser.value.value,
 	},
 })
 
@@ -282,7 +282,7 @@ const onSubmit = handleSubmit((values) => {
 	</FormItem>
 </FormField>
 
-<FormField v-slot="{ field, value }" name="participant">
+<FormField v-slot="{ field, value }" name="responsible">
 	<FormItem class="flex flex-col">
 		<FormLabel>Исполнитель</FormLabel>
 
@@ -307,7 +307,8 @@ const onSubmit = handleSubmit((values) => {
 						<CommandGroup>
 							<CommandItem v-for="type in users" :key="type.value" :value="type.label"
 							@select="() => {
-								setFieldValue('participant', type.value)
+								setFieldValue('responsible', type.value)
+								console.log(type.value);
 								openUserList = false
 							}">
 							<Check :class="cn(

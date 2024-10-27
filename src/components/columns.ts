@@ -6,7 +6,7 @@ import type { Task } from '@/lib/schema'
 import DataTableColumnHeader from './DataTableColumnHeader.vue'
 import DataTableRowActions from './DataTableRowActions.vue'
 import { CalendarIcon, ChatBubbleIcon } from '@radix-icons/vue'
-
+import UploadFile from '@/components/UploadFile.vue'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Badge } from '@/components/ui/badge'
 
@@ -48,8 +48,8 @@ export const columns: ColumnDef<Task>[] = [
 				[
 
 					h('p', { class: `line-clamp-2 md:line-clamp-1 text-xl leading-none ${row.original.isDone ? 'line-through' : ''} md:underline md:font-medium md:text-base` }, row.getValue('title'),),
-					h('div', { class: 'flex gap-4' }, [
-						avatart ? h('img', { src: `${avatart}`, class: 'w-8 rounded-full' }, () => '') : null,
+					h('div', { class: 'flex gap-6 flex-wrap md:flex-nowrap' }, [
+						avatart ? h('img', { src: `${avatart}`, class: 'w-10 rounded-full' }, () => '') : null,
 						h('div', { class: 'flex items-center gap-2' }, [
 							h(CalendarIcon),
 							h('span', new Date(row.original.deadLine).toLocaleDateString('ru-RU'))
@@ -57,7 +57,8 @@ export const columns: ColumnDef<Task>[] = [
 						h('div', { class: 'flex items-center gap-2' }, [
 							h(ChatBubbleIcon),
 							h('span', row.original.messages.length),
-						])
+						]),
+						h(UploadFile, { limit: 1}),
 					])
 
 			])

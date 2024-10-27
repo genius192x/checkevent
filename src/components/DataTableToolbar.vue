@@ -79,7 +79,7 @@ function saveImages(images) {
 			XLS
 		</Button>
 		<Dialog v-model:open="open">
-			<DialogContent>
+			<DialogContent  class="gap-6">
 				<DialogHeader>
 					<DialogTitle>Импорт / Экспорт XLS файлов</DialogTitle>
 					<DialogDescription>
@@ -87,8 +87,8 @@ function saveImages(images) {
 						соответсвует <a href="#"> шаблону </a>, вы можете импортировать его.
 					</DialogDescription>
 				</DialogHeader>
-				<UploadFile @submit="saveImages" />
-				<DialogFooter>
+				<UploadFile @submit="saveImages" :limit="1" :type="'application/vnd.ms-excel'" />
+				<DialogFooter class="sm:justify-between">
 					<Button href="/vite.svg" download>
 						Скачать шаблон
 					</Button>

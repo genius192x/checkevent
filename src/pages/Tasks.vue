@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DataTable from '@/components/DataTable.vue'
 import { columns } from '@/components/columns.ts'
-import { onBeforeMount, watch, getCurrentInstance, onUpdated } from 'vue'
+import { onBeforeMount, watch, getCurrentInstance, onUpdated, computed } from 'vue'
 import { ref, shallowRef } from "vue";
 import draggable from 'vuedraggable'
 import RawDisplayer from '@/components/RawDisplayer.vue'
@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const isDraggable = ref(false)
-const currList = ref(null)
+const currList = computed(() => listStore.getItemById(props.id))
 const taskList = shallowRef(null)
 const drag = ref(false)
 
@@ -44,19 +44,18 @@ function dragOptions() {
 		ghostClass: "ghost"
 	};
 }
-
+const counterTasks = ref()
 onBeforeMount(() => {
 	currList.value = listStore.getItemById(props.id)
-
+	counterTasks.value = listStore.list[currList.value.id - 1].tasks.length
 	if (currList.value) {
 		taskList.value = currList.value.tasks
 	}
 })
 let updateCount = ref(0)
-const counterTasks = ref(listStore.getItemById(props.id))
 
-console.log(counterTasks.value);
 
+//!Критичный баг с ререндером при изменении внутри задачи
 watch(listStore.list, () => {
 	console.log(taskList.value);
 	updateCount.value++
