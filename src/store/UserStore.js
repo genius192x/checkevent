@@ -39,7 +39,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   function getUserInfo(token) {
     axios
-			.get('https://330729.simplecloud.ru:8080/api/me', {
+			.get('https://chkevent.ru:8080/api/me', {
 				headers: {
 					'Authorization': `Bearer ${token.access}`
 				},
@@ -78,7 +78,7 @@ export const useUserStore = defineStore('userStore', () => {
   function createUser(data) {
 		isLoaded.value = true
 		axios
-			.post('https://330729.simplecloud.ru:8080/api/register', {
+			.post('https://chkevent.ru:8080/api/register', {
 				"first_name": data.name,
 				"last_name": data.surname,
 				"email": data.email,
@@ -86,7 +86,10 @@ export const useUserStore = defineStore('userStore', () => {
 			})
 				.then((response) =>
 					setUserTokens(response.data.tokens),
-					isLoaded.value = false,
+					//TODO Убери это!
+					setTimeout(() => {
+						isLoaded.value = false
+					}, 500)
 				)
 			.catch((error) => {
 					console.log(error);
@@ -110,7 +113,7 @@ export const useUserStore = defineStore('userStore', () => {
   function authorization(email, password) {
     isLoaded.value = true
     axios
-			.post('https://330729.simplecloud.ru:8080/api/token', {
+			.post('https://chkevent.ru:8080/api/token', {
 				"email": email,
 				"password": password
 			})
