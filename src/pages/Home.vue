@@ -56,7 +56,7 @@ const archivedList = computed(() => {
 })
 
 const isFormOpen = ref(false)
-
+listStore.getLists()
 const sortDirection = ref('');
 const styleState = ref('row');
 </script>

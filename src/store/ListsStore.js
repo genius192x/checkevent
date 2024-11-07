@@ -5,10 +5,13 @@ import { ref } from "vue";
 import {
 	toast
 } from 'vue-sonner'
-
+import axios from 'axios'
 import tasks from '@/lib/tasks.json'
 import { priorities } from '@/lib/data.ts'
 import { useGlobalStore } from './GlobalStore';
+import {
+	useUserStore
+} from './UserStore';
 const myTasks = tasks
 
 export const useListStore = defineStore('listStore', () => {
@@ -91,8 +94,10 @@ export const useListStore = defineStore('listStore', () => {
 		item.isArchived = false;
 		item.tasks = [];
 		item.participants = getFullParticipants(item.participants)
-		list.value.unshift(item)
-		setListToStore()
+		console.log(item);
+		// list.value.unshift(item)
+		createList(item)
+		// setListToStore()
 	}
 
 	function addTask(item, listId) {
@@ -215,7 +220,44 @@ export const useListStore = defineStore('listStore', () => {
 		return list.value.find(item=>item.id == id)
 	}
 
-
+	//========================================================================================================================================================
+	const getLists = async () => {
+		const userStore = useUserStore()
+		const res = await axios.get('https://chkevent.ru:8080/api/checklists',
+			{
+				headers: {
+					'Authorization': `Bearer ${userStore.userToken.access}`
+				}
+			}
+		)
+			.then((response) =>
+				console.log('lists', response)
+			)
+			.catch((error) => {
+				console.log(error);
+			})
+		console.log(res);
+	}
+	const createList = async (data) => {
+		const userStore = useUserStore()
+		console.log(userStore.userToken.access);
+		const res = await axios.post('https://chkevent.ru:8080/api/checklists', {
+			"title": data.title,
+			"description": data.description,
+			"deadline": data.lastUpdate
+		},
+		{
+			headers: {
+				'Authorization': `Bearer ${userStore.userToken.access}`
+			}
+		})
+		.then((response) =>
+			console.log('Created!')
+		)
+		.catch((error) => {
+			console.log(error);
+		})
+	}
 	return {
 		addList,
 		list,
@@ -232,6 +274,8 @@ export const useListStore = defineStore('listStore', () => {
 		archiveLists,
 		backupList,
 		copyList,
-		setCurrDataForm
+		setCurrDataForm,
+		getLists,
+		createList,
 	}
 })

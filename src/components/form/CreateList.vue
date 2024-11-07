@@ -93,7 +93,7 @@ const onSubmit = handleSubmit((values) => {
 	listStore.addList(values)
 	emit('close')
   toast('Лист успешно создан');
-  console.log(values);
+  // console.log(values);
 })
 </script>
 
@@ -142,7 +142,7 @@ const onSubmit = handleSubmit((values) => {
               dateValue = v
               openDate = false
               setFieldValue('lastUpdate', toDate(v).toISOString())
-              console.log(toDate(v).toISOString());
+              // console.log(toDate(v).toISOString());
             }
             else {
               dateValue = undefined

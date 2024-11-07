@@ -13,7 +13,7 @@ import {
 
 export const useUserStore = defineStore('userStore', () => {
   const userData = ref({})
-  const userToken = ref('')
+  const userToken = ref(JSON.parse(localStorage.getItem('curToken')) || '')
   const userTokenRefresh = ref('')
   const isLoaded = ref(false)
 
@@ -29,8 +29,9 @@ export const useUserStore = defineStore('userStore', () => {
 
   function setUserTokens(data) {
     console.log(data)
-    userToken.value = data
-    localStorage.setItem('curToken', userToken.value.access)
+		userToken.value = data
+		let token = JSON.stringify(userToken.value)
+    localStorage.setItem('curToken', token)
     userTokenRefresh.value = data.refresh
     getUserInfo(userToken.value)
   }
@@ -46,7 +47,7 @@ export const useUserStore = defineStore('userStore', () => {
       })
       .then((response) =>
         setUser(response.data)
-    )
+			)
       .catch((error) => {
 				console.log(error);
 				isLoaded.value = false
@@ -129,5 +130,12 @@ export const useUserStore = defineStore('userStore', () => {
 			}
 
 
-	return {userData, createUser, logout, authorization, isLoaded}
+	return {
+		userData,
+		createUser,
+		logout,
+		authorization,
+		isLoaded,
+		userToken
+	}
 })
