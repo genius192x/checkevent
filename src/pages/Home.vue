@@ -41,22 +41,21 @@ const userStore = useUserStore()
 const globalStore = useGlobalStore()
 const listStore = useListStore()
 
+const activeList = computed(() => {
+	return listStore.list.filter(list => !list.archived_at)
+})
+
+const archivedList = computed(() => {
+	return listStore.list.filter(list => list.archived_at)
+})
+
 let side = 'bottom';
 if (window.innerWidth > 768){
   side = 'right'
 }
-const url = import.meta.env.VITE_API_URL
-
-const activeList = computed(() => {
-  return listStore.list.filter(item => item.isArchived === false)
-})
-
-const archivedList = computed(() => {
-  return listStore.list.filter(item => item.isArchived === true)
-})
 
 const isFormOpen = ref(false)
-listStore.getLists()
+
 const sortDirection = ref('');
 const styleState = ref('row');
 </script>
@@ -106,13 +105,6 @@ const styleState = ref('row');
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <!-- <Button @click="axios.get(`http://localhost:4080/api/user`)
-        .then(response => {
-          console.log(response)
-          console.log(response.statusText)
-          console.log(response.data)
-          console.log(`${url}/api/user`);
-        })">get user</Button> -->
         <div class="flex border rounded-md overflow-hidden">
           <Button class="h-8 w-10 p-0 rounded-none" :class="{'bg-muted' : styleState === 'row'}" variant="ghost" @click="styleState = 'column'">
             <RowsIcon/>
@@ -155,7 +147,12 @@ const styleState = ref('row');
         :items="archivedList"
         :sorted="sortDirection"
         :style="styleState"
+				v-if="archivedList.length"
         />
+				<div class="" v-else>
+        	<Vue3Lottie class="cursor-pointer" :animationData="EmptyListJSON" :height="200" :width="200" :loop="false" @click="isFormOpen = true"/>
+        <div class="text-center">Список архивных листов пока пуст</div>
+      </div>
     </TabsContent>
   </Tabs>
 </div>

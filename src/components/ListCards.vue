@@ -22,7 +22,6 @@ import {
 
 import { useListStore } from '@/store/ListsStore'
 import { useGlobalStore } from '@/store/GlobalStore'
-import { item } from '@unovis/ts/components/bullet-legend/style'
 const list = useListStore()
 const globalStore = useGlobalStore()
 

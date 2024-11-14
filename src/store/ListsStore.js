@@ -16,28 +16,9 @@ const myTasks = tasks
 
 export const useListStore = defineStore('listStore', () => {
 	let list = ref([]);
-	const currData = ref('text');
-	const filters = ref([
-		{
-			value: "proirity",
-			label: 'Приоритет',
-			options: priorities,
-			checked: [],
-			filtered: false,
-		}
-	]);
-	list.value = myTasks
+	const currentTasks = ref([])
 
-	updateList()
-
-
-	if (localStorage.getItem('lists') !== null) {
-		console.log('список есть');
-	} else {
-		console.log('списка нет, берем из файла')
-		list.value = myTasks
-		setListToStore()
-	};
+	getLists()
 
 	function getFullParticipants(participants) {
 		const result = ref([])
@@ -63,19 +44,19 @@ export const useListStore = defineStore('listStore', () => {
 		return result
 	}
 
-	function updateListItem(values, id) {
-		let index = list.value.findIndex(item => item.id === values.id)
-		// let changedItem = list.value.filter(item => item.id == id)
-		let emails = ref([])
-		values.participants.forEach(participant => {
-			emails.value.push(participant)
-		})
-		list.value[index].participants = getFullParticipants(emails.value).value
-		list.value[index].title = values.title
-		list.value[index].description = values.description
-		list.value[index].lastUpdate = values.lastUpdate
-		setListToStore()
-	}
+	// function updateListItem(values, id) {
+	// 	let index = list.value.findIndex(item => item.id === values.id)
+	// 	// let changedItem = list.value.filter(item => item.id == id)
+	// 	let emails = ref([])
+	// 	values.participants.forEach(participant => {
+	// 		emails.value.push(participant)
+	// 	})
+	// 	list.value[index].participants = getFullParticipants(emails.value).value
+	// 	list.value[index].title = values.title
+	// 	list.value[index].description = values.description
+	// 	list.value[index].lastUpdate = values.lastUpdate
+	// 	setListToStore()
+	// }
 
 	function updateTaskItem(values, listId, taskId) {
 		let taskIndex = list.value[listId - 1].tasks.findIndex(item => item.id === taskId)
@@ -84,17 +65,14 @@ export const useListStore = defineStore('listStore', () => {
 		list.value[listId - 1].tasks[taskIndex].deadLine = values.deadLine
 		list.value[listId - 1].tasks[taskIndex].priority = values.priority
 		list.value[listId - 1].tasks[taskIndex].responsible = getFullUserData(values.responsible)
-		console.log(values);
 		setListToStore()
-		console.log(list.value[listId - 1].tasks[taskIndex]);
 	}
 
 	function addList(item) {
-		item.id = list.value.length + 1;
+		item.id = Date.now();
 		item.isArchived = false;
 		item.tasks = [];
 		item.participants = getFullParticipants(item.participants)
-		console.log(item);
 		// list.value.unshift(item)
 		createList(item)
 		// setListToStore()
@@ -107,29 +85,11 @@ export const useListStore = defineStore('listStore', () => {
 		item.messages = [];
 		curList.tasks.unshift(item);
 		item.responsible = getFullUserData(item.responsible)
-		console.log('item', item);
 		setListToStore()
-	}
-
-
-	function deleteList(id) {
-		let deletingItem = getItemById(id)
-		list.value.forEach(list => {
-			if (list.id == deletingItem.id) {
-				list.isArchived = true;
-				list.tasks.forEach(task => {
-					task.isDone = true
-				})
-			}
-		})
-		toast(`Лист "${deletingItem.title}" перемещен в архив`);
-		setListToStore()
-		updateList()
 	}
 
 	function deleteTask(listId, task) {
 		let curList = list.value.find(({ id }) => id == listId);
-		console.log(curList);
 		let taskIndex = curList.tasks.findIndex(function (element) {
 			return element.id == task.id;
 		})
@@ -147,22 +107,7 @@ export const useListStore = defineStore('listStore', () => {
 		list.value.unshift(data)
 		toast(`Создана копия листа ${data.title}`);
 		setListToStore()
-		updateList()
-	}
-	function backupList(id) {
-		let backupItem = getItemById(id)
-		list.value.forEach(list => {
-			if (list.id == backupItem.id) {
-				list.isArchived = false;
-				list.tasks.forEach(task => {
-					task.isDone = false
-				})
-			}
-		})
-		toast(`Лист ${backupItem.title} перемещен из архива`);
-		setListToStore()
-		updateList()
-
+		// updateList()
 	}
 
 	function setCurrDataForm(dataForm) {
@@ -192,7 +137,6 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 	function updateMessage(id, value) {
-		console.log('updateMessage', id, value);
 		list.value.forEach(list => {
 			list.tasks.forEach(task => {
 				if (task.id === id) {
@@ -205,12 +149,6 @@ export const useListStore = defineStore('listStore', () => {
 		})
 	}
 
-
-	function updateList() {
-		list.value = JSON.parse(localStorage.getItem("lists"))
-	}
-
-
 	function setListToStore() {
 		localStorage.setItem('lists', JSON.stringify(list.value));
 	}
@@ -221,7 +159,24 @@ export const useListStore = defineStore('listStore', () => {
 	}
 
 	//========================================================================================================================================================
-	const getLists = async () => {
+	async function getNewToken() {
+		const userStore = useUserStore()
+		const res = await axios.post('https://chkevent.ru:8080/api/token/refresh', {
+				"refresh": userStore.userToken.refresh
+			}, {
+				headers: {
+					'Authorization': `Bearer ${userStore.userToken.access}`
+				}
+			})
+			.then((response) =>
+				userStore.setUserTokens(response.data),
+				getLists()
+			)
+			.catch((error) => {
+				console.log(error);
+			})
+	}
+	async function getLists() {
 		const userStore = useUserStore()
 		const res = await axios.get('https://chkevent.ru:8080/api/checklists',
 			{
@@ -230,21 +185,46 @@ export const useListStore = defineStore('listStore', () => {
 				}
 			}
 		)
-			.then((response) =>
-				console.log('lists', response)
-			)
+		.then((response) => {
+			console.log('lists response', response.data.results),
+			list.value = response.data.results || []
+		})
 			.catch((error) => {
-				console.log(error);
-			})
-		console.log(res);
+				if (error.response.status === 401) {
+					console.log('i will take a new token');
+					getNewToken()
+				}
+				else {
+					console.log(error);
+				}
+		})
 	}
-	const createList = async (data) => {
+	async function getTasks(id) {
 		const userStore = useUserStore()
-		console.log(userStore.userToken.access);
+		const res = await axios.get(`https://chkevent.ru:8080/api/checklists/${id}/tasks`,
+			{
+				headers: {
+					'Authorization': `Bearer ${userStore.userToken.access}`
+				}
+			}
+		)
+			.then((response) => {
+			currentTasks.value = response.data.results
+		})
+			.catch((error) => {
+			if (error.response.status === 401) {
+				getNewToken()
+			} else {
+				console.log(error);
+			}
+		})
+	}
+	async function createList(data) {
+		const userStore = useUserStore()
 		const res = await axios.post('https://chkevent.ru:8080/api/checklists', {
 			"title": data.title,
 			"description": data.description,
-			"deadline": data.lastUpdate
+			"deadline": data.deadline
 		},
 		{
 			headers: {
@@ -252,30 +232,112 @@ export const useListStore = defineStore('listStore', () => {
 			}
 		})
 		.then((response) =>
-			console.log('Created!')
+			console.log('Created!'),
+			getLists()
 		)
 		.catch((error) => {
 			console.log(error);
 		})
 	}
+	async function deleteList(id) {
+		const userStore = useUserStore()
+		const res = await axios.delete(`https://chkevent.ru:8080/api/checklists/${id}`, {
+			headers: {
+				'Authorization': `Bearer ${userStore.userToken.access}`
+			}
+		})
+		.then((response) =>
+			toast(`Лист перемещен в архив`),
+			getLists()
+		)
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+	async function updateListItem(data, id) {
+		const userStore = useUserStore()
+		const res = await axios.patch(`https://chkevent.ru:8080/api/checklists/${id}`, {
+			"title": data.title,
+			"description": data.description,
+			"deadline": data.deadline
+		}, {
+			headers: {
+				'Authorization': `Bearer ${userStore.userToken.access}`
+			}
+		})
+			.then(function (response) {
+				toast(`Информация о листе изменена`)
+				getLists()
+			}
+		)
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+	async function archiveListItem(id) {
+		const userStore = useUserStore()
+		const res = await axios.patch(`https://chkevent.ru:8080/api/checklists/${id}`, {
+			"archived_at": new Date(),
+		}, {
+			headers: {
+				'Authorization': `Bearer ${userStore.userToken.access}`
+			}
+		})
+		.then(function (response) {
+			console.log(response.data)
+			getLists()
+		}
+		)
+		.catch((error) => {
+			if (error.response.status === 401) {
+				getNewToken()
+			} else {
+				console.log(error);
+			}
+		})
+	}
+	async function backupListItem(id) {
+		const userStore = useUserStore()
+		const res = await axios.patch(`https://chkevent.ru:8080/api/checklists/${id}`, {
+				"archived_at": null,
+			}, {
+				headers: {
+					'Authorization': `Bearer ${userStore.userToken.access}`
+				}
+			})
+			.then(function(response) {
+				console.log(response.data)
+				getLists()
+			}
+			)
+			.catch((error) => {
+				if (error.response.status === 401) {
+					getNewToken()
+				} else {
+					console.log(error);
+				}
+			})
+	}
 	return {
-		addList,
 		list,
+		currentTasks,
+		addList,
 		getItemById,
+		archiveListItem,
+		backupListItem,
 		deleteList,
 		deleteTask,
 		addTask,
 		updateListItem,
 		updateTaskItem,
-		filters,
 		changeStatus,
 		updateMessage,
 		activeLists,
 		archiveLists,
-		backupList,
 		copyList,
 		setCurrDataForm,
 		getLists,
+		getTasks,
 		createList,
 	}
 })

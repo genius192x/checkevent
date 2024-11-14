@@ -62,13 +62,13 @@ interface Responsible {
 
 interface Item {
   id: number,
-  lastUpdate: any,
+  deadline: any,
   title: string,
   type: string,
   description: string,
   status: string,
   isArchived: boolean,
-  participants: [],
+  participants?: [],
 }
 
 const props = defineProps<{
@@ -113,17 +113,18 @@ const profileFormSchema = toTypedSchema(z.object({
   description: z.string({
     message: 'Обязательное поле',
   }).max(200, { message: 'Максимум 200 символов' }).min(4, { message: 'Минимум 2 символа.' }),
-  lastUpdate: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
+  deadline: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
   participants: z.array(z.string({ message: 'Обязательно кого-то выбрать' })).min(1, { message: 'Обязательно кого-то выбрать' }),
 }))
 
+const deadlineDate = new Date(props.item.deadline)
 const { handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: profileFormSchema,
   initialValues: {
     id: props.item.id,
     title: props.item.title,
     description: props.item.description,
-    lastUpdate: props.item.lastUpdate.toISOString(),
+		deadline: deadlineDate.toISOString(),
   },
 })
 const emit = defineEmits(['close'])
@@ -131,7 +132,7 @@ onMounted(() => {
 
   console.log(props.item);
 
-  if (props.item) {
+	if (props.item.participants) {
     const result = []
     props.item.participants.forEach(participant => {
       result.push(participant.email)
@@ -156,94 +157,95 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <form class="space-y-8 mt-4" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="title">
-      <FormItem>
-        <FormLabel>Название</FormLabel>
-        <FormControl>
-          <Input type="text" placeholder="Новый лист" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+	<form class="space-y-8 mt-4" @submit="onSubmit">
+		<FormField v-slot="{ componentField }" name="title">
+			<FormItem>
+				<FormLabel>Название</FormLabel>
+				<FormControl>
+					<Input type="text" placeholder="Новый лист" v-bind="componentField" />
+				</FormControl>
+				<FormMessage />
+			</FormItem>
+		</FormField>
 
-    <FormField v-slot="{ componentField }" name="description">
-      <FormItem>
-        <FormLabel>Описание листа</FormLabel>
-        <FormControl>
-          <Textarea placeholder="Краткое (или нет) описание листа" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+		<FormField v-slot="{ componentField }" name="description">
+			<FormItem>
+				<FormLabel>Описание листа</FormLabel>
+				<FormControl>
+					<Textarea placeholder="Краткое (или нет) описание листа" v-bind="componentField" />
+				</FormControl>
+				<FormMessage />
+			</FormItem>
+		</FormField>
 
-    <FormField v-slot="{ field, value }" name="lastUpdate">
-      <FormItem class="flex flex-col">
-        <FormLabel>Дата окончания</FormLabel>
-        <Popover v-model:open="openDate">
-          <PopoverTrigger as-child>
-            <FormControl>
-              <Button variant="outline" :class="cn(
+		<FormField v-slot="{ field, value }" name="deadline">
+			<FormItem class="flex flex-col">
+				<FormLabel>Дата окончания</FormLabel>
+				<Popover v-model:open="openDate">
+					<PopoverTrigger as-child>
+						<FormControl>
+							<Button variant="outline" :class="cn(
               'w-[240px] justify-start text-left font-normal',
               !value && 'text-muted-foreground',
               )">
-              <RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
-              <span>{{ value ? props.item.lastUpdate.toLocaleDateString('ru-RU') : "Выберите день"
-              }}</span>
-            </Button>
-          </FormControl>
-        </PopoverTrigger>
-        <PopoverContent class="p-0">
-          <Calendar v-model:placeholder="placeholder" v-model="dateValue" calendar-label="День окончания" initial-focus
-          :min-value="today(getLocalTimeZone())" @update:model-value="(v) => {
-            if (v) {
-              dateValue = v
-              openDate = false
-              setFieldValue('lastUpdate', toDate(v).toISOString())
-            }
-            else {
-              dateValue = undefined
-              setFieldValue('lastUpdate', undefined)
-            }
-          }" />
-        </PopoverContent>
-      </Popover>
-      <FormDescription>
-        День окончания всех внутренних задач
-      </FormDescription>
-    </FormItem>
-    <input type="hidden" v-bind="field">
-  </FormField>
-  <FormField v-slot="{ value }" name="participants">
-    <FormItem>
-      <FormLabel>Участники</FormLabel>
-      <FormControl>
-        <TagsInput class="px-0 gap-0 w-80" :model-value="modelValue" @update:modelValue="value => {
+								<RadixIconsCalendar class="mr-2 h-4 w-4 opacity-50" />
+								<span>{{ value ? new Date(value).toLocaleDateString('ru-RU') : deadlineDate.toLocaleDateString('ru-RU') || "Выберите день"
+									}}</span>
+							</Button>
+						</FormControl>
+					</PopoverTrigger>
+					<PopoverContent class="p-0">
+						<Calendar v-model:placeholder="placeholder" v-model="dateValue" calendar-label="День окончания"
+							initial-focus :min-value="today(getLocalTimeZone())" @update:model-value="(v) => {
+							if (v) {
+								dateValue = v
+								openDate = false
+								setFieldValue('deadline', toDate(v).toISOString())
+								console.log(value);
+							}
+							else {
+								dateValue = undefined
+								setFieldValue('deadline', undefined)
+							}
+						}" />
+					</PopoverContent>
+				</Popover>
+				<FormDescription>
+					День окончания всех внутренних задач
+				</FormDescription>
+			</FormItem>
+			<input type="hidden" v-bind="field">
+		</FormField>
+		<FormField v-slot="{ value }" name="participants">
+			<FormItem>
+				<FormLabel>Участники</FormLabel>
+				<FormControl>
+					<TagsInput class="px-0 gap-0 w-80" :model-value="modelValue" @update:modelValue="value => {
           setFieldValue('participants', value);
         }">
-        <div class="flex gap-2 flex-wrap items-center px-3">
-          <TagsInputItem v-for="item in modelValue" :key="item" :value="item">
-            <TagsInputItemText />
-            <TagsInputItemDelete />
-          </TagsInputItem>
-        </div>
+						<div class="flex gap-2 flex-wrap items-center px-3">
+							<TagsInputItem v-for="item in modelValue" :key="item" :value="item">
+								<TagsInputItemText />
+								<TagsInputItemDelete />
+							</TagsInputItem>
+						</div>
 
-        <ComboboxRoot v-model="modelValue" v-model:open="open" v-model:searchTerm="searchTerm" class="w-full z-100">
-          <ComboboxAnchor as-child>
-            <ComboboxInput placeholder="Участники..." as-child>
-              <TagsInputInput class="w-full px-3" :class="modelValue.length > 0 ? 'mt-2' : ''"
-                @keydown.enter.prevent />
-              </ComboboxInput>
-            </ComboboxAnchor>
+						<ComboboxRoot v-model="modelValue" v-model:open="open" v-model:searchTerm="searchTerm" class="w-full z-100">
+							<ComboboxAnchor as-child>
+								<ComboboxInput placeholder="Участники..." as-child>
+									<TagsInputInput class="w-full px-3" :class="modelValue.length > 0 ? 'mt-2' : ''"
+										@keydown.enter.prevent />
+								</ComboboxInput>
+							</ComboboxAnchor>
 
-            <ComboboxPortal>
-              <ComboboxContent>
-                <CommandList position="popper"
-                class="z-50 w-[--radix-popper-anchor-width] rounded-md mt-2 border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
-                <CommandEmpty />
-                <CommandGroup>
-                  <CommandItem v-for="framework in filteredFrameworks" :key="framework.value" :value="framework.label"
-                  @select.prevent="(ev) => {
+							<ComboboxPortal>
+								<ComboboxContent>
+									<CommandList position="popper"
+										class="z-50 w-[--radix-popper-anchor-width] rounded-md mt-2 border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+										<CommandEmpty />
+										<CommandGroup>
+											<CommandItem v-for="framework in filteredFrameworks" :key="framework.value"
+												:value="framework.label" @select.prevent="(ev) => {
                     if (typeof ev.detail.value === 'string') {
                       searchTerm = ''
                       modelValue.push(framework.value)
@@ -254,30 +256,30 @@ const onSubmit = handleSubmit((values) => {
                       setFieldValue('participants', modelValue)
                     }
                   }">
-                  {{ framework.label }}
-                </CommandItem>
-              </CommandGroup>
-            </CommandList>
-          </ComboboxContent>
-        </ComboboxPortal>
-      </ComboboxRoot>
-    </TagsInput>
-  </FormControl>
-  <FormDescription>
-    Выберите людей, которые будут участвовать в проекте
-  </FormDescription>
-  <FormMessage />
-</FormItem>
-</FormField>
+												{{ framework.label }}
+											</CommandItem>
+										</CommandGroup>
+									</CommandList>
+								</ComboboxContent>
+							</ComboboxPortal>
+						</ComboboxRoot>
+					</TagsInput>
+				</FormControl>
+				<FormDescription>
+					Выберите людей, которые будут участвовать в проекте
+				</FormDescription>
+				<FormMessage />
+			</FormItem>
+		</FormField>
 
-<div class="flex gap-2 justify-start">
-  <Button type="submit">
-    Сохранить
-  </Button>
+		<div class="flex gap-2 justify-start">
+			<Button type="submit">
+				Сохранить
+			</Button>
 
-  <Button type="button" variant="outline" @click="reset">
-    Сбросить значения
-  </Button>
-</div>
-</form>
+			<Button type="button" variant="outline" @click="reset">
+				Сбросить значения
+			</Button>
+		</div>
+	</form>
 </template>

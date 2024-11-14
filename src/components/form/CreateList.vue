@@ -77,7 +77,7 @@ const profileFormSchema = toTypedSchema(z.object({
   description: z.string({
     message: 'Обязательное поле',
   }).max(200, { message: 'Максимум 200 символов' }).min(4, { message: 'Минимум 2 символа.' }),
-  lastUpdate: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
+  deadline: z.string().datetime().optional().refine(date => date !== undefined, 'Выберите дату.'),
   participants: z.array(z.string({ message: 'Обязательно кого-то выбрать' })).min(1, { message: 'Обязательно кого-то выбрать' }),
 }))
 
@@ -93,7 +93,6 @@ const onSubmit = handleSubmit((values) => {
 	listStore.addList(values)
 	emit('close')
   toast('Лист успешно создан');
-  // console.log(values);
 })
 </script>
 
@@ -119,7 +118,7 @@ const onSubmit = handleSubmit((values) => {
       </FormItem>
     </FormField>
 
-    <FormField v-slot="{ field, value }" name="lastUpdate">
+    <FormField v-slot="{ field, value }" name="deadline">
       <FormItem class="flex flex-col">
         <FormLabel>Дата окончания</FormLabel>
         <Popover v-model:open="openDate">
@@ -141,12 +140,11 @@ const onSubmit = handleSubmit((values) => {
             if (v) {
               dateValue = v
               openDate = false
-              setFieldValue('lastUpdate', toDate(v).toISOString())
-              // console.log(toDate(v).toISOString());
+              setFieldValue('deadline', toDate(v).toISOString())
             }
             else {
               dateValue = undefined
-              setFieldValue('lastUpdate', undefined)
+              setFieldValue('deadline', undefined)
             }
           }" />
         </PopoverContent>

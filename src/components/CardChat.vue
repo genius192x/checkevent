@@ -54,7 +54,6 @@ const formattedTime = useDateFormat(useNow(), 'HH:mm', { locales: 'ru-RU' })
 const open = ref(false)
 
 // const messages = ref(props.messages)
-// console.log(messages.value);
 const messages = computed(() => {
 	return props.messages
 })

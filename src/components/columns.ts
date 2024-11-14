@@ -56,7 +56,8 @@ export const columns: ColumnDef<Task>[] = [
 						]),
 						h('div', { class: 'flex items-center gap-2' }, [
 							h(ChatBubbleIcon),
-							h('span', row.original.messages.length),
+							//TODO добавить поле на беке и вернуть
+							// h('span', row.original.messages.length),
 						]),
 						h(UploadFile, { limit: 1}),
 					])

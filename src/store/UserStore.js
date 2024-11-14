@@ -60,18 +60,20 @@ export const useUserStore = defineStore('userStore', () => {
     localStorage.setItem('curUser', JSON.stringify(userData.value))
 
     isLoaded.value = false
-    useGlobalStore().isAuth = true
-		toast(`С возвращением!`);
-    rudderAnalytics.identify(
-      userToken.value, {
-      firstName: userData.value.first_name,
-      lastName: userData.value.last_name,
-      email: userData.value.email,
-    },
-      () => {
-        console.log("Identify event successfully submitted to the RudderStack SDK.");
-      }
-    );
+		useGlobalStore().isAuth = true
+		if (!useGlobalStore().isAuth) {
+			toast(`С возвращением!`);
+		}
+		rudderAnalytics.identify(
+			userToken.value, {
+			firstName: userData.value.first_name,
+			lastName: userData.value.last_name,
+			email: userData.value.email,
+		},
+			() => {
+				console.log("Identify event successfully submitted to the RudderStack SDK.");
+			}
+		);
 
     router.push('/')
   }
@@ -133,6 +135,7 @@ export const useUserStore = defineStore('userStore', () => {
 	return {
 		userData,
 		createUser,
+		setUserTokens,
 		logout,
 		authorization,
 		isLoaded,

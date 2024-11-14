@@ -46,11 +46,11 @@ function dragOptions() {
 }
 const counterTasks = ref()
 onBeforeMount(() => {
-	currList.value = listStore.getItemById(props.id)
-	counterTasks.value = listStore.list[currList.value.id - 1].tasks.length
-	if (currList.value) {
-		taskList.value = currList.value.tasks
-	}
+	listStore.getTasks(props.id)
+
+
+	taskList.value = listStore.currentTasks
+
 })
 let updateCount = ref(0)
 

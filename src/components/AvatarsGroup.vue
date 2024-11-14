@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/avatar'
 
 const props = defineProps({
-	avatars: { type: Array, required: true },
+	avatars: { type: Array },
 })
 function getImageUrl(name) {
 	return new URL(`../assets/avatars/${name}`, import.meta.url).href

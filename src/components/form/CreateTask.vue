@@ -178,7 +178,6 @@ const onSubmit = handleSubmit((values) => {
 							dateValue = v
 							openDate = false
 							setFieldValue('deadLine', toDate(v).toISOString())
-							console.log(toDate(v).toISOString());
 						}
 						else {
 							dateValue = undefined
